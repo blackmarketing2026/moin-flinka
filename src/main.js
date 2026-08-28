@@ -195,9 +195,11 @@ if (form) {
     }
 
     try {
+      const data = Object.fromEntries(new FormData(form).entries());
       const response = await fetch(endpoint, {
         method: "POST",
-        body: new FormData(form),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {

@@ -46,19 +46,19 @@
         var f = d.getElementsByTagName(s)[0],
           j = d.createElement(s),
           dl = l != "dataLayer" ? "&l=" + l : "";
-        var gtmId = "GTM-XXXXXXX";
+        var gtmId = "GTM-WS9QDJ3C";
         if (!gtmId || gtmId.indexOf("XXXXXXX") !== -1) return;
         j.async = true;
         j.src = "https://www.googletagmanager.com/gtm.js?id=" + gtmId + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
+      })(window, document, "script", "dataLayer", "GTM-WS9QDJ3C");
     </script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript
       ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+        src="https://www.googletagmanager.com/ns.html?id=GTM-WS9QDJ3C"
         height="0"
         width="0"
         style="display: none; visibility: hidden"
@@ -71,8 +71,8 @@
         "PHONE_LINK": "tel:+4915906808767",
         "WHATSAPP_LINK": "https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir.",
         "EMAIL_ADDRESS": "{{E-MAIL-ADRESSE}}",
-        "FORM_ENDPOINT": "",
-        "GTM_ID": "GTM-XXXXXXX"
+        "FORM_ENDPOINT": "/api/contact",
+        "GTM_ID": "GTM-WS9QDJ3C"
       }
     </script>
 
@@ -574,7 +574,7 @@
             </div>
           </div>
 
-          <form class="contact-form" novalidate data-form-endpoint="">
+          <form class="contact-form" novalidate data-form-endpoint="/api/contact">
             <div class="form-row">
               <label>Vor- und Nachname<input name="name" autocomplete="name" required /></label>
               <label>Telefonnummer<input name="phone" type="tel" autocomplete="tel" required /></label>
@@ -610,7 +610,7 @@
               <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
                 <path d="m17 33 9 9 21-23" />
               </svg>
-              <span>Ihre Angaben werden nur zur Bearbeitung Ihrer Anfrage verwendet. FORM_ENDPOINT im Formular oder im site-config-Block eintragen, sobald ein echter Formular-Endpunkt vorhanden ist.</span>
+              <span>Ihre Angaben werden nur zur Bearbeitung Ihrer Anfrage verwendet und per E-Mail an unser Team gesendet.</span>
             </p>
             <p class="form-status" role="status" aria-live="polite"></p>
           </form>
