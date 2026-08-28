@@ -1231,27 +1231,24 @@ section {
   border-color: var(--error);
 }
 
-.privacy {
+.contact-form label.privacy {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 12px 14px;
-  border: 1px solid var(--line-2);
-  border-radius: 10px;
-  background: var(--paper-2);
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0 2px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 500;
-  line-height: 1.55;
+  text-align: center;
 }
 
 .contact-form input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  min-height: 18px;
-  margin-top: 1px;
+  width: 19px;
+  height: 19px;
+  min-height: 19px;
   padding: 0;
-  border-radius: 4px;
+  border-radius: 5px;
   accent-color: var(--turquoise);
   flex: 0 0 auto;
 }
@@ -1907,18 +1904,24 @@ section {
 }
 
 .thanks-container {
-  max-width: 720px;
+  max-width: 560px;
   margin: 0 auto;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 14px;
+}
+
+.thanks-logo {
+  width: 190px;
+  height: auto;
+  margin-bottom: 6px;
 }
 
 .thanks-icon {
-  width: 88px;
-  height: 88px;
+  width: 56px;
+  height: 56px;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -1927,21 +1930,29 @@ section {
 }
 
 .thanks-icon svg {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   fill: none;
   stroke: var(--white);
-  stroke-width: 5;
+  stroke-width: 6;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .thanks-container h1 {
-  margin: 0;
+  margin: 6px 0 0;
   font-family: var(--font-display);
-  font-size: clamp(28px, 4.2vw, 40px);
+  font-size: clamp(24px, 3.4vw, 30px);
   line-height: 1.25;
   color: var(--navy);
+}
+
+.thanks-text {
+  margin: 0;
+  max-width: 440px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .thanks-actions {
@@ -1949,7 +1960,7 @@ section {
   flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 .thanks-back {
@@ -1960,7 +1971,11 @@ section {
 
 @media (max-width: 560px) {
   .thanks-section {
-    padding: 64px 0;
+    padding: 48px 0;
+  }
+
+  .thanks-logo {
+    width: 150px;
   }
 
   .thanks-actions {

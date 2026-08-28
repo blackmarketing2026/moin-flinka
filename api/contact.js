@@ -66,7 +66,7 @@ function buildLeadHtml({ name, phone, email, topic, message }) {
         <td align="center">
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px; background-color:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 12px 28px rgba(9,41,84,0.14);">
             <tr>
-              <td align="center" style="background-color:#092954; padding:24px 20px;">
+              <td align="center" style="background-color:#f5fbff; padding:24px 20px;">
                 <img
                   src="cid:moinflinkalogo"
                   width="180"
