@@ -1126,37 +1126,15 @@ section {
 
 .phone-mock {
   position: relative;
-  width: 163px;
-  height: 212px;
+  width: 260px;
   margin: 29px 0 -30px -20px;
-  border: 10px solid #111827;
-  border-radius: 22px;
-  background: #fff;
-  transform: rotate(-9deg);
-  box-shadow: 12px 20px 28px rgba(9, 41, 84, 0.22);
-  overflow: hidden;
 }
 
-.phone-screen {
-  height: 100%;
-  padding: 25px 13px 10px;
-  background: linear-gradient(#fff 0 56%, #e7f6fd 56%);
-}
-
-.phone-screen strong {
+.phone-mock img {
   display: block;
-  color: var(--navy);
-  font-family: var(--font-display);
-  font-size: 17px;
-  line-height: 0.95;
-}
-
-.phone-screen img {
-  position: absolute;
-  left: 13px;
-  right: 13px;
-  bottom: 12px;
-  width: 115px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(12px 20px 28px rgba(9, 41, 84, 0.22));
 }
 
 .contact-form {
