@@ -1093,8 +1093,9 @@ section {
 }
 
 .contact-card {
-  min-height: 156px;
+  height: 100%;
   display: grid;
+  grid-template-rows: auto auto 1fr auto;
   justify-items: center;
   align-content: start;
   gap: 9px;
@@ -1126,7 +1127,7 @@ section {
 
 .phone-mock {
   position: relative;
-  width: 260px;
+  width: 340px;
   margin: 29px 0 -30px -20px;
 }
 
