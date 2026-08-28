@@ -11,6 +11,86 @@ import "./styles.css";
 const configNode = document.querySelector("#site-config");
 const siteConfig = configNode ? JSON.parse(configNode.textContent) : {};
 
+const CONSENT_STORAGE_KEY = "moinflinka_cookie_consent";
+const banner = document.querySelector("#cookieBanner");
+const settingsPanel = document.querySelector("#cookieSettings");
+const analyticsCheckbox = document.querySelector("#cookieAnalytics");
+const marketingCheckbox = document.querySelector("#cookieMarketing");
+
+function pushConsent(consent) {
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag("consent", "update", {
+    ad_storage: consent.marketing ? "granted" : "denied",
+    ad_user_data: consent.marketing ? "granted" : "denied",
+    ad_personalization: consent.marketing ? "granted" : "denied",
+    analytics_storage: consent.analytics ? "granted" : "denied",
+    personalization_storage: consent.marketing ? "granted" : "denied",
+  });
+  window.dataLayer.push({
+    event: "cookie_consent_update",
+    cookie_consent: consent,
+  });
+}
+
+function saveConsent(consent) {
+  localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(consent));
+  pushConsent(consent);
+  if (banner) banner.hidden = true;
+  if (settingsPanel) settingsPanel.hidden = true;
+}
+
+function loadConsent() {
+  try {
+    return JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY));
+  } catch {
+    return null;
+  }
+}
+
+if (banner) {
+  const storedConsent = loadConsent();
+
+  if (storedConsent) {
+    pushConsent(storedConsent);
+  } else {
+    banner.hidden = false;
+  }
+
+  banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
+    saveConsent({ necessary: true, analytics: true, marketing: true });
+  });
+
+  banner.querySelector("[data-cookie-reject]")?.addEventListener("click", () => {
+    saveConsent({ necessary: true, analytics: false, marketing: false });
+  });
+
+  banner.querySelector("[data-cookie-settings]")?.addEventListener("click", () => {
+    if (settingsPanel) settingsPanel.hidden = !settingsPanel.hidden;
+  });
+
+  banner.querySelector("[data-cookie-save]")?.addEventListener("click", () => {
+    saveConsent({
+      necessary: true,
+      analytics: Boolean(analyticsCheckbox?.checked),
+      marketing: Boolean(marketingCheckbox?.checked),
+    });
+  });
+
+  document.querySelectorAll("[data-cookie-open]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const current = loadConsent();
+      if (analyticsCheckbox) analyticsCheckbox.checked = Boolean(current?.analytics);
+      if (marketingCheckbox) marketingCheckbox.checked = Boolean(current?.marketing);
+      banner.hidden = false;
+      if (settingsPanel) settingsPanel.hidden = false;
+    });
+  });
+}
+
 const menuButton = document.querySelector(".menu-toggle");
 const nav = document.querySelector("#mainNav");
 

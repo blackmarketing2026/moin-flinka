@@ -19,15 +19,60 @@
     <meta name="theme-color" content="#092954" />
     <link rel="preload" as="image" href="./assets/img/moin-flinka-logo.png" />
     <link rel="preload" as="image" href="./assets/img/moin-flinka-moewe.png" />
+
+    <!-- Google Consent Mode v2: Standardmaessig alles ablehnen, bis der/die Nutzer:in im Cookie-Banner zustimmt. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        personalization_storage: "denied",
+        functionality_storage: "granted",
+        security_storage: "granted",
+        wait_for_update: 500,
+      });
+    </script>
+
+    <!-- Google Tag Manager: GTM-ID muss vor dem Live-Schalten unter GTM_ID im site-config-Block eingetragen werden. -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        var gtmId = "GTM-XXXXXXX";
+        if (!gtmId || gtmId.indexOf("XXXXXXX") !== -1) return;
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + gtmId + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-XXXXXXX");
+    </script>
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <script type="application/json" id="site-config">
       {
         "PHONE_DISPLAY": "+49 1590 6808767",
         "PHONE_LINK": "tel:+4915906808767",
         "WHATSAPP_LINK": "https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir.",
         "EMAIL_ADDRESS": "{{E-MAIL-ADRESSE}}",
-        "FORM_ENDPOINT": ""
+        "FORM_ENDPOINT": "",
+        "GTM_ID": "GTM-XXXXXXX"
       }
     </script>
 
@@ -558,7 +603,7 @@
             <label>Nachricht<textarea name="message" rows="5"></textarea></label>
             <label class="privacy">
               <input name="privacy" type="checkbox" required />
-              <span>Ich habe die <a href="#datenschutz">Datenschutzerkl&auml;rung</a> zur Kenntnis genommen.</span>
+              <span>Ich habe die <a href="datenschutz.html">Datenschutzerkl&auml;rung</a> zur Kenntnis genommen.</span>
             </label>
             <button class="btn btn-primary submit" type="submit">Kostenlos und unverbindlich anfragen</button>
             <p class="trust-note">
@@ -629,8 +674,9 @@
       </div>
       <div class="container footer-bottom">
         <div>
-          <a href="#impressum" id="impressum">Impressum</a>
-          <a href="#datenschutz" id="datenschutz">Datenschutzerkl&auml;rung</a>
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutzerkl&auml;rung</a>
+          <a href="#" data-cookie-open>Cookie-Einstellungen</a>
         </div>
         <span>www.moin-flinka.de</span>
       </div>
@@ -662,6 +708,36 @@
         </svg>
         <span>Anfrage</span>
       </a>
+    </div>
+
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie-Einstellungen" hidden>
+      <div class="cookie-banner-main">
+        <p>
+          Wir nutzen Cookies fu&uuml;r Analyse und Marketing (u.&nbsp;a. Google Analytics, Google Ads,
+          Meta/Facebook Pixel, Microsoft Clarity). Details in unserer
+          <a href="datenschutz.html">Datenschutzerkl&auml;rung</a>.
+        </p>
+        <div class="cookie-banner-actions">
+          <button type="button" class="btn-cookie ghost" data-cookie-settings>Einstellungen</button>
+          <button type="button" class="btn-cookie outline" data-cookie-reject>Nur notwendig</button>
+          <button type="button" class="btn-cookie solid" data-cookie-accept>Alle akzeptieren</button>
+        </div>
+      </div>
+      <div class="cookie-settings" id="cookieSettings" hidden>
+        <label class="cookie-toggle disabled">
+          <input type="checkbox" checked disabled />
+          <span><strong>Notwendig</strong><small>Fu&uuml;r den Betrieb der Website erforderlich, immer aktiv.</small></span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookieAnalytics" />
+          <span><strong>Analyse</strong><small>Google Analytics, Microsoft Clarity.</small></span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookieMarketing" />
+          <span><strong>Marketing</strong><small>Google Ads, Google Remarketing, Meta/Facebook Pixel.</small></span>
+        </label>
+        <button type="button" class="btn-cookie solid" data-cookie-save>Auswahl speichern</button>
+      </div>
     </div>
 
     <script type="module" src="/src/main.js"></script>
