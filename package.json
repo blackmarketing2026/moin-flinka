@@ -1,0 +1,32 @@
+{
+  "name": "moin-flinka",
+  "version": "1.0.0",
+  "description": "Responsive Landingpage fuer Moin Flinka - Express Kfz-Zulassung & Schilder in Hamburg.",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blackmarketing2026/moin-flinka.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blackmarketing2026/moin-flinka/issues"
+  },
+  "homepage": "https://github.com/blackmarketing2026/moin-flinka#readme",
+  "dependencies": {
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "sharp": "^0.35.4",
+    "vite": "^8.2.2"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}

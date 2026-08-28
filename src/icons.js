@@ -1,0 +1,26 @@
+const attrs = 'viewBox="0 0 64 64" aria-hidden="true" focusable="false"';
+
+export const icon = {
+  phone: () => `<svg ${attrs}><path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z"/><path d="M21 11l9 10M43 34l10 10"/></svg>`,
+  whatsapp: () => `<svg ${attrs}><path d="M11 55l5-14A24 24 0 1 1 25 49L11 55Z"/><path d="M24 19c4 13 10 18 22 22l4-7-8-5-4 4c-5-3-8-6-11-11l4-4-5-8-2 9Z" class="fill-accent"/></svg>`,
+  mail: () => `<svg ${attrs}><rect x="10" y="16" width="44" height="32" rx="3"/><path d="m12 19 20 17 20-17M12 46l16-15M52 46 36 31"/></svg>`,
+  stopwatch: () => `<svg ${attrs}><circle cx="34" cy="35" r="18"/><path d="M28 8h12M34 17V8M47 19l5-5M34 35V23M34 35l9 5M5 23h12M2 34h10M6 45h11"/></svg>`,
+  car: () => `<svg ${attrs}><path d="M13 32h38l-5-13H18l-5 13ZM13 32v17h38V32"/><path d="M19 49v6M45 49v6M19 39h7M38 39h7M9 30h7M48 30h7"/></svg>`,
+  laptop: () => `<svg ${attrs}><rect x="11" y="14" width="42" height="30" rx="3"/><path d="M6 52h52M32 22a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM23 31h18M32 22c4 5 4 13 0 18M32 22c-4 5-4 13 0 18"/></svg>`,
+  plate: () => `<svg viewBox="0 0 82 52" aria-hidden="true" focusable="false"><rect x="4" y="8" width="74" height="36" rx="5"/><rect x="4" y="8" width="15" height="36" rx="3" class="fill-blue"/><text x="32" y="34" class="svg-text">HH</text></svg>`,
+  starPlate: () => `<svg viewBox="0 0 82 52" aria-hidden="true" focusable="false"><rect x="4" y="8" width="74" height="36" rx="5"/><rect x="4" y="8" width="15" height="36" rx="3" class="fill-blue"/><path d="m47 16 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1Z" class="solid"/></svg>`,
+  truck: () => `<svg ${attrs}><path d="M16 20h25v22H16zM41 29h10l7 9v4H41z"/><circle cx="25" cy="48" r="5"/><circle cx="50" cy="48" r="5"/><path d="M4 20h10M2 31h12M6 41h8"/></svg>`,
+  chat: () => `<svg ${attrs}><path d="M10 28c0-11 10-19 24-19s24 8 24 19-10 19-24 19c-4 0-8-.5-11-2L11 53l4-12c-3-4-5-8-5-13Z"/><path d="M22 28h24M22 36h15"/></svg>`,
+  maze: () => `<svg ${attrs}><path d="M13 13h38v38H13z"/><path d="M23 13v14h12M51 24H39v13H26v14M13 34h18M37 51V40h14M23 27v13H13"/></svg>`,
+  hamburg: () => `<svg ${attrs}><path d="M15 51h34V27H15v24Z"/><path d="M20 27V16h8v11M28 27V12h8v15M36 27V16h8v11M13 51h38M24 51V38h6v13M34 51V38h6v13"/></svg>`,
+  handshake: () => `<svg ${attrs}><path d="m7 37 10-13 12 9-11 14L7 37ZM57 37 47 24l-12 9 11 14 11-10Z"/><path d="M24 33h8l5-5c5 2 9 6 14 12L38 54c-3 3-8 3-12 0l-8-7M29 45l9 9M35 39l10 8"/></svg>`,
+  phoneChat: () => `<svg ${attrs}><path d="M17 10c6 18 14 27 32 32l-7 10C22 47 12 36 8 17l9-7Z"/><path d="M39 13a12 12 0 1 1 0 24h-5V13h5Z"/></svg>`,
+  document: () => `<svg ${attrs}><path d="M19 7h20l10 10v40H19z"/><path d="M39 7v12h10M27 29h14M27 39h14M27 49h10"/></svg>`,
+  folder: () => `<svg ${attrs}><path d="M8 22h19l6 7h23v25H8z"/><path d="M8 29h48"/></svg>`,
+  checkCircle: () => `<svg ${attrs}><circle cx="32" cy="32" r="24"/><path d="m20 33 8 8 17-21"/></svg>`,
+  checklist: () => `<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><path d="M30 10h47l20 20v76H30z"/><path d="M77 10v22h20M45 43l7 7 14-18M45 66l7 7 14-18M45 89l7 7 14-18"/><circle cx="84" cy="92" r="24" class="fill-accent"/><path d="m73 91 8 8 16-21" class="white-stroke"/></svg>`,
+  chevron: () => `<svg ${attrs} class="chevron-icon"><path d="m18 25 14 14 14-14"/></svg>`,
+  menu: () => `<svg ${attrs}><path d="M14 20h36M14 32h36M14 44h36"/></svg>`,
+  close: () => `<svg ${attrs}><path d="M18 18 46 46M46 18 18 46"/></svg>`,
+  check: () => `<svg ${attrs}><path d="m17 33 9 9 21-23"/></svg>`,
+};
