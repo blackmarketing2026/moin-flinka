@@ -53,6 +53,10 @@ svg {
   display: block;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 img {
   max-width: 100%;
 }

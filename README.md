@@ -54,12 +54,21 @@ Ergaenzende neutrale Farben:
 - Buttonradius: `7px` bis `9px`
 - Keine stark pillenfoermigen Karten; Referenz arbeitet eher mit moderat abgerundeten Rechtecken.
 
+## Projektstruktur nach Umsetzung
+
+- Die komplette sichtbare Seitenstruktur steht in `index.html`.
+- Kontaktdaten stehen zusaetzlich im JSON-Block `#site-config` in `index.html`.
+- `src/main.js` bleibt bewusst klein und steuert nur Fonts/CSS, mobile Navigation, FAQ-Accordion und Formularvalidierung.
+- `src/styles.css` enthaelt das Designsystem und alle Layoutregeln.
+- Die Seite funktioniert dadurch weitgehend als echtes statisches HTML; JavaScript baut keine Sektionen mehr zusammen.
+
 ## Typografie
 
 Empfohlene Schriftfamilie:
 
 ```css
-font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+--font-display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+--font-body: "Inter", Arial, Helvetica, sans-serif;
 ```
 
 Typografische Hierarchie:
@@ -345,6 +354,12 @@ E-Mail bleibt Platzhalter, bis eine echte Adresse vorliegt:
 ```text
 {{E-MAIL-ADRESSE}}
 ```
+
+Formular-Endpunkt:
+
+- Primaere Stelle: `FORM_ENDPOINT` im JSON-Block `#site-config` in `index.html`.
+- Alternative direkt am Formular: Attribut `data-form-endpoint=""` auf `.contact-form`.
+- Solange kein Endpunkt eingetragen ist, zeigt das Formular nur den vorbereiteten Hinweis und keine erfundene Erfolgsmeldung.
 
 ## Qualitaetscheck vor Abschluss
 
