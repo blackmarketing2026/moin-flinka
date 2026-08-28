@@ -195,9 +195,15 @@ Ablauf-Icons:
 ### 9. Kontaktbereich
 
 - Hellblauer Hintergrund.
-- Links: H2, Text, drei Kontaktkarten, optional Phone-Mockup.
+- Links: H2, Text, drei Kontaktkarten, Phone-Mockup darunter.
 - Rechts: Formular in weisser Karte.
 - Kontaktkarten: WhatsApp, Telefon, E-Mail.
+- Kontaktkarten muessen **immer gleich hoch** sein: dazu jede Karte mit demselben Aufbau befuellen
+  (Icon, Titel, kurze Unterzeile, Button) - fehlt bei einer Karte die Unterzeile, wirken die Karten
+  im Grid unterschiedlich hoch. CSS-Loesung: `.contact-card` mit `grid-template-rows: auto auto 1fr auto`,
+  sodass die Buttons in allen Karten buendig unten sitzen.
+- Phone-Mockup: fertiges Foto-Mockup (`assets/img/phone-mockup.webp`), kein CSS-nachgebautes Handy mehr.
+  Groesse ueber `.phone-mock { width: ... }` steuern, Bild selbst bekommt nur `filter: drop-shadow(...)`.
 - Formularfelder:
   - Vor- und Nachname
   - Telefonnummer
@@ -226,6 +232,11 @@ Ablauf-Icons:
 - Logo links oder prominent.
 - Kurzbeschreibung mittig.
 - Kontaktinfos: Telefon, WhatsApp, E-Mail.
+- Behoerden-Disclaimer: eigene Zeile oberhalb der Impressum-Zeile, durch duenne Linie abgetrennt
+  (`.footer-disclaimer`), kleiner/gedaempfter Text (`11px`, Farbe `#a9c2d8`). Wortlaut:
+  "Moin Flinka ist keine Behoerde, sondern ein privater Dienstleister fuer Kfz-Zulassungen in Hamburg
+  und uebernimmt die Abwicklung im Auftrag seiner Kund*innen." Muss so oder sinngemaess erhalten bleiben,
+  da es rechtlich/inhaltlich wichtig ist klarzustellen, dass es sich nicht um eine Behoerde handelt.
 - Links: Impressum, Datenschutzerklärung.
 - Rechts/Hinten dezente Hafenkran- und Wellen-Grafik.
 - Domain sichtbar: `www.moin-flinka.de`
@@ -278,24 +289,31 @@ Mobile-Pflichten:
 - Formularfelder volle Breite.
 - Servicekarten einspaltig.
 
-## Asset-Struktur fuer spaeteren Einbau
+## Asset-Struktur (aktueller Stand)
 
-Empfohlene Struktur:
+Tatsaechlich genutzte Struktur im Projekt:
 
 ```text
 assets/
-  brand/
-    moin-flinka-logo.webp
-    moin-flinka-logo-vector.svg
-    moin-flinka-mascot-scene.svg
-  icons/
-    services/
-    benefits/
-    process/
-    contact/
-    documents/
-  decorations/
+  img/
+    moin-flinka-logo.png     - finales horizontales Logo (Moewe + Schriftzug), echter Alphakanal
+    moin-flinka-moewe.png    - grosse Moewen-Illustration fuer den Hero-Bereich
+    phone-mockup.webp        - fertiges Handy-Mockup-Foto fuer den Kontaktbereich (verlustfrei)
+_reference/
+  landingpage-desktop.png    - Referenz-Screenshot der Ziel-Landingpage (nur zur Orientierung, nicht einbinden)
 ```
+
+Aeltere `assets/brand/`- und `assets/icons/`-Unterordner mit einzelnen SVG-Icons wurden im Zuge des Vite-Umbaus
+durch die genannten fertigen Bilddateien plus inline-SVGs direkt in `index.html` ersetzt.
+
+### Dateinamen-Regel
+
+Alle neuen Bilddateien (egal ob von mir, Codex oder manuell hinzugefuegt) muessen **kurze, technische Namen ohne
+Leerzeichen, Umlaute oder Datums-/Zeitstempel** bekommen, z. B. `moin-flinka-logo.png` statt
+`ChatGPT Image 28. Aug. 2026, 07_33_41.png`. Grund: Tools wie Codex koennen Dateien mit Leerzeichen/Sonderzeichen
+im Pfad teils nicht lesen ("Codex could not read the local image"). Rohdateien mit generierten Zufalls-/Datumsnamen
+direkt nach der Verarbeitung (Umbenennen, Konvertieren, Einbinden) aus dem Projektordner loeschen, damit keine
+ungenutzten Dateien liegen bleiben.
 
 ## SEO-Regeln
 
@@ -360,6 +378,21 @@ Formular-Endpunkt:
 - Primaere Stelle: `FORM_ENDPOINT` im JSON-Block `#site-config` in `index.html`.
 - Alternative direkt am Formular: Attribut `data-form-endpoint=""` auf `.contact-form`.
 - Solange kein Endpunkt eingetragen ist, zeigt das Formular nur den vorbereiteten Hinweis und keine erfundene Erfolgsmeldung.
+
+## Technik & Workflow
+
+- Das Projekt ist ein Vite-Projekt (`package.json`, `src/main.js`, `src/styles.css`), kein reines
+  statisches HTML mehr. Build-Kommandos:
+  - `npm run dev` - lokaler Dev-Server (`http://127.0.0.1:5173/`)
+  - `npm run build` - Produktions-Build nach `dist/` (vor jedem Push testweise ausfuehren)
+  - `npm run preview` - Vorschau des Builds
+- `node_modules/`, `dist/`, `.qa/` und `.vite/` sind in `.gitignore` und werden nicht committed.
+- An diesem Projekt arbeiten sowohl Codex als auch Claude Code parallel im selben lokalen Ordner und
+  Git-Repo. Vor eigenen Aenderungen immer `git status` pruefen, da der andere Assistent zwischenzeitlich
+  Dateien geaendert/geloescht/committed haben kann. Nach dem eigenen Commit lokal bauen (`npm run build`),
+  um sicherzugehen, dass nichts kaputt ist, bevor gepusht wird.
+- GitHub-Repo: `https://github.com/blackmarketing2026/moin-flinka.git`, Branch `main`. Aenderungen werden
+  nach Nutzerwunsch jeweils direkt dorthin gepusht (kein separater Feature-Branch-Workflow bisher).
 
 ## Qualitaetscheck vor Abschluss
 
