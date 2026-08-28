@@ -212,7 +212,7 @@ if (form) {
 
       if (response.ok) {
         form.reset();
-        window.location.href = "dankesseite.html";
+        window.location.href = "/dankesseite";
       } else {
         status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuchen Sie es telefonisch oder per WhatsApp.";
         status.className = "form-status is-error";
