@@ -204,8 +204,7 @@ if (form) {
 
       if (response.ok) {
         form.reset();
-        status.textContent = "Ihre Anfrage wurde versendet.";
-        status.className = "form-status is-success";
+        window.location.href = "dankesseite.html";
       } else {
         status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuchen Sie es telefonisch oder per WhatsApp.";
         status.className = "form-status is-error";

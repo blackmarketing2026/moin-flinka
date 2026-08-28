@@ -70,7 +70,7 @@
         "PHONE_DISPLAY": "+49 1590 6808767",
         "PHONE_LINK": "tel:+4915906808767",
         "WHATSAPP_LINK": "https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir.",
-        "EMAIL_ADDRESS": "{{E-MAIL-ADRESSE}}",
+        "EMAIL_ADDRESS": "info@moin-flinka.de",
         "FORM_ENDPOINT": "/api/contact",
         "GTM_ID": "GTM-WS9QDJ3C"
       }
@@ -565,7 +565,7 @@
                   </svg>
                 </div>
                 <h3>E-Mail</h3>
-                <p>{{E-MAIL-ADRESSE}}</p>
+                <p>info@moin-flinka.de</p>
                 <a class="btn btn-primary small" href="#kontakt">E-Mail schreiben</a>
               </article>
             </div>
@@ -580,12 +580,6 @@
               <label>Telefonnummer<input name="phone" type="tel" autocomplete="tel" required /></label>
             </div>
             <label>E-Mail-Adresse<input name="email" type="email" autocomplete="email" required /></label>
-            <fieldset>
-              <legend>Bevorzugter Kontaktweg</legend>
-              <label><input type="radio" name="contactWay" value="WhatsApp" checked /> WhatsApp</label>
-              <label><input type="radio" name="contactWay" value="Telefon" /> Telefon</label>
-              <label><input type="radio" name="contactWay" value="E-Mail" /> E-Mail</label>
-            </fieldset>
             <label>
               Worum geht es?
               <select name="topic" required>
@@ -603,15 +597,12 @@
             <label>Nachricht<textarea name="message" rows="5"></textarea></label>
             <label class="privacy">
               <input name="privacy" type="checkbox" required />
-              <span>Ich habe die <a href="datenschutz.html">Datenschutzerkl&auml;rung</a> zur Kenntnis genommen.</span>
+              <span>
+                Ich bin einverstanden, dass meine Angaben zur Beantwortung meiner Anfrage genutzt werden &ndash;
+                mehr dazu in unserer <a href="datenschutz.html">Datenschutzerkl&auml;rung</a>.
+              </span>
             </label>
-            <button class="btn btn-primary submit" type="submit">Kostenlos und unverbindlich anfragen</button>
-            <p class="trust-note">
-              <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-                <path d="m17 33 9 9 21-23" />
-              </svg>
-              <span>Ihre Angaben werden nur zur Bearbeitung Ihrer Anfrage verwendet und per E-Mail an unser Team gesendet.</span>
-            </p>
+            <button class="btn btn-primary submit" type="submit">Jetzt kostenlos anfragen</button>
             <p class="form-status" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -657,7 +648,7 @@
               <rect x="10" y="16" width="44" height="32" rx="3" />
               <path d="m12 19 20 17 20-17M12 46l16-15M52 46 36 31" />
             </svg>
-            <span>{{E-MAIL-ADRESSE}}</span>
+            <span>info@moin-flinka.de</span>
           </a>
         </div>
         <div class="footer-art" aria-hidden="true">

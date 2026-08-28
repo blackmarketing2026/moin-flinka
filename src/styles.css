@@ -1142,13 +1142,13 @@ section {
   position: relative;
   z-index: 2;
   display: grid;
-  gap: 13px;
+  gap: 16px;
   margin-bottom: 51px;
-  padding: 24px;
+  padding: 32px;
   border: 1px solid var(--line-2);
-  border-radius: 10px;
+  border-radius: 16px;
   background: #fff;
-  box-shadow: 0 20px 42px rgba(9, 41, 84, 0.16);
+  box-shadow: 0 24px 48px rgba(9, 41, 84, 0.14);
 }
 
 .form-row {
@@ -1160,28 +1160,30 @@ section {
 .contact-form label,
 .contact-form legend {
   display: grid;
-  gap: 6px;
+  gap: 7px;
   color: #283b5a;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 800;
+  letter-spacing: 0.01em;
 }
 
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
   width: 100%;
-  min-height: 37px;
-  padding: 8px 10px;
-  border: 2px solid #d7e1ea;
-  border-radius: 5px;
-  background: #fff;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
   color: var(--navy);
-  font-size: 13px;
+  font-size: 14px;
   outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .contact-form textarea {
-  min-height: 104px;
+  min-height: 110px;
   resize: vertical;
 }
 
@@ -1189,87 +1191,59 @@ section {
 .contact-form select:focus,
 .contact-form textarea:focus {
   border-color: var(--turquoise);
-  box-shadow: 0 0 0 3px rgba(66, 164, 200, 0.16);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(66, 164, 200, 0.14);
 }
 
 .contact-form .invalid {
   border-color: var(--error);
 }
 
-.contact-form fieldset {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px;
-  padding: 0;
-  border: 0;
-}
-
-.contact-form fieldset legend {
-  width: 100%;
-  margin-bottom: 3px;
-}
-
-.contact-form fieldset label,
 .privacy {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  background: var(--paper-2);
+  color: var(--muted);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
+  line-height: 1.55;
 }
 
-.contact-form input[type="radio"],
 .contact-form input[type="checkbox"] {
-  width: 17px;
-  height: 17px;
-  min-height: 17px;
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  margin-top: 1px;
   padding: 0;
+  border-radius: 4px;
   accent-color: var(--turquoise);
   flex: 0 0 auto;
 }
 
-.privacy {
-  align-items: flex-start;
-}
-
 .privacy a {
-  color: var(--turquoise);
+  color: var(--navy-soft);
+  font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .submit {
   width: 100%;
-  min-height: 51px;
-  font-size: 15px;
+  min-height: 54px;
+  border-radius: 10px;
+  font-size: 15.5px;
+  letter-spacing: 0.01em;
 }
 
-.trust-note,
 .form-status {
   margin: 0;
-  border-radius: 7px;
+  border-radius: 9px;
   font-size: 12px;
   font-weight: 600;
-}
-
-.trust-note {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 13px;
-  border: 1px solid #a8d7b2;
-  background: var(--success-bg);
-  color: var(--success);
-}
-
-.trust-note svg {
-  width: 24px;
-  height: 24px;
-  flex: 0 0 auto;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 6;
 }
 
 .field-error {
@@ -1845,11 +1819,6 @@ section {
     gap: 13px;
   }
 
-  .contact-form fieldset {
-    display: grid;
-    gap: 9px;
-  }
-
   .footer-bottom {
     flex-direction: column;
     text-align: center;
@@ -1883,6 +1852,80 @@ section {
 
   .hero-visual {
     min-height: 322px;
+  }
+}
+
+/* Danke-Seite */
+
+.thanks-section {
+  padding: 96px 0;
+  background: linear-gradient(180deg, var(--paper) 0%, var(--white) 100%);
+}
+
+.thanks-container {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.thanks-icon {
+  width: 88px;
+  height: 88px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--navy);
+  box-shadow: var(--shadow-soft);
+}
+
+.thanks-icon svg {
+  width: 50px;
+  height: 50px;
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.thanks-container h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4.2vw, 40px);
+  line-height: 1.25;
+  color: var(--navy);
+}
+
+.thanks-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.thanks-back {
+  color: var(--navy-soft);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+@media (max-width: 560px) {
+  .thanks-section {
+    padding: 64px 0;
+  }
+
+  .thanks-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .thanks-actions .btn {
+    width: 100%;
   }
 }
 

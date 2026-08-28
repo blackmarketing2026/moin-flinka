@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: "Ungültige Anfrage." });
   }
 
-  const { name, phone, email, contactWay, topic, message } = body;
+  const { name, phone, email, topic, message } = body;
 
   if (!name || !phone || !email || !topic) {
     return res.status(400).json({ ok: false, error: "Pflichtfelder fehlen." });
@@ -62,7 +62,6 @@ module.exports = async (req, res) => {
         `Name: ${name}`,
         `Telefon: ${phone}`,
         `E-Mail: ${email}`,
-        `Bevorzugter Kontaktweg: ${contactWay || "-"}`,
         `Thema: ${topic}`,
         "",
         "Nachricht:",
