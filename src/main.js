@@ -11,6 +11,14 @@ import "./styles.css";
 const configNode = document.querySelector("#site-config");
 const siteConfig = configNode ? JSON.parse(configNode.textContent) : {};
 
+document.addEventListener("click", (event) => {
+  const whatsappLink = event.target.closest('a[href*="wa.me"]');
+  if (!whatsappLink) return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: "whatsapp" });
+});
+
 const CONSENT_STORAGE_KEY = "moinflinka_cookie_consent";
 const banner = document.querySelector("#cookieBanner");
 const settingsPanel = document.querySelector("#cookieSettings");
