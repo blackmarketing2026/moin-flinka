@@ -1419,6 +1419,23 @@ section {
     radial-gradient(58px 15px at 154px 6px, transparent 21px, var(--lightblue) 22px 27px, transparent 28px);
 }
 
+.footer-disclaimer {
+  position: relative;
+  z-index: 2;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-disclaimer p {
+  max-width: 760px;
+  margin: 0;
+  color: #a9c2d8;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
 .footer-bottom {
   position: relative;
   z-index: 2;
@@ -1426,8 +1443,8 @@ section {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-top: 24px;
-  padding-top: 20px;
+  margin-top: 16px;
+  padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   color: #d9edf8;
   font-size: 12px;
