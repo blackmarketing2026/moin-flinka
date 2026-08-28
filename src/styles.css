@@ -186,6 +186,30 @@ button {
   gap: 14px;
 }
 
+.header-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.header-phone svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.header-phone:hover {
+  color: var(--turquoise);
+}
+
 .btn {
   min-height: 43px;
   display: inline-flex;
@@ -396,6 +420,14 @@ h1 span {
 .hero-actions .btn {
   min-height: 45px;
   padding-inline: 22px;
+}
+
+.hero-form-btn {
+  display: inline-flex;
+}
+
+.hero-call-btn {
+  display: none;
 }
 
 .hero-visual {
@@ -1521,6 +1553,18 @@ section {
   .header-inner {
     min-height: 78px;
     grid-template-columns: 230px 1fr;
+  }
+
+  .header-phone {
+    display: none;
+  }
+
+  .hero-form-btn {
+    display: none;
+  }
+
+  .hero-call-btn {
+    display: inline-flex;
   }
 
   .nav {
