@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -95,114 +95,23 @@
 
     .brand-mark {
       position: relative;
-      width: 58px;
-      height: 50px;
+      width: 210px;
+      height: 76px;
       flex: 0 0 auto;
     }
 
-    .mini-gull {
-      position: absolute;
-      inset: 0;
-      filter: drop-shadow(0 4px 5px rgba(9, 41, 84, .15));
+    .brand-logo-img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: left center;
     }
 
-    .mini-gull .body {
-      position: absolute;
-      left: 19px;
-      top: 15px;
-      width: 28px;
-      height: 21px;
-      border: 4px solid var(--navy);
-      border-radius: 52% 48% 48% 52%;
+    .brand-mark-footer {
       background: #fff;
-      transform: rotate(-8deg);
-    }
-
-    .mini-gull .wing {
-      position: absolute;
-      left: 3px;
-      top: 5px;
-      width: 34px;
-      height: 26px;
-      border: 4px solid var(--navy);
-      border-right: 0;
-      border-bottom: 0;
-      border-radius: 90% 12% 0 18%;
-      background: linear-gradient(135deg, #fff 52%, #d6e9f5 53%);
-      transform: rotate(18deg);
-    }
-
-    .mini-gull .head {
-      position: absolute;
-      right: 3px;
-      top: 11px;
-      width: 19px;
-      height: 17px;
-      border: 4px solid var(--navy);
-      border-radius: 50%;
-      background: #fff;
-    }
-
-    .mini-gull .beak {
-      position: absolute;
-      right: -5px;
-      top: 18px;
-      width: 16px;
-      height: 9px;
-      border-radius: 0 10px 8px 0;
-      background: #ffad18;
-      border: 3px solid var(--navy);
-      border-left: 0;
-    }
-
-    .mini-gull .scarf {
-      position: absolute;
-      left: 18px;
-      top: 29px;
-      width: 31px;
-      height: 8px;
-      border-radius: 9px 3px 10px 5px;
-      background: var(--red);
-      transform: rotate(6deg);
-    }
-
-    .mini-gull .line-a, .mini-gull .line-b {
-      position: absolute;
-      left: 0;
-      height: 4px;
-      border-radius: 99px;
-      background: var(--turquoise);
-    }
-
-    .mini-gull .line-a { bottom: 7px; width: 28px; }
-    .mini-gull .line-b { bottom: 1px; width: 42px; background: var(--red); }
-
-    .brand-word { display: grid; gap: 2px; line-height: 1; }
-
-    .brand-name {
-      color: var(--navy);
-      font-size: 34px;
-      font-style: italic;
-      font-weight: 950;
-      letter-spacing: 0;
-    }
-
-    .brand-name b { color: var(--red); font-weight: 950; }
-
-    .brand-tag {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: fit-content;
-      min-height: 17px;
-      padding: 2px 9px 3px;
-      border-radius: 3px 9px 9px 3px;
-      background: var(--navy);
-      color: #fff;
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: .07em;
-      text-transform: uppercase;
+      border-radius: 10px;
+      padding: 6px 10px;
     }
 
     .nav {
@@ -268,7 +177,11 @@
       font-size: 11px;
       font-weight: 950;
       line-height: 1;
+      flex: 0 0 auto;
     }
+
+    .icon-circle-img { border-color: transparent; background: #fff; }
+    .icon-circle-img img { width: 13px; height: 13px; }
 
     .menu-button {
       display: none;
@@ -360,13 +273,10 @@
       box-shadow: 0 8px 18px rgba(9, 41, 84, .08);
       font-size: 24px;
       font-weight: 950;
+      flex: 0 0 auto;
     }
 
-    .line-icon.plate {
-      border-radius: 7px;
-      font-size: 18px;
-      letter-spacing: .05em;
-    }
+    .line-icon img { width: 24px; height: 24px; }
 
     .hero-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
     .hero-actions .btn { padding-inline: 18px; }
@@ -380,388 +290,13 @@
       place-items: center;
     }
 
-    .hero-circle {
-      position: absolute;
-      width: min(92%, 610px);
-      aspect-ratio: 1;
-      right: 4%;
-      top: 28px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 47% 42%, #ffffff 0 41%, #dff1fb 42% 100%);
-      box-shadow: inset 0 0 0 1px rgba(66, 164, 200, .12);
-    }
-
-    .speed-stack {
-      position: absolute;
-      left: 1%;
-      top: 246px;
-      width: 260px;
-      height: 200px;
-      z-index: 1;
-    }
-
-    .speed-stack i {
-      position: absolute;
-      height: 13px;
-      border-radius: 90px 0 0 90px;
-      background: var(--turquoise);
-      transform: skewX(-27deg);
-      opacity: .95;
-    }
-
-    .speed-stack i:nth-child(1) { width: 205px; top: 0; right: 3px; }
-    .speed-stack i:nth-child(2) { width: 170px; top: 47px; right: 56px; background: var(--red); }
-    .speed-stack i:nth-child(3) { width: 180px; top: 89px; right: 4px; opacity: .55; }
-    .speed-stack i:nth-child(4) { width: 260px; top: 166px; right: 10px; }
-
-    .flinka-bird {
+    .hero-mascot {
       position: relative;
-      width: min(100%, 650px);
-      height: 510px;
       z-index: 3;
-      transform: translate(7px, -9px) scale(.94);
+      width: 100%;
+      max-width: 620px;
+      height: auto;
       filter: drop-shadow(0 19px 24px rgba(9, 41, 84, .13));
-    }
-
-    .wing-top {
-      position: absolute;
-      left: 36px;
-      top: 55px;
-      width: 315px;
-      height: 180px;
-      border: 9px solid var(--navy);
-      border-radius: 84% 18% 42% 33%;
-      background: linear-gradient(145deg, #ffffff 0 49%, #d9ecf8 50% 67%, #ffffff 68% 100%);
-      transform: rotate(13deg);
-      clip-path: polygon(0 19%, 32% 9%, 79% 23%, 100% 54%, 91% 94%, 42% 77%, 16% 72%);
-    }
-
-    .wing-bottom {
-      position: absolute;
-      left: 37px;
-      top: 285px;
-      width: 315px;
-      height: 105px;
-      border: 9px solid var(--navy);
-      border-right: 0;
-      border-radius: 80% 8% 46% 56%;
-      background: linear-gradient(140deg, #fff 0 57%, #d7eaf6 58% 100%);
-      transform: rotate(-6deg);
-      clip-path: polygon(0 22%, 34% 33%, 74% 9%, 100% 21%, 64% 97%, 12% 79%);
-    }
-
-    .bird-body {
-      position: absolute;
-      left: 240px;
-      top: 186px;
-      width: 224px;
-      height: 208px;
-      border: 9px solid var(--navy);
-      border-radius: 54% 42% 48% 46%;
-      background: radial-gradient(circle at 32% 60%, #d8ebf8 0 23%, transparent 24%), linear-gradient(140deg, #ffffff 0 60%, #d4e8f5 61% 100%);
-      transform: rotate(-13deg);
-    }
-
-    .bird-head {
-      position: absolute;
-      left: 401px;
-      top: 95px;
-      width: 146px;
-      height: 127px;
-      border: 9px solid var(--navy);
-      border-radius: 52% 49% 42% 48%;
-      background: #fff;
-      transform: rotate(4deg);
-    }
-
-    .cap {
-      position: absolute;
-      left: 379px;
-      top: 29px;
-      width: 196px;
-      height: 88px;
-      border: 8px solid var(--navy);
-      border-radius: 55% 60% 45% 45%;
-      background: #fff;
-      transform: rotate(-10deg);
-      z-index: 7;
-    }
-
-    .cap::before {
-      content: "HH";
-      position: absolute;
-      left: 72px;
-      top: 15px;
-      color: var(--red);
-      font-size: 24px;
-      font-weight: 950;
-      letter-spacing: 0;
-    }
-
-    .cap::after {
-      content: "";
-      position: absolute;
-      left: 61px;
-      bottom: -16px;
-      width: 141px;
-      height: 35px;
-      border: 8px solid var(--navy);
-      border-top: 0;
-      border-radius: 0 0 70% 30%;
-      background: linear-gradient(180deg, #0d6099 0 38%, var(--navy) 39% 100%);
-      transform: rotate(10deg);
-    }
-
-    .eye {
-      position: absolute;
-      top: 134px;
-      width: 25px;
-      height: 43px;
-      border-radius: 50%;
-      background: var(--navy);
-      z-index: 8;
-    }
-
-    .eye::after {
-      content: "";
-      position: absolute;
-      left: 7px;
-      top: 8px;
-      width: 7px;
-      height: 12px;
-      border-radius: 50%;
-      background: #fff;
-    }
-
-    .eye.left { left: 447px; }
-    .eye.right { left: 501px; }
-
-    .beak-large {
-      position: absolute;
-      left: 493px;
-      top: 153px;
-      width: 154px;
-      height: 62px;
-      border: 8px solid var(--navy);
-      border-left: 0;
-      border-radius: 19px 65px 57px 14px;
-      background: #ffb21c;
-      transform: rotate(8deg);
-      z-index: 9;
-    }
-
-    .beak-large::after {
-      content: "";
-      position: absolute;
-      left: 8px;
-      top: 35px;
-      width: 100px;
-      height: 6px;
-      border-radius: 99px;
-      background: var(--navy);
-      transform: rotate(7deg);
-    }
-
-    .scarf-large {
-      position: absolute;
-      left: 227px;
-      top: 210px;
-      width: 267px;
-      height: 55px;
-      border: 8px solid var(--navy);
-      border-radius: 70% 16% 65% 27%;
-      background: var(--red);
-      transform: rotate(4deg);
-      z-index: 10;
-    }
-
-    .scarf-tail {
-      position: absolute;
-      left: 54px;
-      top: 228px;
-      width: 247px;
-      height: 59px;
-      border: 8px solid var(--navy);
-      border-right: 0;
-      border-radius: 90% 18% 55% 82%;
-      background: var(--red);
-      transform: rotate(-4deg);
-      z-index: 5;
-      clip-path: polygon(0 34%, 82% 0, 100% 48%, 83% 88%, 0 68%);
-    }
-
-    .plate-large {
-      position: absolute;
-      left: 493px;
-      top: 212px;
-      width: 172px;
-      height: 83px;
-      border: 8px solid var(--navy);
-      border-radius: 13px;
-      background: #fff;
-      transform: rotate(-11deg);
-      z-index: 11;
-      box-shadow: inset 0 0 0 4px #f7fbff;
-    }
-
-    .plate-large::before {
-      content: "D";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 38px;
-      display: grid;
-      place-items: end center;
-      padding-bottom: 7px;
-      color: #fff;
-      background: #0d50a4;
-      font-size: 25px;
-      font-weight: 800;
-      border-radius: 5px 0 0 5px;
-    }
-
-    .plate-large::after {
-      content: "";
-      position: absolute;
-      left: 58px;
-      right: 16px;
-      top: 34px;
-      height: 6px;
-      border-radius: 99px;
-      background: #dfe8ef;
-    }
-
-    .leg {
-      position: absolute;
-      width: 82px;
-      height: 13px;
-      border-radius: 99px;
-      border: 5px solid var(--navy);
-      background: #ffb21c;
-      z-index: 4;
-    }
-
-    .leg.one { left: 272px; top: 386px; transform: rotate(96deg); }
-    .leg.two { left: 464px; top: 385px; transform: rotate(64deg); }
-
-    .foot {
-      position: absolute;
-      width: 88px;
-      height: 30px;
-      border: 6px solid var(--navy);
-      border-radius: 70% 30% 50% 50%;
-      background: #ffb21c;
-      z-index: 5;
-    }
-
-    .foot.one { left: 210px; top: 427px; transform: rotate(112deg); }
-    .foot.two { left: 492px; top: 447px; transform: rotate(-23deg); }
-
-    .harbor {
-      position: absolute;
-      right: 8px;
-      bottom: 53px;
-      width: 273px;
-      height: 178px;
-      z-index: 2;
-      opacity: .95;
-    }
-
-    .harbor .tower {
-      position: absolute;
-      right: 15px;
-      bottom: 24px;
-      width: 48px;
-      height: 134px;
-      background: var(--navy);
-      clip-path: polygon(43% 0, 57% 0, 57% 18%, 70% 18%, 70% 100%, 26% 100%, 26% 18%, 43% 18%);
-    }
-
-    .harbor .tower::after {
-      content: "";
-      position: absolute;
-      left: 17px;
-      top: 68px;
-      width: 14px;
-      height: 14px;
-      border: 3px solid #fff;
-      border-radius: 50%;
-    }
-
-    .crane {
-      position: absolute;
-      bottom: 25px;
-      width: 74px;
-      height: 98px;
-      border-left: 7px solid var(--navy);
-      border-bottom: 7px solid var(--navy);
-      transform: skewX(-12deg);
-    }
-
-    .crane::before {
-      content: "";
-      position: absolute;
-      left: -8px;
-      top: 3px;
-      width: 80px;
-      height: 7px;
-      background: var(--navy);
-      transform: rotate(30deg);
-      transform-origin: left center;
-    }
-
-    .crane::after {
-      content: "";
-      position: absolute;
-      right: 9px;
-      top: 47px;
-      width: 24px;
-      height: 37px;
-      background: var(--navy);
-    }
-
-    .crane.one { left: 48px; }
-    .crane.two { left: 132px; transform: scale(.78) skewX(-13deg); transform-origin: bottom center; }
-
-    .small-bird {
-      position: absolute;
-      width: 42px;
-      height: 18px;
-      border-top: 8px solid var(--navy);
-      border-radius: 50%;
-      opacity: .88;
-    }
-
-    .small-bird::after {
-      content: "";
-      position: absolute;
-      right: -28px;
-      top: -8px;
-      width: 42px;
-      height: 18px;
-      border-top: 8px solid var(--navy);
-      border-radius: 50%;
-      transform: rotate(9deg);
-    }
-
-    .small-bird.a { right: 176px; bottom: 154px; transform: rotate(-7deg) scale(.68); }
-    .small-bird.b { right: 40px; bottom: 178px; transform: rotate(4deg) scale(.55); opacity: .55; }
-
-    .waves {
-      position: absolute;
-      right: 0;
-      bottom: 18px;
-      width: 520px;
-      height: 55px;
-      z-index: 1;
-      background:
-        radial-gradient(70px 22px at 36px 8px, transparent 24px, var(--turquoise) 25px 30px, transparent 31px),
-        radial-gradient(70px 22px at 112px 22px, transparent 24px, var(--turquoise) 25px 30px, transparent 31px),
-        radial-gradient(70px 22px at 188px 8px, transparent 24px, var(--turquoise) 25px 30px, transparent 31px),
-        radial-gradient(70px 22px at 264px 22px, transparent 24px, var(--turquoise) 25px 30px, transparent 31px),
-        radial-gradient(70px 22px at 340px 8px, transparent 24px, var(--turquoise) 25px 30px, transparent 31px);
-      opacity: .85;
     }
 
     section { position: relative; padding: 72px 0; }
@@ -797,10 +332,6 @@
       width: 245px;
       height: 42px;
       opacity: .4;
-      background:
-        radial-gradient(55px 17px at 28px 6px, transparent 22px, var(--turquoise) 23px 28px, transparent 29px),
-        radial-gradient(55px 17px at 88px 22px, transparent 22px, var(--turquoise) 23px 28px, transparent 29px),
-        radial-gradient(55px 17px at 148px 6px, transparent 22px, var(--turquoise) 23px 28px, transparent 29px);
     }
 
     .wave-decoration.left { left: -30px; bottom: 26px; }
@@ -838,6 +369,8 @@
       display: grid;
       place-items: center;
     }
+
+    .service-card .service-icon img { width: 48px; height: 48px; }
 
     .service-card h3 {
       margin: 0 0 8px;
@@ -895,6 +428,8 @@
       font-size: 41px;
       font-weight: 950;
     }
+
+    .why-icon img { width: 42px; height: 42px; }
 
     .why-item h3, .step h3 {
       margin: 0 0 8px;
@@ -971,6 +506,8 @@
       font-weight: 950;
     }
 
+    .step-symbol img { width: 40px; height: 40px; }
+
     .slogan {
       margin: 55px 0 0;
       text-align: center;
@@ -1003,47 +540,10 @@
       background: radial-gradient(circle at 88% 24%, rgba(66, 164, 200, .3), transparent 27%), linear-gradient(135deg, #052249, var(--navy));
     }
 
-    .doc-sheet {
-      position: relative;
-      width: 120px;
-      height: 130px;
-      border: 8px solid #fff;
-      border-radius: 4px;
-    }
-
-    .doc-sheet::before {
-      content: "";
-      position: absolute;
-      left: 28px;
-      right: 18px;
-      top: 24px;
-      height: 7px;
-      border-radius: 99px;
-      background: #fff;
-      box-shadow: 0 31px 0 #fff, 0 62px 0 #fff;
-    }
-
-    .doc-sheet::after {
-      content: "";
-      position: absolute;
-      left: 70px;
-      bottom: -31px;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      border: 8px solid #fff;
-      background: var(--turquoise);
-    }
-
-    .doc-check {
-      position: absolute;
-      left: 16px;
-      top: 28px;
-      width: 12px;
-      height: 20px;
-      border: solid #fff;
-      border-width: 0 5px 5px 0;
-      transform: rotate(43deg);
+    .doc-icon {
+      width: 128px;
+      height: 128px;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .2));
     }
 
     .docs-copy { padding: 34px 42px; }
@@ -1222,11 +722,13 @@
       display: grid;
       place-items: center;
       border-radius: 50%;
+      background: #e8f6fd;
       color: var(--navy);
       font-size: 30px;
       font-weight: 950;
     }
 
+    .contact-card .contact-icon img { width: 26px; height: 26px; }
     .contact-card.whats .contact-icon { color: #23b957; }
     .contact-card h3 { margin: 0; font-size: 17px; font-weight: 950; }
 
@@ -1385,19 +887,14 @@
       color: #fff;
     }
 
-    .site-footer::after {
-      content: "";
+    .footer-decoration {
       position: absolute;
-      right: 70px;
-      top: 34px;
-      width: 300px;
-      height: 140px;
-      opacity: .18;
-      background:
-        linear-gradient(105deg, transparent 0 24%, var(--lightblue) 25% 27%, transparent 28%),
-        linear-gradient(70deg, transparent 0 38%, var(--lightblue) 39% 41%, transparent 42%),
-        radial-gradient(65px 18px at 40px 118px, transparent 22px, var(--lightblue) 23px 28px, transparent 29px),
-        radial-gradient(65px 18px at 115px 133px, transparent 22px, var(--lightblue) 23px 28px, transparent 29px);
+      right: 30px;
+      top: 20px;
+      width: 340px;
+      height: 160px;
+      opacity: .25;
+      pointer-events: none;
     }
 
     .footer-main {
@@ -1410,7 +907,6 @@
       padding-bottom: 24px;
     }
 
-    .footer-main .brand-name { color: #fff; }
     .footer-desc {
       max-width: 475px;
       margin: 0;
@@ -1428,6 +924,9 @@
       font-size: 15px;
       font-weight: 850;
     }
+
+    .footer-contact a { display: inline-flex; align-items: center; gap: 8px; }
+    .footer-icon { width: 18px; height: 18px; filter: brightness(0) invert(1); }
 
     .footer-bottom {
       position: relative;
@@ -1473,6 +972,7 @@
 
     .mobile-bar a + a { border-left: 1px solid rgba(255,255,255,.18); }
     .mobile-bar b { display: block; font-size: 19px; line-height: 1; }
+    .mobile-bar b img { width: 22px; height: 22px; filter: brightness(0) invert(1); }
 
     @media (max-width: 1020px) {
       .wrap { max-width: 920px; padding: 0 17px; }
@@ -1514,9 +1014,7 @@
       .topbar .wrap { gap: 8px; padding: 7px 0; font-size: 12px; }
       .topbar a { padding-inline: 12px; }
       .brand { min-width: 0; }
-      .brand-mark { width: 47px; height: 43px; }
-      .brand-name { font-size: 25px; }
-      .brand-tag { font-size: 7px; padding-inline: 6px; }
+      .brand-mark { width: 150px; height: 54px; }
       .header-actions .btn-whatsapp, .header-actions .btn-red { display: none; }
       .hero { min-height: 0; }
       .hero .wrap { min-height: 0; padding: 34px 0 30px; }
@@ -1543,47 +1041,10 @@
         line-height: 1.1;
       }
       .hero-art {
-        min-height: 315px;
-        transform: none;
-        transform-origin: top center;
+        min-height: 0;
         margin: 8px 0 0;
-        overflow: visible;
       }
-      .hero-circle {
-        width: 360px;
-        left: 50%;
-        right: auto;
-        top: 0;
-        transform: translateX(-50%);
-      }
-      .flinka-bird {
-        position: absolute;
-        width: 650px;
-        flex: 0 0 auto;
-        left: 50%;
-        top: 0;
-        transform-origin: center top;
-        transform: translateX(-50%) translateY(-75px) scale(.48);
-      }
-      .speed-stack {
-        left: 50%;
-        top: 122px;
-        transform: translateX(-86%) scale(.58);
-      }
-      .harbor {
-        right: 50%;
-        bottom: 28px;
-        transform: translateX(86%) scale(.58);
-      }
-      .small-bird.a { right: 52%; bottom: 214px; transform: translateX(170px) rotate(-7deg) scale(.42); }
-      .small-bird.b { display: none; }
-      .waves {
-        left: 50%;
-        right: auto;
-        bottom: 3px;
-        width: 360px;
-        transform: translateX(-50%);
-      }
+      .hero-mascot { max-width: 420px; }
       section { padding: 52px 0; }
       .service-grid { grid-template-columns: 1fr; }
       .service-card { min-height: 160px; }
@@ -1602,11 +1063,7 @@
     }
 
     @media (max-width: 420px) {
-      .hero-art { min-height: 300px; }
-      .hero-circle { width: 330px; }
-      .flinka-bird { transform: translateX(-50%) translateY(-83px) scale(.44); }
-      .speed-stack { transform: translateX(-88%) scale(.52); }
-      .harbor { transform: translateX(88%) scale(.52); }
+      .hero-mascot { max-width: 340px; }
       .hero-actions { gap: 10px; }
       .section-head h2 { font-size: 27px; }
       .contact-copy h2 { font-size: 30px; }
@@ -1616,8 +1073,8 @@
 <body>
   <div class="topbar">
     <div class="wrap">
-      <span>Schnelle Kfz-Zulassung in Hamburg? Jetzt anrufen: {{TELEFONNUMMER}}</span>
-      <a href="tel:{{TELEFONNUMMER_OHNE_LEERZEICHEN}}"><span class="icon-circle">t</span>Jetzt anrufen</a>
+      <span>Schnelle Kfz-Zulassung in Hamburg? Jetzt anrufen: +49 1590 6808767</span>
+      <a href="tel:+4915906808767"><span class="icon-circle icon-circle-img"><img src="assets/icons/contact/phone.svg" alt=""></span>Jetzt anrufen</a>
     </div>
   </div>
 
@@ -1625,13 +1082,7 @@
     <div class="wrap header-inner">
       <a class="brand" href="#top" aria-label="Moin Flinka Startseite">
         <span class="brand-mark" aria-hidden="true">
-          <span class="mini-gull">
-            <span class="wing"></span><span class="body"></span><span class="head"></span><span class="beak"></span><span class="scarf"></span><span class="line-a"></span><span class="line-b"></span>
-          </span>
-        </span>
-        <span class="brand-word">
-          <span class="brand-name">Moin<b>Flinka</b></span>
-          <span class="brand-tag">Express Kfz-Zulassung &amp; Schilder</span>
+          <img src="assets/brand/moin-flinka-logo.webp" alt="" class="brand-logo-img">
         </span>
       </a>
 
@@ -1643,7 +1094,7 @@
       </nav>
 
       <div class="header-actions">
-        <a class="btn btn-whatsapp" href="https://wa.me/{{WHATSAPP_NUMMER}}?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener"><span class="icon-circle">w</span>WhatsApp</a>
+        <a class="btn btn-whatsapp" href="https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener"><span class="icon-circle icon-circle-img"><img src="assets/icons/contact/whatsapp.svg" alt=""></span>WhatsApp</a>
         <a class="btn btn-red" href="#kontakt">Jetzt anfragen</a>
         <button class="menu-button" type="button" aria-controls="nav" aria-expanded="false">☰</button>
       </div>
@@ -1659,59 +1110,38 @@
           <p class="lead">Moin Flinka ist Ihr schneller Ansprechpartner für Kfz-Zulassungen, Online-Zulassungen und Kfz-Kennzeichen in Hamburg. Wir übernehmen die Abwicklung unkompliziert, persönlich und zuverlässig.</p>
 
           <ul class="hero-benefits" aria-label="Vorteile">
-            <li><span class="line-icon">⏱</span><span>Express-Zulassung in Hamburg</span></li>
-            <li><span class="line-icon plate">HH</span><span>Kfz-Schilder direkt mitbestellen</span></li>
-            <li><span class="line-icon">●●</span><span>Persönlicher Service per WhatsApp, Telefon und E-Mail</span></li>
+            <li><span class="line-icon"><img src="assets/icons/services/express-zulassung-stopwatch.svg" alt=""></span><span>Express-Zulassung in Hamburg</span></li>
+            <li><span class="line-icon"><img src="assets/icons/services/kfz-schilder-hh.svg" alt=""></span><span>Kfz-Schilder direkt mitbestellen</span></li>
+            <li><span class="line-icon"><img src="assets/icons/benefits/direkter-kontakt-bubbles.svg" alt=""></span><span>Persönlicher Service per WhatsApp, Telefon und E-Mail</span></li>
           </ul>
 
           <div class="hero-actions">
-            <a class="btn btn-red" href="https://wa.me/{{WHATSAPP_NUMMER}}?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener"><span class="icon-circle">w</span>Jetzt per WhatsApp anfragen</a>
-            <a class="btn btn-blue" href="tel:{{TELEFONNUMMER_OHNE_LEERZEICHEN}}"><span class="icon-circle">t</span>Jetzt anrufen</a>
+            <a class="btn btn-red" href="https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener"><span class="icon-circle icon-circle-img"><img src="assets/icons/contact/whatsapp.svg" alt=""></span>Jetzt per WhatsApp anfragen</a>
+            <a class="btn btn-blue" href="tel:+4915906808767"><span class="icon-circle icon-circle-img"><img src="assets/icons/contact/phone.svg" alt=""></span>Jetzt anrufen</a>
           </div>
         </div>
 
         <div class="hero-art" aria-hidden="true">
-          <div class="hero-circle"></div>
-          <div class="speed-stack"><i></i><i></i><i></i><i></i></div>
-          <div class="flinka-bird">
-            <div class="wing-top"></div>
-            <div class="wing-bottom"></div>
-            <div class="bird-body"></div>
-            <div class="cap"></div>
-            <div class="bird-head"></div>
-            <div class="eye left"></div>
-            <div class="eye right"></div>
-            <div class="beak-large"></div>
-            <div class="scarf-tail"></div>
-            <div class="scarf-large"></div>
-            <div class="plate-large"></div>
-            <div class="leg one"></div>
-            <div class="leg two"></div>
-            <div class="foot one"></div>
-            <div class="foot two"></div>
-          </div>
-          <div class="harbor"><div class="crane one"></div><div class="crane two"></div><div class="tower"></div></div>
-          <div class="small-bird a"></div><div class="small-bird b"></div>
-          <div class="waves"></div>
+          <img class="hero-mascot" src="assets/brand/moin-flinka-mascot-scene.svg" alt="">
         </div>
       </div>
     </section>
 
     <section class="service-section" id="leistungen">
-      <div class="wave-decoration left"></div>
-      <div class="wave-decoration right"></div>
+      <img class="wave-decoration left" src="assets/decorations/waves.svg" alt="" aria-hidden="true">
+      <img class="wave-decoration right" src="assets/decorations/waves.svg" alt="" aria-hidden="true">
       <div class="wrap">
         <div class="section-head">
           <h2>Kfz-Zulassung und Kennzeichen in Hamburg</h2>
           <p>Ob Neuzulassung, Ummeldung, Abmeldung oder neue Kennzeichen: Moin Flinka sorgt dafür, dass Sie sich nicht selbst mit langen Wartezeiten und komplizierten Abläufen beschäftigen müssen.</p>
         </div>
         <div class="service-grid">
-          <article class="service-card"><div class="service-icon">⏱</div><h3>Express-Zulassung</h3><p>Wenn es schnell gehen muss: Wir kümmern uns um eine zügige Zulassung Ihres Fahrzeugs in Hamburg.</p></article>
-          <article class="service-card"><div class="service-icon">▰</div><h3>Kfz-Zulassung</h3><p>Wir begleiten Sie bei der Anmeldung, Ummeldung oder Wiederzulassung Ihres Fahrzeugs.</p></article>
-          <article class="service-card"><div class="service-icon">◎</div><h3>Online-Zulassung i-Kfz</h3><p>Nutzen Sie die digitale Fahrzeugzulassung, wenn Ihr Fahrzeug und Ihre Unterlagen die Voraussetzungen erfüllen.</p></article>
-          <article class="service-card"><div class="service-icon">HH</div><h3>Kfz-Schilder</h3><p>Wir prägen Ihre neuen Kfz-Kennzeichen passend zu Ihrem Zulassungsvorgang.</p></article>
-          <article class="service-card"><div class="service-icon">▸</div><h3>Schilder-Bringdienst</h3><p>Auf Wunsch liefern wir Ihre Kennzeichen direkt an Ihre Adresse innerhalb Hamburgs.</p></article>
-          <article class="service-card"><div class="service-icon">★</div><h3>Wunschkennzeichen</h3><p>Wir prüfen die Verfügbarkeit Ihres Wunschkennzeichens und übernehmen auf Wunsch die Reservierung.</p></article>
+          <article class="service-card"><div class="service-icon"><img src="assets/icons/services/express-zulassung-stopwatch.svg" alt=""></div><h3>Express-Zulassung</h3><p>Wenn es schnell gehen muss: Wir kümmern uns um eine zügige Zulassung Ihres Fahrzeugs in Hamburg.</p></article>
+          <article class="service-card"><div class="service-icon"><img src="assets/icons/services/kfz-zulassung-car.svg" alt=""></div><h3>Kfz-Zulassung</h3><p>Wir begleiten Sie bei der Anmeldung, Ummeldung oder Wiederzulassung Ihres Fahrzeugs.</p></article>
+          <article class="service-card"><div class="service-icon"><img src="assets/icons/services/online-zulassung-ikfz.svg" alt=""></div><h3>Online-Zulassung i-Kfz</h3><p>Nutzen Sie die digitale Fahrzeugzulassung, wenn Ihr Fahrzeug und Ihre Unterlagen die Voraussetzungen erfüllen.</p></article>
+          <article class="service-card"><div class="service-icon"><img src="assets/icons/services/kfz-schilder-hh.svg" alt=""></div><h3>Kfz-Schilder</h3><p>Wir prägen Ihre neuen Kfz-Kennzeichen passend zu Ihrem Zulassungsvorgang.</p></article>
+          <article class="service-card"><div class="service-icon"><img src="assets/icons/services/schilder-bringdienst-truck.svg" alt=""></div><h3>Schilder-Bringdienst</h3><p>Auf Wunsch liefern wir Ihre Kennzeichen direkt an Ihre Adresse innerhalb Hamburgs.</p></article>
+          <article class="service-card"><div class="service-icon"><img src="assets/icons/services/wunschkennzeichen-star.svg" alt=""></div><h3>Wunschkennzeichen</h3><p>Wir prüfen die Verfügbarkeit Ihres Wunschkennzeichens und übernehmen auf Wunsch die Reservierung.</p></article>
         </div>
         <div class="center"><a class="btn btn-red" href="#kontakt">Service jetzt anfragen</a></div>
       </div>
@@ -1721,19 +1151,19 @@
       <div class="wrap">
         <div class="section-head"><h2>Schnell. Persönlich. Norddeutsch unkompliziert.</h2></div>
         <div class="why-grid">
-          <article class="why-item"><div class="why-icon">⌗</div><h3>Kein Behördendschungel</h3><p>Sie müssen sich nicht allein durch Formulare, Wartezeiten und Abläufe kämpfen.</p></article>
-          <article class="why-item"><div class="why-icon">○○</div><h3>Direkter Kontakt</h3><p>Sie erreichen uns schnell über WhatsApp, Telefon, E-Mail oder das Kontaktformular.</p></article>
-          <article class="why-item"><div class="why-icon">HH</div><h3>Hamburg im Fokus</h3><p>Moin Flinka ist auf Kfz-Zulassungen und Kennzeichen in Hamburg ausgerichtet.</p></article>
-          <article class="why-item"><div class="why-icon">↔</div><h3>Alles aus einer Hand</h3><p>Zulassung, Kennzeichen, Wunschkennzeichen und Lieferung können passend zu Ihrem Anliegen organisiert werden.</p></article>
+          <article class="why-item"><div class="why-icon"><img src="assets/icons/benefits/behoerdendschungel-maze.svg" alt=""></div><h3>Kein Behördendschungel</h3><p>Sie müssen sich nicht allein durch Formulare, Wartezeiten und Abläufe kämpfen.</p></article>
+          <article class="why-item"><div class="why-icon"><img src="assets/icons/benefits/direkter-kontakt-bubbles.svg" alt=""></div><h3>Direkter Kontakt</h3><p>Sie erreichen uns schnell über WhatsApp, Telefon, E-Mail oder das Kontaktformular.</p></article>
+          <article class="why-item"><div class="why-icon"><img src="assets/icons/benefits/hamburg-im-fokus.svg" alt=""></div><h3>Hamburg im Fokus</h3><p>Moin Flinka ist auf Kfz-Zulassungen und Kennzeichen in Hamburg ausgerichtet.</p></article>
+          <article class="why-item"><div class="why-icon"><img src="assets/icons/benefits/alles-aus-einer-hand.svg" alt=""></div><h3>Alles aus einer Hand</h3><p>Zulassung, Kennzeichen, Wunschkennzeichen und Lieferung können passend zu Ihrem Anliegen organisiert werden.</p></article>
         </div>
 
         <div class="flow" id="ablauf">
           <h2>So funktioniert Ihre Anfrage</h2>
           <div class="steps">
-            <article class="step"><div class="step-number">1</div><div class="step-symbol">t</div><h3>1. Kontakt aufnehmen</h3><p>Schreiben Sie uns über WhatsApp, rufen Sie an oder nutzen Sie das Kontaktformular.</p></article>
-            <article class="step"><div class="step-number">2</div><div class="step-symbol">□</div><h3>2. Anliegen schildern</h3><p>Sagen Sie uns kurz, was Sie benötigen: Zulassung, Ummeldung, Abmeldung, Online-Zulassung oder Kennzeichen.</p></article>
-            <article class="step"><div class="step-number">3</div><div class="step-symbol">▱</div><h3>3. Unterlagen abstimmen</h3><p>Wir teilen Ihnen mit, welche Unterlagen für Ihren Vorgang benötigt werden.</p></article>
-            <article class="step"><div class="step-number">4</div><div class="step-symbol">✓</div><h3>4. Abwicklung starten</h3><p>Sobald alles geklärt ist, kann die gewünschte Dienstleistung organisiert werden.</p></article>
+            <article class="step"><div class="step-number">1</div><div class="step-symbol"><img src="assets/icons/process/kontakt-aufnehmen.svg" alt=""></div><h3>1. Kontakt aufnehmen</h3><p>Schreiben Sie uns über WhatsApp, rufen Sie an oder nutzen Sie das Kontaktformular.</p></article>
+            <article class="step"><div class="step-number">2</div><div class="step-symbol"><img src="assets/icons/process/anliegen-schildern-document.svg" alt=""></div><h3>2. Anliegen schildern</h3><p>Sagen Sie uns kurz, was Sie benötigen: Zulassung, Ummeldung, Abmeldung, Online-Zulassung oder Kennzeichen.</p></article>
+            <article class="step"><div class="step-number">3</div><div class="step-symbol"><img src="assets/icons/process/unterlagen-abstimmen-folder.svg" alt=""></div><h3>3. Unterlagen abstimmen</h3><p>Wir teilen Ihnen mit, welche Unterlagen für Ihren Vorgang benötigt werden.</p></article>
+            <article class="step"><div class="step-number">4</div><div class="step-symbol"><img src="assets/icons/process/abwicklung-starten-check.svg" alt=""></div><h3>4. Abwicklung starten</h3><p>Sobald alles geklärt ist, kann die gewünschte Dienstleistung organisiert werden.</p></article>
           </div>
           <p class="slogan">Moin sagen. Anfrage stellen. <span>Flinka</span> losfahren.</p>
         </div>
@@ -1743,7 +1173,7 @@
     <section class="docs-section">
       <div class="wrap">
         <div class="docs-card">
-          <div class="doc-visual" aria-hidden="true"><div class="doc-sheet"><span class="doc-check"></span></div></div>
+          <div class="doc-visual" aria-hidden="true"><img src="assets/icons/documents/checklist-document.svg" alt="" class="doc-icon"></div>
           <div class="docs-copy">
             <h2>Welche Unterlagen werden benötigt?</h2>
             <p>Welche Dokumente erforderlich sind, hängt von Ihrem individuellen Zulassungsvorgang ab. Häufig werden unter anderem Personalausweis, Zulassungsbescheinigung, eVB-Nummer, SEPA-Mandat und gegebenenfalls TÜV-Nachweis benötigt.</p>
@@ -1756,7 +1186,7 @@
     <section class="faq-section" id="faq">
       <div class="wrap">
         <div class="faq-shell">
-          <div class="lighthouse" aria-hidden="true"></div>
+          <img class="lighthouse" src="assets/decorations/lighthouse-waves.svg" alt="" aria-hidden="true">
           <div class="section-head"><h2>Häufige Fragen</h2></div>
           <div class="faq-list">
             <article class="faq-item open"><button class="faq-question" type="button">Welche Dienstleistungen bietet Moin Flinka an? <span class="chevron">⌃</span></button><div class="faq-answer"><p>Moin Flinka unterstützt bei Kfz-Zulassungen, Ummeldungen, Abmeldungen, Online-Zulassungen, Kfz-Schildern, Wunschkennzeichen und Schilder-Lieferungen in Hamburg.</p></div></article>
@@ -1776,9 +1206,9 @@
             <h2>Jetzt Kfz-Zulassung oder Schilder anfragen</h2>
             <p>Schreiben Sie uns kurz, was Sie benötigen. Wir melden uns über Ihren gewünschten Kontaktweg bei Ihnen.</p>
             <div class="contact-methods">
-              <article class="contact-card whats"><div class="contact-icon">w</div><h3>WhatsApp</h3><div class="value"></div><a class="btn btn-red" href="https://wa.me/{{WHATSAPP_NUMMER}}?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener">WhatsApp öffnen</a></article>
-              <article class="contact-card"><div class="contact-icon">t</div><h3>Telefon</h3><div class="value">{{TELEFONNUMMER}}</div><a class="btn btn-red" href="tel:{{TELEFONNUMMER_OHNE_LEERZEICHEN}}">Jetzt anrufen</a></article>
-              <article class="contact-card"><div class="contact-icon">@</div><h3>E-Mail</h3><div class="value">{{E-MAIL-ADRESSE}}</div><a class="btn btn-red" href="mailto:{{E-MAIL-ADRESSE}}">E-Mail schreiben</a></article>
+              <article class="contact-card whats"><div class="contact-icon"><img src="assets/icons/contact/whatsapp.svg" alt=""></div><h3>WhatsApp</h3><div class="value"></div><a class="btn btn-red" href="https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener">WhatsApp öffnen</a></article>
+              <article class="contact-card"><div class="contact-icon"><img src="assets/icons/contact/phone.svg" alt=""></div><h3>Telefon</h3><div class="value">+49 1590 6808767</div><a class="btn btn-red" href="tel:+4915906808767">Jetzt anrufen</a></article>
+              <article class="contact-card"><div class="contact-icon"><img src="assets/icons/contact/email.svg" alt=""></div><h3>E-Mail</h3><div class="value">{{E-MAIL-ADRESSE}}</div><a class="btn btn-red" href="mailto:{{E-MAIL-ADRESSE}}">E-Mail schreiben</a></article>
             </div>
             <div class="phone-mock" aria-hidden="true"></div>
           </div>
@@ -1818,16 +1248,16 @@
   </main>
 
   <footer class="site-footer">
+    <img class="footer-decoration" src="assets/decorations/footer-cranes-waves.svg" alt="" aria-hidden="true">
     <div class="wrap">
       <div class="footer-main">
         <a class="brand" href="#top" aria-label="Moin Flinka Startseite">
-          <span class="brand-mark" aria-hidden="true"><span class="mini-gull"><span class="wing"></span><span class="body"></span><span class="head"></span><span class="beak"></span><span class="scarf"></span><span class="line-a"></span><span class="line-b"></span></span></span>
-          <span class="brand-word"><span class="brand-name">Moin<b>Flinka</b></span><span class="brand-tag">Express Kfz-Zulassung &amp; Schilder</span></span>
+          <span class="brand-mark brand-mark-footer" aria-hidden="true"><img src="assets/brand/moin-flinka-logo.webp" alt="" class="brand-logo-img"></span>
         </a>
         <p class="footer-desc">Moin Flinka – Ihr Ansprechpartner für Kfz-Zulassung, Online-Zulassung und Kfz-Schilder in Hamburg.</p>
         <div class="footer-contact">
-          <a href="tel:{{TELEFONNUMMER_OHNE_LEERZEICHEN}}">☎ {{TELEFONNUMMER}}</a>
-          <a href="https://wa.me/{{WHATSAPP_NUMMER}}" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="tel:+4915906808767"><img src="assets/icons/contact/phone.svg" alt="" class="footer-icon"> +49 1590 6808767</a>
+          <a href="https://wa.me/4915906808767" target="_blank" rel="noopener">WhatsApp</a>
           <a href="mailto:{{E-MAIL-ADRESSE}}">{{E-MAIL-ADRESSE}}</a>
         </div>
       </div>
@@ -1839,9 +1269,9 @@
   </footer>
 
   <div class="mobile-bar" aria-label="Schnelle Kontaktleiste">
-    <a href="tel:{{TELEFONNUMMER_OHNE_LEERZEICHEN}}"><b>t</b>Anrufen</a>
-    <a href="https://wa.me/{{WHATSAPP_NUMMER}}?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener"><b>w</b>WhatsApp</a>
-    <a href="#kontakt"><b>@</b>Anfrage</a>
+    <a href="tel:+4915906808767"><b><img src="assets/icons/contact/phone.svg" alt=""></b>Anrufen</a>
+    <a href="https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir." target="_blank" rel="noopener"><b><img src="assets/icons/contact/whatsapp.svg" alt=""></b>WhatsApp</a>
+    <a href="#kontakt"><b><img src="assets/icons/contact/anfrage.svg" alt=""></b>Anfrage</a>
   </div>
 
   <script>
@@ -1876,3 +1306,4 @@
   </script>
 </body>
 </html>
+

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" role="img" aria-labelledby="title desc">
+  <title id="title">Moin Flinka Moewe mit Hamburger Hafen</title>
+  <desc id="desc">Grosse schnelle Moewe mit Kapitaensmuetze, Schal, Kennzeichen, Hafen-Silhouette, Wellen und Geschwindigkeitslinien.</desc>
+  <defs>
+    <style>
+      .navy{fill:#092954}.red{fill:#F1070E}.turq{fill:#42A4C8}.light{fill:#ABCEE4}.white{fill:#fff}.yellow{fill:#ffb21c}
+      .s{stroke:#092954;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+      .thin{stroke:#092954;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <circle cx="435" cy="285" r="245" fill="#e1f2fb"/>
+  <path class="turq" d="M18 258h190l-39 16H18zM56 338h230l-42 14H56zM90 470h330l-70 18H90z"/>
+  <path class="red" d="M0 298h182l-36 17H0z"/>
+  <path class="white s" d="M80 115c94-17 232 8 305 88 36 40 33 90-19 108-83-67-182-76-312-55 65-37 117-45 188-38-78-37-130-59-162-103z"/>
+  <path fill="#d7ebf7" d="M145 134c60 7 135 33 212 96-84-20-146-20-220 4l88 29c-65 0-119 9-169 29 92 14 195 5 301 47-64-75-126-142-212-205z" opacity=".9"/>
+  <path class="white s" d="M119 354c84 21 177 10 278-34-33 79-111 125-241 112 44-17 80-37 112-61-52 18-101 22-149 13z"/>
+  <path fill="#d5e9f6" d="M245 388c54-9 97-26 139-52-23 35-57 61-101 78z"/>
+  <ellipse class="white s" cx="405" cy="313" rx="108" ry="126" transform="rotate(-13 405 313)"/>
+  <path fill="#d4e8f5" d="M341 341c29 52 86 62 137 27-42 71-122 71-162 15z"/>
+  <path class="white s" d="M488 102c37-15 87-5 113 28 28 37 16 88-29 111-42 22-92 13-119-22-27-35-12-93 35-117z"/>
+  <path class="white s" d="M435 37c60-41 144-46 197-8 28 21 39 49 23 78-78-32-153-17-224 41-16-47-14-84 4-111z"/>
+  <path class="navy" d="M497 125c68-17 127-10 183 13v34c-70 2-133-5-190-22z"/>
+  <path class="red" d="M536 41h40v58h-40zM514 64h83v38h-83z"/>
+  <circle class="navy" cx="519" cy="176" r="17"/>
+  <circle class="white" cx="513" cy="166" r="6"/>
+  <circle class="navy" cx="574" cy="177" r="17"/>
+  <circle class="white" cx="568" cy="166" r="6"/>
+  <path class="yellow s" d="M580 199c60 8 115 23 159 44-41 35-110 37-173-1z"/>
+  <path class="thin" d="M611 229c33 13 71 22 113 26"/>
+  <path class="red s" d="M219 250c93-43 190-51 311-17 1 27-29 48-96 51-70 4-146-8-215-34z"/>
+  <path class="red s" d="M52 288c79-33 144-43 231-38-48 38-132 60-231 38z"/>
+  <g transform="translate(553 230) rotate(-10)">
+    <rect class="white" x="0" y="0" width="178" height="88" rx="12" stroke="#092954" stroke-width="8"/>
+    <rect fill="#0d50a4" x="0" y="0" width="42" height="88" rx="8"/>
+    <text x="16" y="70" fill="#fff" font-family="Arial" font-size="28" font-weight="900">D</text>
+    <circle cx="23" cy="27" r="11" fill="none" stroke="#ffd84a" stroke-width="3" stroke-dasharray="2 4"/>
+    <path d="M65 41h88" stroke="#dfe8ef" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <path class="yellow s" d="M365 423l-20 97M526 418l56 96"/>
+  <path class="yellow s" d="M322 514c23-33 49-47 80-44-15 32-41 49-80 44zM566 523c29-21 59-28 91-19-24 25-54 36-91 19z"/>
+  <g class="navy">
+    <path d="M616 390h23v75h-23zM677 344h39v134h-39z"/>
+    <path d="M633 469l33-89 37 89z" fill="none" stroke="#092954" stroke-width="7"/>
+    <path d="M666 380l52 39" fill="none" stroke="#092954" stroke-width="7"/>
+    <path d="M694 315h5v31h-5z"/>
+  </g>
+  <g fill="none" stroke="#42A4C8" stroke-width="7" stroke-linecap="round">
+    <path d="M458 501c34-18 70-18 104 0s70 18 104 0"/>
+    <path d="M508 526c34-18 70-18 104 0s70 18 104 0"/>
+  </g>
+  <path class="navy" d="M613 190c18-18 40-24 66-19-20 4-36 15-48 33z"/>
+  <path class="navy" d="M666 188c16-10 32-10 48 0-16 1-28 7-36 18z" opacity=".65"/>
+</svg>
