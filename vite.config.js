@@ -9,6 +9,7 @@ export default defineConfig({
         impressum: resolve(__dirname, "impressum.html"),
         datenschutz: resolve(__dirname, "datenschutz.html"),
         dankesseite: resolve(__dirname, "dankesseite.html"),
+        sitemap: resolve(__dirname, "sitemap.html"),
       },
     },
   },

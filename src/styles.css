@@ -2024,6 +2024,19 @@ section {
   line-height: 1.7;
 }
 
+.sitemap-list {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.sitemap-list a {
+  font-size: 16px;
+  font-weight: 700;
+}
+
 .legal-container a {
   color: var(--navy-soft);
   text-decoration: underline;

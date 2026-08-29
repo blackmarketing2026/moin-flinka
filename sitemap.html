@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Danke f&uuml;r deine Anfrage | Moin Flinka</title>
-    <meta name="description" content="Vielen Dank f&uuml;r deine Anfrage bei Moin Flinka. Wir melden uns in K&uuml;rze bei dir." />
+    <title>Seiten&uuml;bersicht | Moin Flinka</title>
+    <meta name="description" content="Alle Seiten von Moin Flinka auf einen Blick, alphabetisch sortiert." />
     <meta name="robots" content="noindex, follow" />
     <meta name="theme-color" content="#092954" />
     <link rel="preload" as="image" href="./assets/img/moin-flinka-logo.png" />
@@ -50,19 +50,13 @@
       ></iframe
     ></noscript>
 
-    <!-- Benutzerdefiniertes Ereignis fuer den Google Tag Manager: wird ausgeloest, sobald die Dankesseite nach erfolgreichem Formular-Versand geladen wird. -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: "lead" });
-    </script>
-
     <script type="application/json" id="site-config">
       {
         "PHONE_DISPLAY": "+49 1590 6808767",
         "PHONE_LINK": "tel:+4915906808767",
         "WHATSAPP_LINK": "https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Kfz-Zulassung%20oder%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir.",
         "EMAIL_ADDRESS": "info@moin-flinka.de",
-        "FORM_ENDPOINT": "/api/contact",
+        "FORM_ENDPOINT": "",
         "GTM_ID": "GTM-WS9QDJ3C"
       }
     </script>
@@ -98,48 +92,17 @@
     </header>
 
     <main>
-      <section class="thanks-section">
-        <div class="container thanks-container">
-          <img
-            class="thanks-logo"
-            src="./assets/img/moin-flinka-logo.png"
-            alt="Moin Flinka - Express Kfz-Zulassung &amp; Schilder"
-            width="2172"
-            height="724"
-          />
-          <div class="thanks-icon">
-            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <circle cx="32" cy="32" r="27" />
-              <path d="m19 33 8 8 18-20" />
-            </svg>
-          </div>
-          <h1>Danke f&uuml;r deine Anfrage!</h1>
-          <p class="thanks-text">
-            Wir melden uns in K&uuml;rze bei dir. Wenn du ungeduldig bist, schreib uns direkt per
-            &bdquo;WhatsApp&ldquo; oder ruf uns einfach an.
+      <section class="legal-section">
+        <div class="container legal-container">
+          <h1>Seiten&uuml;bersicht</h1>
+          <p>
+            Hier findest du alle Seiten von Moin Flinka auf einen Blick, alphabetisch sortiert.
           </p>
-          <div class="thanks-actions">
-            <a
-              class="btn btn-primary"
-              href="https://wa.me/4915906808767?text=Moin%2C%20ich%20habe%20gerade%20eine%20Anfrage%20gestellt%20und%20h%C3%A4tte%20noch%20eine%20Frage."
-              target="_blank"
-              rel="noopener"
-            >
-              <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-                <path d="M11 55l5-14A24 24 0 1 1 25 49L11 55Z" />
-                <path d="M24 19c4 13 10 18 22 22l4-7-8-5-4 4c-5-3-8-6-11-11l4-4-5-8-2 9Z" class="fill-accent" />
-              </svg>
-              <span>WhatsApp</span>
-            </a>
-            <a class="btn btn-secondary" href="tel:+4915906808767">
-              <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-                <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
-                <path d="M21 11l9 10M43 34l10 10" />
-              </svg>
-              <span>Jetzt anrufen</span>
-            </a>
-          </div>
-          <a class="thanks-back" href="/">Zur&uuml;ck zur Startseite</a>
+          <ul class="sitemap-list">
+            <li><a href="/datenschutz">Datenschutzerkl&auml;rung</a></li>
+            <li><a href="/impressum">Impressum</a></li>
+            <li><a href="/">Startseite</a></li>
+          </ul>
         </div>
       </section>
     </main>
