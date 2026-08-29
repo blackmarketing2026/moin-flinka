@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /impressum
+Disallow: /datenschutz
+Disallow: /dankesseite
+
+Sitemap: https://www.moin-flinka.de/sitemap.xml

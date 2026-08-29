@@ -190,7 +190,7 @@ if (form) {
           }
         }
       });
-      status.textContent = "Bitte pr\u00fcfen Sie die markierten Felder.";
+      status.textContent = "Bitte pr\u00fcfe die markierten Felder.";
       status.className = "form-status is-error";
       return;
     }
@@ -214,11 +214,11 @@ if (form) {
         form.reset();
         window.location.href = "/dankesseite";
       } else {
-        status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuchen Sie es telefonisch oder per WhatsApp.";
+        status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuche es telefonisch oder per WhatsApp.";
         status.className = "form-status is-error";
       }
     } catch {
-      status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuchen Sie es telefonisch oder per WhatsApp.";
+      status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuche es telefonisch oder per WhatsApp.";
       status.className = "form-status is-error";
     }
   });

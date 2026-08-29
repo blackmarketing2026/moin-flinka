@@ -48,10 +48,10 @@ function buildLeadHtml({ name, phone, email, topic, message }) {
 
   const whatsappNumber = digitsOnly(phone).replace(/^00/, "").replace(/^\+/, "");
   const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
-    `Moin ${name}, vielen Dank für Ihre Anfrage bei Moin Flinka zum Thema "${topic}". Wie können wir Ihnen weiterhelfen?`
+    `Moin ${name}, vielen Dank für deine Anfrage bei Moin Flinka zum Thema "${topic}". Wie können wir dir weiterhelfen?`
   )}`;
   const callHref = `tel:${digitsOnly(phone)}`;
-  const emailHref = `mailto:${email}?subject=${encodeURIComponent(`Ihre Anfrage bei Moin Flinka: ${topic}`)}`;
+  const emailHref = `mailto:${email}?subject=${encodeURIComponent(`Deine Anfrage bei Moin Flinka: ${topic}`)}`;
 
   return `<!doctype html>
 <html lang="de">
