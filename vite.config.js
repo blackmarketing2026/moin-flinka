@@ -10,6 +10,7 @@ export default defineConfig({
         datenschutz: resolve(__dirname, "datenschutz.html"),
         dankesseite: resolve(__dirname, "dankesseite.html"),
         sitemap: resolve(__dirname, "sitemap.html"),
+        kennzeichen: resolve(__dirname, "kennzeichen.html"),
       },
     },
   },

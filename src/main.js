@@ -223,3 +223,70 @@ if (form) {
     }
   });
 }
+
+const kennzeichenForm = document.querySelector("#kennzeichenForm");
+
+if (kennzeichenForm) {
+  const kzStatus = kennzeichenForm.querySelector(".form-status");
+  const kzEndpoint = kennzeichenForm.dataset.formEndpoint || siteConfig.FORM_ENDPOINT || "";
+
+  kennzeichenForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    kzStatus.textContent = "";
+    kennzeichenForm.querySelectorAll(".field-error").forEach((error) => error.remove());
+    kennzeichenForm.querySelectorAll(".invalid").forEach((field) => field.classList.remove("invalid"));
+
+    if (!kennzeichenForm.checkValidity()) {
+      [...kennzeichenForm.elements].forEach((field) => {
+        if (field instanceof HTMLElement && "validity" in field && !field.validity.valid) {
+          field.classList.add("invalid");
+          const label = field.closest("label");
+          if (label && !label.querySelector(".field-error")) {
+            const error = document.createElement("span");
+            error.className = "field-error";
+            error.textContent = field.validity.valueMissing ? "Bitte ausf\u00fcllen." : "Bitte g\u00fcltig ausf\u00fcllen.";
+            label.append(error);
+          }
+        }
+      });
+      kzStatus.textContent = "Bitte pr\u00fcfe die markierten Felder.";
+      kzStatus.className = "form-status is-error";
+      return;
+    }
+
+    if (!kzEndpoint) {
+      kzStatus.textContent =
+        "Das Formular ist vorbereitet. Zum echten Versand muss FORM_ENDPOINT im site-config-Block eingetragen werden.";
+      kzStatus.className = "form-status is-info";
+      return;
+    }
+
+    const wunschkennzeichen = kennzeichenForm.querySelector('[name="wunschkennzeichen"]').value.trim();
+    const data = {
+      name: kennzeichenForm.querySelector('[name="name"]').value,
+      phone: kennzeichenForm.querySelector('[name="phone"]').value,
+      email: kennzeichenForm.querySelector('[name="email"]').value,
+      topic: "Kfz-Kennzeichen",
+      message: `Wunschkennzeichen: ${wunschkennzeichen}`,
+    };
+
+    try {
+      const response = await fetch(kzEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        kennzeichenForm.reset();
+        window.location.href = "/dankesseite";
+      } else {
+        kzStatus.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuche es telefonisch oder per WhatsApp.";
+        kzStatus.className = "form-status is-error";
+      }
+    } catch {
+      kzStatus.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuche es telefonisch oder per WhatsApp.";
+      kzStatus.className = "form-status is-error";
+    }
+  });
+}

@@ -2154,6 +2154,231 @@ section {
   color: var(--muted);
 }
 
+/* Kfz-Kennzeichen Seite: Hero-Kennzeichen-Grafik */
+
+.plate-hero-visual {
+  display: grid;
+  place-items: center;
+}
+
+.plate-mock {
+  position: relative;
+  z-index: 4;
+  width: 430px;
+  max-width: 88%;
+  filter: drop-shadow(0 20px 30px rgba(9, 41, 84, 0.16));
+}
+
+.plate-mock svg {
+  width: 100%;
+  height: auto;
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.plate-mock .fill-blue {
+  fill: var(--navy);
+  stroke: none;
+}
+
+.plate-mock .svg-text {
+  fill: var(--navy);
+  stroke: none;
+  font: 900 24px Inter, Arial, sans-serif;
+}
+
+.plate-badge {
+  position: absolute;
+  z-index: 5;
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.plate-badge svg {
+  width: 30px;
+  height: 30px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.plate-badge-star {
+  top: -10px;
+  right: 34px;
+  color: var(--red);
+}
+
+.plate-badge-star svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.plate-badge-check {
+  bottom: 2px;
+  left: 18px;
+  color: var(--success);
+}
+
+/* Kfz-Kennzeichen Seite: Formular-Card */
+
+.quiz-section {
+  padding: 12px 0 64px;
+  background: linear-gradient(180deg, #fff 0%, #eff9fe 100%);
+}
+
+.quiz-card {
+  width: min(640px, 100%);
+  margin: 0 auto;
+  padding: 32px;
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 24px 48px rgba(9, 41, 84, 0.14);
+}
+
+.kennzeichen-form {
+  display: grid;
+  gap: 16px;
+}
+
+.kennzeichen-form label,
+.kennzeichen-form legend {
+  display: grid;
+  gap: 7px;
+  color: #283b5a;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.kennzeichen-form input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 9px;
+  background: var(--paper);
+  color: var(--navy);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.kennzeichen-form input:focus {
+  border-color: var(--turquoise);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(66, 164, 200, 0.14);
+}
+
+.kennzeichen-form .invalid {
+  border-color: var(--error);
+}
+
+.kennzeichen-form label.privacy {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 0 2px;
+  color: var(--muted);
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.kennzeichen-form input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
+  min-height: 19px;
+  padding: 0;
+  border-radius: 5px;
+  accent-color: var(--turquoise);
+  flex: 0 0 auto;
+}
+
+.quiz-alt-contact {
+  margin: 18px 0 0;
+  text-align: center;
+  color: var(--text);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.quiz-alt-contact a {
+  color: var(--navy-soft);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.service-card .card-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--navy-soft);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.service-card .card-link:hover {
+  color: var(--turquoise);
+}
+
+@media (max-width: 1100px) {
+  .header-inner {
+    gap: 12px;
+  }
+
+  .nav {
+    gap: 14px;
+  }
+
+  .header-phone {
+    display: none;
+  }
+
+  .header-actions {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 920px) {
+  .plate-mock {
+    width: 360px;
+  }
+}
+
+@media (max-width: 760px) {
+  .plate-mock {
+    width: 280px;
+  }
+
+  .plate-badge {
+    width: 48px;
+    height: 48px;
+  }
+
+  .plate-badge svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .quiz-card {
+    padding: 22px;
+  }
+}
+
 @media (max-width: 480px) {
   .cookie-banner {
     left: 8px;
