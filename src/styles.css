@@ -2396,3 +2396,68 @@ section {
     order: 3;
   }
 }
+
+/* Kennzeichen-Konfigurator */
+.plate-intro { padding-block: 56px 32px; text-align: center; }
+.plate-intro h1 { font-size: 48px; line-height: 1.08; margin: 12px 0 20px; }
+.plate-intro h1 span { color: #3184a3; }
+.plate-intro > p:not(.eyebrow) { max-width: 710px; margin-inline: auto; line-height: 1.7; }
+.plate-perks { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin-top: 24px; font-size: 13px; font-weight: 700; }
+.plate-quiz { width: min(760px, 100%); padding: 34px 40px; }
+.plate-progress { list-style: none; display: flex; justify-content: space-between; gap: 12px; margin: 0 0 30px; padding: 0 0 22px; border-bottom: 1px solid #d7e8f2; }
+.plate-progress li { font-size: 14px; font-weight: 700; color: #687a8b; }
+.plate-progress li[aria-current] { color: #d9070d; }
+.plate-progress li.is-done { color: #287592; }
+.plate-progress span { margin-left: 5px; }
+.kennzeichen-form fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: grid; gap: 16px; }
+.kennzeichen-form [hidden], .plate-progress[hidden] { display: none !important; }
+.kennzeichen-form legend { font: 700 30px/1.15 var(--font-display); padding: 0 0 10px; }
+.step-copy, .plate-hint { color: #52657a; font-size: 13px; line-height: 1.6; margin: 0; }
+.german-plate { display: flex; align-items: center; gap: 8px; padding: 5px 12px 5px 5px; border: 3px solid #15191d; border-radius: 12px; background: #fff; box-shadow: inset 0 0 0 2px #d8dbde, 0 10px 24px #09295414; margin: 12px 0 2px; }
+.euro-band { width: 45px; flex: 0 0 45px; min-height: 108px; background: #003399; color: white; display: grid; align-content: center; justify-items: center; gap: 18px; border-radius: 5px 0 0 5px; font-size: 25px; }
+.euro-stars { position: relative; width: 26px; height: 26px; color: transparent; border: 4px dotted #ffdf00; border-radius: 50%; }
+.german-plate label { min-width: 0; flex: 1; gap: 0; text-align: center; }
+.german-plate label > span { font-size: 10px; color: #52657a; }
+.german-plate label.plate-digits { flex: 1.5; }
+.german-plate input { padding: 0; min-width: 0; height: 72px; border: 0; border-radius: 3px; background: white; text-align: center; color: #111; font: 700 58px/1 'Barlow Condensed', 'Arial Narrow', sans-serif; }
+.german-plate input::placeholder { color: #89929b; opacity: 1; }
+.plate-seals { display: grid; gap: 9px; flex: 0 0 22px; }
+.plate-seals i { border: 2px solid #c5ccd0; border-radius: 50%; width: 22px; height: 22px; background: #edf0f2; }
+.plate-note, .plate-summary { padding: 18px 20px; background: #eff8fd; border-left: 3px solid #42a4c8; border-radius: 4px; font-size: 13px; line-height: 1.6; }
+.plate-note p, .plate-summary p { margin: 6px 0 0; }
+.plate-summary p { font-weight: 700; margin-bottom: 8px; }
+.kennzeichen-form .delivery-option { display: flex; align-items: center; padding: 20px; border: 1.5px solid #c7ddeb; border-radius: 9px; gap: 14px; cursor: pointer; }
+.delivery-option:has(input:checked) { background: #eff8fd; border-color: #3184a3; }
+.kennzeichen-form input[type=radio] { width: 20px; min-height: 20px; height: 20px; flex: 0 0 20px; accent-color: #092954; }
+.delivery-option strong { display: block; font-size: 15px; }
+.delivery-option small { display: block; margin-top: 5px; font-weight: 400; line-height: 1.6; }
+.delivery-tag { color: #23713b; font-size: 11px; margin-left: auto; }
+.kennzeichen-form textarea { width: 100%; border: 1.5px solid #c7ddeb; border-radius: 9px; padding: 12px; font: inherit; resize: vertical; }
+.plate-navigation { display: flex; justify-content: space-between; gap: 12px; }
+.plate-navigation .btn-primary { margin-left: auto; }
+.plate-navigation button:disabled { opacity: .6; cursor: wait; }
+.plate-aftercare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; padding-block: 50px 64px; }
+.plate-aftercare span { color: #3184a3; font-weight: 800; }
+.plate-aftercare h2 { font-size: 25px; margin: 10px 0; }
+.plate-aftercare p { font-size: 14px; line-height: 1.7; }
+@media (max-width: 760px) {
+  .plate-intro { padding-top: 34px; }
+  .plate-intro h1 { font-size: 35px; }
+  .plate-quiz { padding: 24px 18px; }
+  .plate-progress { gap: 6px; }
+  .plate-progress li { font-size: 11px; }
+  .plate-progress span { margin-left: 0; }
+  .kennzeichen-form legend { font-size: 26px; }
+  .german-plate { gap: 4px; padding-right: 6px; }
+  .euro-band { width: 28px; flex-basis: 28px; min-height: 78px; font-size: 20px; gap: 10px; }
+  .euro-stars { width: 21px; height: 21px; border-width: 3px; }
+  .german-plate input { font-size: 36px; height: 51px; }
+  .german-plate label > span { font-size: 8px; }
+  .plate-seals { flex-basis: 13px; gap: 7px; }
+  .plate-seals i { width: 13px; height: 13px; border-width: 1px; }
+  .plate-aftercare { grid-template-columns: 1fr; gap: 24px; padding-block: 28px 40px; }
+  .kennzeichen-form .delivery-option { padding: 15px 12px; }
+  .delivery-tag { display: none; }
+}
+
+.plate-intro h1 { max-width: 100%; margin-inline: auto; }

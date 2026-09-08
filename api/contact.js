@@ -183,7 +183,31 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: "Ungültige Anfrage." });
   }
 
-  const { name, phone, email, topic, message } = body;
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
+    return res.status(400).json({ ok: false, error: "Ungültige Anfrage." });
+  }
+  let { name, phone, email, topic, message } = body;
+  if (body.orderType === "plate") {
+    const required = ["name", "phone", "email", "city", "letters", "digits", "street", "postcode", "town"];
+    if (required.some(key => typeof body[key] !== "string" || !body[key].trim() || body[key].length > 200) ||
+        !/^[A-ZÄÖÜ]{1,3}$/.test(body.city) || !/^[A-Z]{2}$/.test(body.letters) ||
+        !/^[1-9][0-9]{0,3}$/.test(body.digits) || (body.city + body.letters + body.digits).length > 8 ||
+        !/^[0-9]{5}$/.test(body.postcode) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email) ||
+        !["shipping", "local"].includes(body.delivery) || body.quantity !== 1 || body.privacy !== "on" ||
+        (body.notes != null && (typeof body.notes !== "string" || body.notes.length > 1000))) {
+      return res.status(400).json({ ok: false, error: "Bitte prüfe deine Bestellangaben." });
+    }
+    topic = "Kennzeichen-Bestellanfrage";
+    message = [
+      `Kennzeichen: ${body.city} ${body.letters} ${body.digits}`,
+      "Menge: 1 Schild",
+      `Lieferung: ${body.delivery === "shipping" ? "Kostenloser Versand" : "Direkte Auslieferung in Hamburg; Termin und Kosten abstimmen"}`,
+      `Liefer- und Rechnungsadresse: ${name}, ${body.street}, ${body.postcode} ${body.town}, Deutschland`,
+      `Hinweise / abweichende Rechnungsadresse: ${body.notes || "Keine"}`,
+      "Unverbindliche Bestellanfrage. Gesamtpreis persönlich abstimmen und anschließend Rechnung per E-Mail senden.",
+      "Datenschutz: zugestimmt",
+    ].join("\n");
+  }
 
   if (!name || !phone || !email || !topic) {
     return res.status(400).json({ ok: false, error: "Pflichtfelder fehlen." });
@@ -213,7 +237,7 @@ module.exports = async (req, res) => {
       from: `"Moin Flinka Website" <${smtpUser}>`,
       to: recipients,
       replyTo: email,
-      subject: "Lead - Moin-Flinka",
+      subject: body.orderType === "plate" ? "Kennzeichen-Bestellanfrage - Moin Flinka" : "Lead - Moin-Flinka",
       text: [
         `Name: ${name}`,
         `Telefon: ${phone}`,
