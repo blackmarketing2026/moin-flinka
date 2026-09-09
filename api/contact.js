@@ -224,7 +224,7 @@ module.exports = async (req, res) => {
       `Grundpreis: ${money(basePriceCents)}`,
       `Carbon-Optik: ${body.carbon ? money(prices.carbon) : "Nein"}`,
       `Grüne Umweltplakette: ${body.environmentSticker ? money(prices.environmentSticker) : "Nein"}`,
-      `Lieferung: ${body.delivery === "shipping" ? "DHL Expressversand" : "Express-Lieferung innerhalb Hamburgs"}: ${money(deliveryPriceCents)}`,
+      `Lieferung: ${body.delivery === "shipping" ? "DHL Express am nächsten Tag" : "Hamburg-Express mit eigenen Kurierfahrern; Bestellung vor 12:00 Uhr, Lieferung am selben Nachmittag"}: ${money(deliveryPriceCents)}`,
       `Gesamtpreis: ${money(totalPriceCents)}`,
       `Liefer- und Rechnungsadresse: ${name}, ${body.street}, ${body.postcode} ${body.town}, Deutschland`,
       `Hinweise / abweichende Rechnungsadresse: ${body.notes || "Keine"}`,

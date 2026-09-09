@@ -69,7 +69,7 @@ async function call(body) {
     await page.locator('[type=submit]').click();
     await page.waitForFunction(() => document.querySelector('.form-status').classList.contains('is-success'));
     assert.equal(submitted.totalPriceCents, 5997);
-    for (const text of ['HH MF 123H', 'Oldtimer', 'H-Kennzeichen', '04–10', '2 Schilder', 'Carbon-Optik', 'Grüne Umweltplakette', 'Express-Lieferung innerhalb Hamburgs', '59,97', 'Testweg 1']) {
+    for (const text of ['HH MF 123H', 'Oldtimer', 'H-Kennzeichen', '04–10', '2 Schilder', 'Carbon-Optik', 'Grüne Umweltplakette', 'Hamburg-Express mit eigenen Kurierfahrern', '59,97', 'Testweg 1']) {
       assert.ok(sent.text.includes(text), text);
       assert.ok(sent.html.includes(text), text);
     }
