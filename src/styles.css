@@ -2445,7 +2445,7 @@ section {
 .kennzeichen-form textarea { width: 100%; border: 1.5px solid #c7ddeb; border-radius: 9px; padding: 12px; font: inherit; resize: vertical; }
 .kennzeichen-form select { width: 100%; min-width: 0; padding: 12px; border: 1.5px solid #c7ddeb; border-radius: 9px; background: white; color: #092954; font: inherit; }
 .plate-choices { display: grid; gap: 12px; }
-.plate-types { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.plate-types { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .kennzeichen-form .plate-type { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 16px 6px; border: 1.5px solid #c7ddeb; border-radius: 9px; cursor: pointer; text-align: center; }
 .plate-type svg { width: 56px; height: 44px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .kennzeichen-form .plate-type input { position: absolute; width: 1px; height: 1px; min-height: 0; opacity: 0; }
@@ -2475,7 +2475,7 @@ section {
   .plate-suffix { font-size: 36px; }
   .german-plate.is-motorcycle { grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1.5fr); gap: 8px 6px; padding-right: 6px; }
   .german-plate.is-motorcycle .euro-band { min-height: 66px; }
-  .plate-types { gap: 8px; }
+  .plate-types { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .kennzeichen-form .plate-type { font-size: 12px; }
   .german-plate.is-motorcycle input, .german-plate.is-motorcycle .plate-suffix { font-size: 36px; }
   .german-plate label > span { font-size: 8px; }

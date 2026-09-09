@@ -195,10 +195,11 @@ module.exports = async (req, res) => {
         !/^[A-ZÄÖÜ]{1,3}$/.test(body.city) || !/^[A-Z]{1,2}$/.test(body.letters) ||
         !/^[1-9][0-9]{0,3}$/.test(body.digits) || (body.city + body.letters + body.digits + suffix).length > 8 ||
         !/^[0-9]{5}$/.test(body.postcode) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email) ||
-        !["shipping", "local"].includes(body.delivery) || ![1, 2].includes(body.quantity) || body.privacy !== "on" ||
-        !["normal", "motorcycle", "electric"].includes(body.plateType) ||
+        !["shipping", "local"].includes(body.delivery) || body.quantity !== (body.plateType === "motorcycle" ? 1 : 2) || body.privacy !== "on" ||
+        !["normal", "motorcycle", "electric", "historic"].includes(body.plateType) ||
         !["standard", "electric", "historic"].includes(body.plateVariant) ||
         (body.plateType === "electric" && body.plateVariant !== "electric") ||
+        (body.plateType === "historic" && body.plateVariant !== "historic") ||
         ["season", "carbon", "environmentSticker"].some(key => typeof body[key] !== "boolean") ||
         (body.season && (!/^(0[1-9]|1[0-2])$/.test(body.seasonStart) || !/^(0[1-9]|1[0-2])$/.test(body.seasonEnd) || Number(body.seasonEnd) <= Number(body.seasonStart))) ||
         (body.notes != null && (typeof body.notes !== "string" || body.notes.length > 1000))) {
@@ -216,7 +217,7 @@ module.exports = async (req, res) => {
     topic = "Kennzeichen-Bestellanfrage";
     message = [
       `Kennzeichen: ${body.city} ${body.letters} ${body.digits}${suffix}`,
-      `Kennzeichentyp: ${{ normal: "Normales Kennzeichen", motorcycle: "Motorrad-Kennzeichen", electric: "E-Kennzeichen" }[body.plateType]}`,
+      `Kennzeichentyp: ${{ normal: "Normales Kennzeichen", motorcycle: "Motorrad-Kennzeichen", electric: "E-Kennzeichen", historic: "Oldtimer" }[body.plateType]}`,
       `Ausführung: ${{ standard: "Standard", electric: "E-Kennzeichen", historic: "H-Kennzeichen" }[body.plateVariant]}`,
       `Saisonkennzeichen: ${body.season ? `${body.seasonStart}–${body.seasonEnd}` : "Nein"}`,
       `Menge: ${body.quantity} ${body.quantity === 1 ? "Schild" : "Schilder (Satz)"}`,

@@ -13,16 +13,18 @@ if (form) {
   const suffix = () => ({ electric: 'E', historic: 'H' }[field('plateVariant').value] || '');
   const plate = () => `${field('city').value} ${field('letters').value} ${field('digits').value}${suffix()}`;
   const delivery = () => field('delivery').value === 'shipping' ? 'DHL Expressversand' : 'Express-Lieferung innerhalb Hamburgs';
-  const typeLabels = { normal: 'Normales Kennzeichen', motorcycle: 'Motorrad-Kennzeichen', electric: 'E-Kennzeichen' };
+  const typeLabels = { normal: 'Normales Kennzeichen', motorcycle: 'Motorrad-Kennzeichen', electric: 'E-Kennzeichen', historic: 'Oldtimer' };
   const variantLabels = { standard: 'Standard', electric: 'E-Kennzeichen', historic: 'H-Kennzeichen' };
-  const quantityLabel = () => Number(field('quantity').value) === 1 ? '1 Schild' : '2 Schilder (Satz)';
+  const quantity = () => field('plateType').value === 'motorcycle' ? 1 : 2;
+  const quantityLabel = () => quantity() === 1 ? '1 Schild' : '2 Schilder (Satz)';
   function orderPrices() {
-    const basePriceCents = Number(field('quantity').value) === 1 ? prices.single : prices.pair;
+    const basePriceCents = quantity() === 1 ? prices.single : prices.pair;
     const extrasPriceCents = (field('carbon').checked ? prices.carbon : 0) + (field('environmentSticker').checked ? prices.environmentSticker : 0);
     const deliveryPriceCents = prices[field('delivery').value];
     return { basePriceCents, extrasPriceCents, deliveryPriceCents, totalPriceCents: basePriceCents + extrasPriceCents + deliveryPriceCents };
   }
   function updateSummary() {
+    field('plateVariant').value = ['electric', 'historic'].includes(field('plateType').value) ? field('plateType').value : 'standard';
     const preview = form.querySelector('.german-plate');
     preview.classList.toggle('is-motorcycle', field('plateType').value === 'motorcycle');
     preview.setAttribute('aria-label', `${typeLabels[field('plateType').value]} gestalten${suffix() ? ` · ${variantLabels[field('plateVariant').value]}` : ''}`);
@@ -49,15 +51,7 @@ if (form) {
     }
     field(name).value = index === 0 ? '04' : '10';
   });
-  form.addEventListener('change', event => {
-    if (event.target.name === 'plateType') {
-      if (field('plateType').value === 'electric') field('plateVariant').value = 'electric';
-      else if (field('plateVariant').value === 'electric') field('plateVariant').value = 'standard';
-    }
-    if (event.target.name === 'plateVariant') {
-      if (field('plateVariant').value === 'electric' && field('plateType').value === 'normal') field('plateType').value = 'electric';
-      else if (field('plateVariant').value !== 'electric' && field('plateType').value === 'electric') field('plateType').value = 'normal';
-    }
+  form.addEventListener('change', () => {
     form.querySelector('[data-season]').hidden = !field('season').checked;
     ['seasonStart', 'seasonEnd'].forEach(name => { field(name).disabled = !field('season').checked; });
     field('seasonEnd').setCustomValidity('');
@@ -109,7 +103,7 @@ if (form) {
     for (let i = 0; i < steps.length; i++) if (!validate(i)) return;
     const data = Object.fromEntries(new FormData(form));
     data.orderType = 'plate';
-    data.quantity = Number(data.quantity);
+    data.quantity = quantity();
     ['season', 'carbon', 'environmentSticker'].forEach(name => { data[name] = field(name).checked; });
     Object.assign(data, orderPrices());
     data.topic = 'Kennzeichen-Bestellanfrage';
