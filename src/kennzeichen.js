@@ -23,6 +23,12 @@ if (form) {
     return { basePriceCents, extrasPriceCents, deliveryPriceCents, totalPriceCents: basePriceCents + extrasPriceCents + deliveryPriceCents };
   }
   function updateSummary() {
+    const preview = form.querySelector('.german-plate');
+    preview.classList.toggle('is-motorcycle', field('plateType').value === 'motorcycle');
+    preview.setAttribute('aria-label', `${typeLabels[field('plateType').value]} gestalten${suffix() ? ` · ${variantLabels[field('plateVariant').value]}` : ''}`);
+    const previewSuffix = form.querySelector('[data-plate-suffix]');
+    previewSuffix.textContent = suffix();
+    previewSuffix.hidden = !suffix();
     const totals = orderPrices();
     const options = [...new Set([typeLabels[field('plateType').value], variantLabels[field('plateVariant').value]])];
     if (field('season').checked) options.push(`Saison ${field('seasonStart').value}–${field('seasonEnd').value}`);
