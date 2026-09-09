@@ -2460,6 +2460,23 @@ section {
 .plate-aftercare span { color: #3184a3; font-weight: 800; }
 .plate-aftercare h2 { font-size: 25px; margin: 10px 0; }
 .plate-aftercare p { font-size: 14px; line-height: 1.7; }
+.plate-faq, .plate-about { padding-block: 64px; }
+.plate-faq { background: #f7fcff; }
+.plate-info-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); align-items: start; gap: 48px; }
+.plate-section-intro h2 { font: 700 36px/1.1 var(--font-display); margin: 12px 0 20px; }
+.plate-section-intro p:not(.eyebrow) { font-size: 15px; line-height: 1.75; margin: 0 0 20px; }
+.plate-section-intro > a { font-weight: 700; }
+.plate-faq .faq-item button { font-size: 15px; line-height: 1.5; padding: 20px; }
+.plate-faq .faq-panel p { font-size: 14px; line-height: 1.75; font-weight: 400; padding: 0 20px 20px; }
+.plate-about-brand { align-self: center; text-align: center; padding: 32px; border: 1px solid #d7e8f2; border-radius: 12px; background: #eff8fd; }
+.plate-about-brand img { display: block; width: 100%; height: auto; }
+.plate-about-brand p { margin: 20px 0 0; font-weight: 700; }
+.plate-about-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 900px) {
+  .plate-info-grid { grid-template-columns: 1fr; gap: 28px; }
+  .plate-faq, .plate-about { padding-block: 40px; }
+  .plate-about-brand { max-width: 360px; justify-self: center; }
+}
 @media (max-width: 760px) {
   .plate-intro { padding-top: 34px; }
   .plate-intro h1 { font-size: 35px; }
