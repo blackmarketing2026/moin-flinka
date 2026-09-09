@@ -2402,6 +2402,10 @@ section {
 .plate-intro h1 { font-size: 48px; line-height: 1.08; margin: 12px 0 20px; }
 .plate-intro h1 span { color: #3184a3; }
 .plate-intro > p:not(.eyebrow) { max-width: 710px; margin-inline: auto; line-height: 1.7; }
+.plate-intro .plate-lead { max-width: 680px; margin: 22px auto 8px; font-size: 18px; line-height: 1.55; font-weight: 600; color: #203a5e; }
+.plate-intro .plate-hint { max-width: 700px; margin: 0 auto; }
+.plate-hero-actions { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 28px; }
+.plate-hero-actions > span { color: #52657a; font-size: 13px; line-height: 1.8; text-align: left; }
 .plate-perks { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 28px; margin-top: 24px; font-size: 13px; font-weight: 700; }
 .plate-quiz { width: min(760px, 100%); padding: 34px 40px; }
 .plate-progress { list-style: none; display: flex; justify-content: space-between; gap: 12px; margin: 0 0 30px; padding: 0 0 22px; border-bottom: 1px solid #d7e8f2; }
@@ -2480,6 +2484,9 @@ section {
 @media (max-width: 760px) {
   .plate-intro { padding-top: 34px; }
   .plate-intro h1 { font-size: 35px; }
+  .plate-intro .plate-lead { font-size: 16px; }
+  .plate-hero-actions { align-items: stretch; flex-direction: column; gap: 14px; }
+  .plate-hero-actions > span { text-align: center; }
   .plate-quiz { padding: 24px 18px; }
   .plate-progress { gap: 6px; }
   .plate-progress li { font-size: 11px; }
