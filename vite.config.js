@@ -12,6 +12,7 @@ export default defineConfig({
         sitemap: resolve(__dirname, "sitemap.html"),
         kennzeichen: resolve(__dirname, "kennzeichen.html"),
         kennzeichenStripe: resolve(__dirname, "kennzeichen-stripe.html"),
+        dankesseiteStripe: resolve(__dirname, "dankesseite-stripe.html"),
       },
     },
   },

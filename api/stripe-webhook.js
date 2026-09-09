@@ -1,5 +1,5 @@
 const stripe = require("./_lib/stripe-client");
-const { sendMail, buildPaymentConfirmedHtml } = require("./_lib/mailer");
+const { sendMail, buildPaymentConfirmedHtml, buildCustomerThankYouHtml } = require("./_lib/mailer");
 const { buildOrderSummaryLines } = require("./_lib/plate-order");
 
 async function readRawBody(req) {
@@ -27,9 +27,7 @@ function metadataToPricing(metadata) {
   };
 }
 
-async function confirmPayment(session) {
-  const order = metadataToOrder(session.metadata || {});
-  const pricing = metadataToPricing(session.metadata || {});
+async function notifyBusiness(session, order, pricing) {
   const message = [...buildOrderSummaryLines(order, pricing), `Stripe-Zahlung eingegangen (Session ${session.id}).`].join(
     "\n"
   );
@@ -45,6 +43,33 @@ async function confirmPayment(session) {
       message,
     }),
     replyTo: order.email,
+  });
+}
+
+async function notifyCustomer(session, order, pricing) {
+  const summaryLines = buildOrderSummaryLines(order, pricing);
+
+  let invoicePdfUrl = null;
+  if (session.invoice) {
+    try {
+      const invoice = await stripe.invoices.retrieve(session.invoice);
+      invoicePdfUrl = invoice.invoice_pdf || null;
+    } catch (error) {
+      console.error("Rechnungs-PDF konnte nicht geladen werden", error);
+    }
+  }
+
+  await sendMail({
+    to: order.email,
+    subject: "Vielen Dank für deine Bestellung - Moin Flinka",
+    text: [
+      `Moin ${order.name}, vielen Dank für deine Bestellung!`,
+      invoicePdfUrl ? "Deine Rechnung findest du im Anhang." : "Deine Rechnung folgt in Kürze separat.",
+      "",
+      ...summaryLines,
+    ].join("\n"),
+    html: buildCustomerThankYouHtml({ name: order.name, summaryLines }),
+    attachments: invoicePdfUrl ? [{ filename: "Rechnung-Moin-Flinka.pdf", path: invoicePdfUrl }] : [],
   });
 }
 
@@ -71,10 +96,19 @@ module.exports = async (req, res) => {
   if (isCheckoutEvent) {
     const session = event.data.object;
     if (session.payment_status === "paid") {
+      const order = metadataToOrder(session.metadata || {});
+      const pricing = metadataToPricing(session.metadata || {});
+
       try {
-        await confirmPayment(session);
+        await notifyBusiness(session, order, pricing);
       } catch (error) {
-        console.error("Bestätigungsmail nach Zahlung fehlgeschlagen", error);
+        console.error("Interne Benachrichtigung nach Zahlung fehlgeschlagen", error);
+      }
+
+      try {
+        await notifyCustomer(session, order, pricing);
+      } catch (error) {
+        console.error("Kunden-Bestätigungsmail nach Zahlung fehlgeschlagen", error);
       }
     }
   }

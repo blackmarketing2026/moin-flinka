@@ -85,9 +85,12 @@ module.exports = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       locale: "de",
+      payment_method_types: ["card"],
       line_items,
       customer_email: body.email,
-      success_url: `${origin}/kennzeichen-stripe?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
+      customer_creation: "always",
+      invoice_creation: { enabled: true },
+      success_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/kennzeichen-stripe?checkout=cancelled#formular`,
       metadata,
       payment_intent_data: { metadata },

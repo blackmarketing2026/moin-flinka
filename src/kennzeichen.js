@@ -141,16 +141,7 @@ if (form) {
     }
   });
   show(0, false);
-  const checkoutState = new URLSearchParams(window.location.search).get('checkout');
-  if (checkoutState === 'success') {
-    steps.forEach(panel => { panel.hidden = true; });
-    form.querySelector('.plate-navigation').hidden = true;
-    document.querySelector('.plate-progress').hidden = true;
-    status.className = 'form-status is-success';
-    status.textContent = 'Zahlung erfolgreich! Vielen Dank für deine Bestellung. Du erhältst in Kürze eine Bestätigung per E-Mail.';
-    status.tabIndex = -1;
-    status.focus();
-  } else if (checkoutState === 'cancelled') {
+  if (new URLSearchParams(window.location.search).get('checkout') === 'cancelled') {
     status.className = 'form-status is-error';
     status.textContent = 'Die Zahlung wurde abgebrochen. Deine Auswahl ist erhalten geblieben – du kannst es jederzeit erneut versuchen.';
   }
