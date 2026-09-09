@@ -3,5 +3,6 @@ Allow: /
 Disallow: /impressum
 Disallow: /datenschutz
 Disallow: /dankesseite
+Disallow: /stripe-test
 
 Sitemap: https://www.moin-flinka.de/sitemap.xml
