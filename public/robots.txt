@@ -3,6 +3,6 @@ Allow: /
 Disallow: /impressum
 Disallow: /datenschutz
 Disallow: /dankesseite
-Disallow: /stripe-test
+Disallow: /kennzeichen-stripe
 
 Sitemap: https://www.moin-flinka.de/sitemap.xml

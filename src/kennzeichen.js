@@ -6,6 +6,7 @@ if (form) {
   const next = form.querySelector('[data-next]');
   const back = form.querySelector('[data-back]');
   const submit = form.querySelector('[type="submit"]');
+  const submitLabel = submit.textContent;
   let step = 0;
   let sending = false;
   const field = name => form.elements.namedItem(name);
@@ -117,7 +118,12 @@ if (form) {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
         signal: AbortSignal.timeout(20000),
       });
-      if (!response.ok || (await response.json()).ok !== true) throw new Error('Versand fehlgeschlagen');
+      const result = await response.json();
+      if (!response.ok || result.ok !== true) throw new Error('Versand fehlgeschlagen');
+      if (result.url) {
+        window.location.href = result.url;
+        return;
+      }
       steps.forEach(panel => { panel.hidden = true; });
       form.querySelector('.plate-navigation').hidden = true;
       document.querySelector('.plate-progress').hidden = true;
@@ -131,8 +137,21 @@ if (form) {
       sending = false;
       submit.disabled = false;
       back.disabled = false;
-      submit.textContent = 'Bestellanfrage abschicken';
+      submit.textContent = submitLabel;
     }
   });
   show(0, false);
+  const checkoutState = new URLSearchParams(window.location.search).get('checkout');
+  if (checkoutState === 'success') {
+    steps.forEach(panel => { panel.hidden = true; });
+    form.querySelector('.plate-navigation').hidden = true;
+    document.querySelector('.plate-progress').hidden = true;
+    status.className = 'form-status is-success';
+    status.textContent = 'Zahlung erfolgreich! Vielen Dank für deine Bestellung. Du erhältst in Kürze eine Bestätigung per E-Mail.';
+    status.tabIndex = -1;
+    status.focus();
+  } else if (checkoutState === 'cancelled') {
+    status.className = 'form-status is-error';
+    status.textContent = 'Die Zahlung wurde abgebrochen. Deine Auswahl ist erhalten geblieben – du kannst es jederzeit erneut versuchen.';
+  }
 }

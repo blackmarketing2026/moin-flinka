@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Stripe-Test (intern): Kennzeichen bestellen | Moin Flinka</title>
+    <meta
+      name="description"
+      content="Interne Testseite zur Vorbereitung der Stripe-Zahlungsanbindung für Kennzeichen-Bestellungen. Nicht für Kunden bestimmt."
+    />
+    <meta property="og:title" content="Stripe-Test (intern) | Moin Flinka" />
+    <meta
+      property="og:description"
+      content="Interne Testseite zur Vorbereitung der Stripe-Zahlungsanbindung."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.moin-flinka.de/kennzeichen-stripe" />
+    <meta name="theme-color" content="#092954" />
+    <link rel="preload" as="image" href="./assets/img/moin-flinka-logo.png" />
+
+    <!-- Google Consent Mode v2: Standardmaessig alles ablehnen, bis der/die Nutzer:in im Cookie-Banner zustimmt. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        personalization_storage: "denied",
+        functionality_storage: "granted",
+        security_storage: "granted",
+        wait_for_update: 500,
+      });
+    </script>
+
+    <!-- Google Tag Manager: GTM-ID muss vor dem Live-Schalten unter GTM_ID im site-config-Block eingetragen werden. -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        var gtmId = "GTM-WS9QDJ3C";
+        if (!gtmId || gtmId.indexOf("XXXXXXX") !== -1) return;
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + gtmId + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-WS9QDJ3C");
+    </script>
+  </head>
+  <body>
+    <div
+      style="position: sticky; top: 0; z-index: 9999; background: #f1070e; color: #fff; text-align: center; padding: 8px 12px; font: 700 13px/1.4 Arial, Helvetica, sans-serif;"
+    >
+      Interne Testseite – Stripe-Testmodus. Nicht für Kunden, nicht verlinkt, kein Suchmaschinen-Index.
+    </div>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-WS9QDJ3C"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <script type="application/json" id="site-config">
+      {
+        "PHONE_DISPLAY": "+49 1590 6808767",
+        "PHONE_LINK": "tel:+4915906808767",
+        "WHATSAPP_LINK": "https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir.",
+        "EMAIL_ADDRESS": "info@moin-flinka.de",
+        "FORM_ENDPOINT": "/api/contact",
+        "GTM_ID": "GTM-WS9QDJ3C"
+      }
+    </script>
+
+    <div class="topbar">
+      <div class="container topbar-inner">
+        <p>Kennzeichen in Hamburg · DHL Express am nächsten Tag · Hamburg-Express am selben Nachmittag · +49 1590 6808767</p>
+        <a class="topbar-call" href="tel:+4915906808767" aria-label="Jetzt telefonisch anrufen">
+          <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
+            <path d="M21 11l9 10M43 34l10 10" />
+          </svg>
+          <span>Jetzt anrufen</span>
+        </a>
+      </div>
+    </div>
+
+    <header class="site-header" id="top">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Moin Flinka Startseite">
+          <img
+            src="./assets/img/moin-flinka-logo.png"
+            alt="Moin Flinka - Kennzeichen &amp; Schilder"
+            width="2172"
+            height="724"
+          />
+        </a>
+        <nav class="nav" id="mainNav" aria-label="Hauptnavigation">
+          <a href="/#leistungen">Leistungen</a>
+          <a href="/kennzeichen">Kennzeichen</a>
+          <a href="/#ablauf">Ablauf</a>
+          <a href="#faq">FAQ</a>
+          <a href="/#kontakt">Kontakt</a>
+        </nav>
+        <div class="header-actions">
+          <a class="header-phone" href="tel:+4915906808767">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
+              <path d="M21 11l9 10M43 34l10 10" />
+            </svg>
+            <span>+49 1590 6808767</span>
+          </a>
+          <a
+            class="btn btn-light"
+            href="https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir."
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <path d="M11 55l5-14A24 24 0 1 1 25 49L11 55Z" />
+              <path d="M24 19c4 13 10 18 22 22l4-7-8-5-4 4c-5-3-8-6-11-11l4-4-5-8-2 9Z" class="fill-accent" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+          <a class="btn btn-primary" href="#formular">Jetzt bestellen</a>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Navigation &ouml;ffnen">
+            <svg class="icon-menu" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <path d="M14 20h36M14 32h36M14 44h36" />
+            </svg>
+            <svg class="icon-close" viewBox="0 0 64 64" aria-hidden="true" focusable="false" hidden>
+              <path d="M18 18 46 46M46 18 18 46" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="plate-intro container" aria-labelledby="hero-title">
+        <p class="eyebrow">Dein Kennzeichen. Dein Weg.</p>
+        <h1 id="hero-title">Kennzeichen aus Hamburg.<br><span>Heute bestellt. Heute geliefert.</span></h1>
+        <p class="plate-lead">Bestellungen bis 12:00 Uhr liefern wir mit eigenen Kurierfahrern noch am selben Nachmittag innerhalb Hamburgs.</p>
+        <p class="plate-hint">Außerhalb Hamburgs: DHL Express am nächsten Tag. Prägung Montag bis Freitag; am Wochenende ist Vorbestellung möglich.</p>
+        <div class="plate-hero-actions"><a class="btn btn-primary" href="#formular">Jetzt Kennzeichen bestellen</a><span>✓ Bestellungen jederzeit möglich<br>✓ Direkt sicher online bezahlen (Stripe-Test)</span></div>
+      </section>
+      <section class="quiz-section" id="formular" aria-labelledby="form-title">
+        <div class="container">
+          <div class="quiz-card plate-quiz">
+            <ol class="plate-progress" aria-label="Bestellschritte"><li aria-current="step">1 <span>Kennzeichen</span></li><li>2 <span>Lieferung</span></li><li>3 <span>Deine Daten</span></li></ol>
+            <form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/create-checkout-session">
+              <fieldset data-step="0">
+                <legend id="form-title" tabindex="-1">Wie soll das Kennzeichen aussehen?</legend>
+                <div class="plate-types" role="radiogroup" aria-label="Kennzeichentyp">
+                  <label class="plate-type"><input type="radio" name="plateType" value="normal" checked required><svg viewBox="0 0 64 48" aria-hidden="true"><path d="m12 23 5-13h30l5 13M8 23h48v16H8zM15 39v4m34-4v4M15 29h7m20 0h7"/></svg><span>Auto</span></label>
+                  <label class="plate-type"><input type="radio" name="plateType" value="motorcycle" required><svg viewBox="0 0 64 48" aria-hidden="true"><circle cx="13" cy="34" r="9"/><circle cx="51" cy="34" r="9"/><path d="m13 34 12-18 13 18H13m25 0 8-19-4-8h-8m12 8 5 19M20 16h12"/></svg><span>Motorrad</span></label>
+                  <label class="plate-type"><input type="radio" name="plateType" value="electric" required><svg viewBox="0 0 64 48" aria-hidden="true"><path d="M36 3 17 27h14l-3 18 19-26H33z"/></svg><span>Elektro / E</span></label>
+                  <label class="plate-type"><input type="radio" name="plateType" value="historic" required><svg viewBox="0 0 64 48" aria-hidden="true"><path d="M13 27 18 11h28l5 16M19 24h26M9 39V28a5 5 0 0 1 5-5h36a5 5 0 0 1 5 5v11H9Zm5 0v4m36-4v4M27 29h10v10H27z"/><circle cx="18" cy="31" r="4"/><circle cx="46" cy="31" r="4"/></svg><span>Oldtimer</span></label>
+                </div>
+                <p class="step-copy" id="plate-help">Wähle deinen Kennzeichentyp und trag deine bereits zugeteilte oder reservierte Kombination ins Schild ein.</p>
+                <div class="german-plate" role="group" aria-label="Kennzeichen gestalten" aria-describedby="plate-help">
+                  <div class="euro-band" aria-hidden="true"><span class="euro-stars"></span><b>D</b></div>
+                  <label class="plate-city"><span>Stadt</span><input name="city" aria-label="Stadtkürzel" placeholder="HH" maxlength="3" pattern="[A-ZÄÖÜ]{1,3}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+                  <div class="plate-seals" aria-hidden="true"><i></i><i></i></div>
+                  <label class="plate-letters"><span>Buchstaben</span><input name="letters" aria-label="Buchstaben" placeholder="MF" maxlength="2" pattern="[A-Z]{1,2}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+                  <label class="plate-digits"><span>Ziffern</span><span class="plate-number"><input name="digits" aria-label="Ziffern" placeholder="1234" maxlength="4" pattern="[1-9][0-9]{0,3}" required inputmode="numeric" autocomplete="off"><span class="plate-suffix" data-plate-suffix hidden></span></span></label>
+                </div>
+                <p class="plate-hint">1–3 Zeichen für die Stadt · 1–2 Buchstaben · 1–4 Ziffern<br>Insgesamt höchstens 8 Zeichen einschließlich E oder H. Keine führende Null.</p>
+                <input type="hidden" name="plateVariant" value="standard">
+                <label class="delivery-option"><input type="checkbox" name="season"><span>Saisonkennzeichen</span></label>
+                <div class="form-row" data-season hidden>
+                  <label>Saison von (Monat)<select name="seasonStart" disabled></select></label>
+                  <label>Saison bis (Monat)<select name="seasonEnd" disabled></select></label>
+                </div>
+                <div role="group" aria-label="Zusatzoptionen" class="plate-choices">
+                  <label class="delivery-option"><input type="checkbox" name="carbon"><span>Carbon-Optik · +9,99 €</span></label>
+                  <label class="delivery-option"><input type="checkbox" name="environmentSticker"><span>Grüne Umweltplakette · +9,99 €</span></label>
+                </div>
+                <div class="plate-note"><strong>Deine Kennzeichen-Kombination</strong><p>Bitte verwende deine bereits zugeteilte oder reservierte Kombination. Dieses Formular reserviert kein Wunschkennzeichen.</p></div>
+              </fieldset>
+              <fieldset data-step="1" hidden>
+                <legend tabindex="-1">Wie kommen deine Kennzeichen zu dir?</legend>
+                <p class="step-copy">Wähle die Lieferung, die zu dir passt.</p>
+                <label class="delivery-option"><input type="radio" name="delivery" value="shipping" checked required><span><strong>DHL Express · 26,40 €</strong><small>Lieferung am nächsten Tag.</small></span></label>
+                <label class="delivery-option"><input type="radio" name="delivery" value="local" required><span><strong>Hamburg-Express mit eigenen Kurierfahrern · 20,00 €</strong><small>Bestellung vor 12:00 Uhr: Lieferung am selben Nachmittag innerhalb Hamburgs.</small></span></label>
+                <div class="plate-note"><strong>So geht es danach weiter</strong><p>Bestellungen sind jederzeit möglich. Die Prägung erfolgt Montag bis Freitag. Für den Hamburg-Express gilt: Bestellungen vor 12:00 Uhr werden am selben Nachmittag durch eigene Kurierfahrer geliefert. Samstag und Sonntag ist Vorbestellung möglich. Nach dem letzten Schritt wirst du zur sicheren Bezahlung über Stripe weitergeleitet.</p></div>
+              </fieldset>
+              <fieldset data-step="2" hidden>
+                <legend tabindex="-1">Wohin dürfen wir liefern?</legend>
+                <p class="step-copy">Deine Adresse verwenden wir für Lieferung und Rechnung.</p>
+                <div class="form-row"><label>Vor- und Nachname<input name="name" autocomplete="name" maxlength="120" required></label><label>Telefonnummer<input name="phone" type="tel" autocomplete="tel" maxlength="40" required></label></div>
+                <label>E-Mail für die Rechnung<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+                <label>Straße und Hausnummer<input name="street" autocomplete="street-address" maxlength="200" required></label>
+                <div class="form-row"><label>Postleitzahl<input name="postcode" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label><label>Ort<input name="town" autocomplete="address-level2" maxlength="100" required></label></div>
+                <p class="plate-hint">Lieferland: Deutschland. Eine abweichende Rechnungsadresse kannst du uns hier mitteilen.</p>
+                <label>Hinweise / abweichende Rechnungsadresse (optional)<textarea name="notes" rows="3" maxlength="1000"></textarea></label>
+                <div class="plate-summary"><strong>Deine Zusammenfassung</strong><p data-summary></p><small>Mit dem Absenden wirst du zur sicheren Zahlung über Stripe weitergeleitet (Testmodus).</small></div>
+                <label class="privacy"><input name="privacy" type="checkbox" required><span>Ich stimme der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</span></label>
+              </fieldset>
+              <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong>Dein Gesamtpreis</strong><p data-price-details></p><output data-total></output></div>
+              <p class="form-status" role="status" aria-live="polite"></p>
+              <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zurück</button><button class="btn btn-primary" type="button" data-next>Weiter zur Lieferung →</button><button class="btn btn-primary submit" type="submit" hidden>Jetzt sicher bezahlen</button></div>
+              <noscript>Bitte aktiviere JavaScript für das Bestellformular oder ruf uns unter +49 1590 6808767 an.</noscript>
+            </form>
+            <p class="quiz-alt-contact">Noch eine Frage? <a href="tel:+4915906808767">+49 1590 6808767</a> · <a href="https://wa.me/4915906808767" target="_blank" rel="noopener">WhatsApp</a></p>
+          </div>
+        </div>
+      </section>
+      <section class="container plate-aftercare" aria-label="So geht es weiter"><div><span>01</span><h2>Kennzeichen gestalten</h2><p>Kennzeichentyp und Zusatzoptionen auswählen und deine Kombination eingeben.</p></div><div><span>02</span><h2>Rechnung erhalten</h2><p>Der Gesamtpreis wird im Formular angezeigt. Deine Rechnung erhältst du per E-Mail.</p></div><div><span>03</span><h2>Schild bekommen</h2><p>DHL Express liefert am nächsten Tag. Oder: Bei Bestellung vor 12:00 Uhr bringen eigene Kurierfahrer deine Kennzeichen am selben Nachmittag innerhalb Hamburgs.</p></div></section>
+      <section class="faq-section plate-faq" id="faq" aria-labelledby="plate-faq-title">
+        <div class="container plate-info-grid">
+          <div class="plate-section-intro"><p class="eyebrow">Gut zu wissen</p><h2 id="plate-faq-title">Fragen zu deinen Kennzeichen</h2><p>In Hamburg gedruckt. Von Hamburg aus versendet. Hier findest du Antworten zu Bestellung, Schildern und Lieferung.</p><a href="tel:+4915906808767">Noch Fragen? +49 1590 6808767</a></div>
+          <div class="accordion">
+            <article class="faq-item is-open">
+              <h3><button type="button" id="plate-faq-button-0" aria-expanded="true" aria-controls="plate-faq-panel-0">Wo werden die Kennzeichen gedruckt und versendet?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
+              <div class="faq-panel" id="plate-faq-panel-0" role="region" aria-labelledby="plate-faq-button-0"><p>Deine Schilder werden in Hamburg gedruckt. Du kannst DHL Express am nächsten Tag wählen oder den Hamburg-Express mit eigenen Kurierfahrern nutzen.</p></div>
+            </article>
+            <article class="faq-item">
+              <h3><button type="button" id="plate-faq-button-1" aria-expanded="false" aria-controls="plate-faq-panel-1">Wann bekomme ich meine Kennzeichen in Hamburg?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
+              <div class="faq-panel" id="plate-faq-panel-1" role="region" aria-labelledby="plate-faq-button-1" hidden><p>Bei DHL Express werden die Kennzeichen am nächsten Tag geliefert. Beim Hamburg-Express mit eigenen Kurierfahrern gilt: Bestellung vor 12:00 Uhr, Lieferung am selben Nachmittag innerhalb Hamburgs. Die Prägung erfolgt Montag bis Freitag; Samstag und Sonntag ist Vorbestellung möglich.</p></div>
+            </article>
+            <article class="faq-item">
+              <h3><button type="button" id="plate-faq-button-2" aria-expanded="false" aria-controls="plate-faq-panel-2">Kann ich auch am Wochenende bestellen?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
+              <div class="faq-panel" id="plate-faq-panel-2" role="region" aria-labelledby="plate-faq-button-2" hidden><p>Ja, Bestellungen sind jederzeit möglich. Samstag und Sonntag nehmen wir Vorbestellungen an; geprägt wird Montag bis Freitag.</p></div>
+            </article>
+            <article class="faq-item">
+              <h3><button type="button" id="plate-faq-button-3" aria-expanded="false" aria-controls="plate-faq-panel-3">Wie viele Schilder bekomme ich und was kosten sie?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
+              <div class="faq-panel" id="plate-faq-panel-3" role="region" aria-labelledby="plate-faq-button-3" hidden><p>Für ein Motorrad erhältst du ein Schild für 11,99 €. Für Auto, Elektro und Oldtimer erhältst du einen Satz mit zwei Schildern für 19,99 €. Die Anzahl wird automatisch anhand deiner Auswahl festgelegt.</p></div>
+            </article>
+            <article class="faq-item">
+              <h3><button type="button" id="plate-faq-button-4" aria-expanded="false" aria-controls="plate-faq-panel-4">Welche Zusatzoptionen gibt es?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
+              <div class="faq-panel" id="plate-faq-panel-4" role="region" aria-labelledby="plate-faq-button-4" hidden><p>Du kannst Saisonkennzeichen, Carbon-Optik und eine grüne Umweltplakette auswählen. Carbon-Optik und Umweltplakette kosten jeweils zusätzlich 9,99 €. Elektro ergänzt ein E, Oldtimer ein H am Kennzeichen. Der Gesamtpreis wird im Formular automatisch angezeigt.</p></div>
+            </article>
+            <article class="faq-item">
+              <h3><button type="button" id="plate-faq-button-5" aria-expanded="false" aria-controls="plate-faq-panel-5">Was kostet die Lieferung?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
+              <div class="faq-panel" id="plate-faq-panel-5" role="region" aria-labelledby="plate-faq-button-5" hidden><p>DHL Express kostet 26,40 € und liefert am nächsten Tag. Der Hamburg-Express mit eigenen Kurierfahrern kostet 20,00 €. Bei Bestellung vor 12:00 Uhr erfolgt die Lieferung am selben Nachmittag innerhalb Hamburgs.</p></div>
+            </article>
+            <article class="faq-item">
+              <h3><button type="button" id="plate-faq-button-6" aria-expanded="false" aria-controls="plate-faq-panel-6">Wird mein Wunschkennzeichen mit der Bestellung reserviert?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
+              <div class="faq-panel" id="plate-faq-panel-6" role="region" aria-labelledby="plate-faq-button-6" hidden><p>Nein. Bitte verwende eine bereits zugeteilte oder reservierte Kennzeichen-Kombination. Das Formular reserviert kein Wunschkennzeichen. Du sendest eine unverbindliche Bestellanfrage; deine Rechnung erhältst du per E-Mail.</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="plate-about" id="ueber-uns" aria-labelledby="plate-about-title">
+        <div class="container plate-info-grid">
+          <div class="plate-about-brand"><img src="./assets/img/moin-flinka-logo.png" alt="Moin Flinka – Kennzeichen und Schilder" width="2172" height="724" loading="lazy"><p>Deine Kennzeichen aus Hamburg.</p></div>
+          <div class="plate-section-intro"><p class="eyebrow">Moin aus Hamburg</p><h2 id="plate-about-title">Über Moin Flinka</h2><p>Moin Flinka ist dein Ansprechpartner für Kennzeichen und Kfz-Schilder in Hamburg. Wir drucken deine Schilder in Hamburg und bieten zwei Versandoptionen: DHL Express am nächsten Tag oder Hamburg-Express mit eigenen Kurierfahrern am selben Nachmittag bei Bestellung vor 12:00 Uhr.</p><p>Ob Auto, Motorrad, Elektro oder Oldtimer: Im Formular stellst du deine Kennzeichen zusammen und siehst den Gesamtpreis einschließlich Zusatzoptionen und Lieferung. Wenn du Fragen hast, erreichst du uns telefonisch oder per WhatsApp.</p><div class="plate-about-actions"><a class="btn btn-primary" href="#formular">Kennzeichen zusammenstellen</a><a class="btn btn-light" href="https://wa.me/4915906808767" target="_blank" rel="noopener">WhatsApp</a></div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <a class="footer-logo" href="/">
+          <img
+            src="./assets/img/moin-flinka-logo.png"
+            alt="Moin Flinka - Kennzeichen &amp; Schilder"
+            width="2172"
+            height="724"
+            loading="lazy"
+          />
+        </a>
+        <p>
+          Moin Flinka &ndash; Dein Ansprechpartner f&uuml;r Kennzeichen und Kfz-Schilder in Hamburg.
+          Kennzeichen liefern lassen in Hamburg? Frag direkt an.
+        </p>
+        <div class="footer-contact">
+          <a href="tel:+4915906808767">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
+              <path d="M21 11l9 10M43 34l10 10" />
+            </svg>
+            <span>+49 1590 6808767</span>
+          </a>
+          <a
+            href="https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir."
+            target="_blank"
+            rel="noopener"
+          >
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <path d="M11 55l5-14A24 24 0 1 1 25 49L11 55Z" />
+              <path d="M24 19c4 13 10 18 22 22l4-7-8-5-4 4c-5-3-8-6-11-11l4-4-5-8-2 9Z" class="fill-accent" />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+          <a href="/#kontakt">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <rect x="10" y="16" width="44" height="32" rx="3" />
+              <path d="m12 19 20 17 20-17M12 46l16-15M52 46 36 31" />
+            </svg>
+            <span>info@moin-flinka.de</span>
+          </a>
+        </div>
+        <div class="footer-art" aria-hidden="true">
+          <span class="footer-crane one"></span>
+          <span class="footer-crane two"></span>
+          <span class="footer-waves"></span>
+        </div>
+      </div>
+      <div class="container footer-disclaimer">
+        <p>
+          Moin Flinka ist keine Beh&ouml;rde, sondern ein privater Dienstleister in Hamburg
+          und &uuml;bernimmt die Abwicklung im Auftrag seiner Kund*innen.
+        </p>
+      </div>
+      <div class="container footer-bottom">
+        <div>
+          <a href="/impressum">Impressum</a>
+          <a href="/datenschutz">Datenschutzerkl&auml;rung</a>
+          <a href="/sitemap">Seiten&uuml;bersicht</a>
+          <a href="#" data-cookie-open>Cookie-Einstellungen</a>
+        </div>
+        <span>www.moin-flinka.de</span>
+      </div>
+    </footer>
+
+    <div class="mobile-quickbar">
+      <a href="tel:+4915906808767">
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
+          <path d="M21 11l9 10M43 34l10 10" />
+        </svg>
+        <span>Anrufen</span>
+      </a>
+      <a
+        href="https://wa.me/4915906808767?text=Moin%2C%20ich%20interessiere%20mich%20f%C3%BCr%20Kfz-Schilder%20in%20Hamburg.%20Bitte%20melden%20Sie%20sich%20bei%20mir."
+        target="_blank"
+        rel="noopener"
+      >
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <path d="M11 55l5-14A24 24 0 1 1 25 49L11 55Z" />
+          <path d="M24 19c4 13 10 18 22 22l4-7-8-5-4 4c-5-3-8-6-11-11l4-4-5-8-2 9Z" class="fill-accent" />
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+      <a href="#formular">
+        <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <rect x="10" y="16" width="44" height="32" rx="3" />
+          <path d="m12 19 20 17 20-17M12 46l16-15M52 46 36 31" />
+        </svg>
+        <span>Bestellen</span>
+      </a>
+    </div>
+
+    <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie-Einstellungen" hidden>
+      <div class="cookie-banner-main">
+        <p>
+          Wir nutzen Cookies fu&uuml;r Analyse und Marketing (u.&nbsp;a. Google Analytics, Google Ads,
+          Meta/Facebook Pixel, Microsoft Clarity). Details in unserer
+          <a href="/datenschutz">Datenschutzerkl&auml;rung</a>.
+        </p>
+        <div class="cookie-banner-actions">
+          <button type="button" class="btn-cookie ghost" data-cookie-settings>Einstellungen</button>
+          <button type="button" class="btn-cookie outline" data-cookie-reject>Nur notwendig</button>
+          <button type="button" class="btn-cookie solid" data-cookie-accept>Alle akzeptieren</button>
+        </div>
+      </div>
+      <div class="cookie-settings" id="cookieSettings" hidden>
+        <label class="cookie-toggle disabled">
+          <input type="checkbox" checked disabled />
+          <span><strong>Notwendig</strong><small>Fu&uuml;r den Betrieb der Website erforderlich, immer aktiv.</small></span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookieAnalytics" />
+          <span><strong>Analyse</strong><small>Google Analytics, Microsoft Clarity.</small></span>
+        </label>
+        <label class="cookie-toggle">
+          <input type="checkbox" id="cookieMarketing" />
+          <span><strong>Marketing</strong><small>Google Ads, Google Remarketing, Meta/Facebook Pixel.</small></span>
+        </label>
+        <button type="button" class="btn-cookie solid" data-cookie-save>Auswahl speichern</button>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
