@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kennzeichen drucken lassen · Kostenloser Versand | Moin Flinka</title>
+    <title>Kennzeichen ab 11,99 € bestellen | Moin Flinka</title>
     <meta
       name="description"
-      content="Kennzeichen drucken lassen: Gestalte dein Schild online und wähle kostenlosen Versand oder direkte Auslieferung in Hamburg. Rechnung nach Abstimmung per E-Mail."
+      content="Kennzeichen ab 11,99 €, ein Satz mit 2 Schildern für 19,99 €. Online zusammenstellen und DHL Expressversand oder Express-Lieferung in Hamburg wählen."
     />
     <meta property="og:title" content="Kfz-Kennzeichen Hamburg bestellen | Moin Flinka" />
     <meta
       property="og:description"
-      content="Kennzeichen gestalten, kostenlosen Versand oder direkte Auslieferung wählen und online anfragen."
+      content="Kennzeichen gestalten, Gesamtpreis berechnen und mit DHL Expressversand oder Express-Lieferung in Hamburg anfragen."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.moin-flinka.de/kennzeichen" />
@@ -142,9 +142,9 @@
     <main>
       <section class="plate-intro container" aria-labelledby="hero-title">
         <p class="eyebrow">Dein Kennzeichen. Dein Weg.</p>
-        <h1 id="hero-title">Kennzeichen drucken lassen.<br><span>Kostenlos versenden. Direkt ausliefern.</span></h1>
-        <p>Stell dein Kennzeichen in drei kurzen Schritten zusammen. Kostenloser Versand oder persönliche Auslieferung in Hamburg · du entscheidest.</p>
-        <div class="plate-perks"><span>✓ Bereits ab 1 Schild</span><span>✓ Kostenloser Versand</span><span>✓ Rechnung per E-Mail nach Abstimmung</span></div>
+        <h1 id="hero-title">Kennzeichen drucken lassen.<br><span>Online auswählen. Express liefern lassen.</span></h1>
+        <p>Stell dein Kennzeichen in drei kurzen Schritten zusammen. DHL Expressversand oder Express-Lieferung innerhalb Hamburgs · du entscheidest.</p>
+        <div class="plate-perks"><span>✓ 1 Schild: 11,99 € · 2 Schilder: 19,99 €</span><span>✓ Bestellungen jederzeit möglich</span><span>✓ Rechnung per E-Mail nach Abstimmung</span></div>
       </section>
       <section class="quiz-section" id="formular" aria-labelledby="form-title">
         <div class="container">
@@ -153,23 +153,38 @@
             <form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/contact">
               <fieldset data-step="0">
                 <legend id="form-title" tabindex="-1">Wie soll dein Kennzeichen aussehen?</legend>
-                <p class="step-copy" id="plate-help">Trag dein Stadtkürzel, zwei Buchstaben und deine Ziffern direkt ins Schild ein.</p>
+                <label>Kennzeichentyp<select name="plateType"><option value="normal">Normales Kennzeichen</option><option value="motorcycle">Motorrad-Kennzeichen</option><option value="electric">E-Kennzeichen</option></select></label>
+                <div role="group" aria-label="Anzahl der Schilder" class="plate-choices">
+                  <label class="delivery-option"><input type="radio" name="quantity" value="1" checked required><span><strong>1 Schild · 11,99 €</strong><small>Einzelnes Kennzeichen, z. B. Motorrad</small></span></label>
+                  <label class="delivery-option"><input type="radio" name="quantity" value="2" required><span><strong>2 Schilder · 19,99 €</strong><small>Kennzeichen-Paar / Satz</small></span></label>
+                </div>
+                <label>Kennzeichen-Ausführung<select name="plateVariant"><option value="standard">Standard</option><option value="electric">E-Kennzeichen</option><option value="historic">H-Kennzeichen</option></select></label>
+                <label class="delivery-option"><input type="checkbox" name="season"><span>Saisonkennzeichen</span></label>
+                <div class="form-row" data-season hidden>
+                  <label>Saison von (Monat)<select name="seasonStart" disabled></select></label>
+                  <label>Saison bis (Monat)<select name="seasonEnd" disabled></select></label>
+                </div>
+                <div role="group" aria-label="Zusatzoptionen" class="plate-choices">
+                  <label class="delivery-option"><input type="checkbox" name="carbon"><span>Carbon-Optik · +9,99 €</span></label>
+                  <label class="delivery-option"><input type="checkbox" name="environmentSticker"><span>Grüne Umweltplakette · +9,99 €</span></label>
+                </div>
+                <p class="step-copy" id="plate-help">Wähle deinen Kennzeichentyp und trag deine bereits zugeteilte oder reservierte Kombination ins Schild ein.</p>
                 <div class="german-plate" role="group" aria-label="Kennzeichen gestalten" aria-describedby="plate-help">
                   <div class="euro-band" aria-hidden="true"><span class="euro-stars"></span><b>D</b></div>
                   <label><span>Stadt</span><input name="city" aria-label="Stadtkürzel" placeholder="HH" maxlength="3" pattern="[A-ZÄÖÜ]{1,3}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
                   <div class="plate-seals" aria-hidden="true"><i></i><i></i></div>
-                  <label><span>Buchstaben</span><input name="letters" aria-label="Zwei Buchstaben" placeholder="MF" minlength="2" maxlength="2" pattern="[A-Z]{2}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+                  <label><span>Buchstaben</span><input name="letters" aria-label="Buchstaben" placeholder="MF" maxlength="2" pattern="[A-Z]{1,2}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
                   <label class="plate-digits"><span>Ziffern</span><input name="digits" aria-label="Ziffern" placeholder="1234" maxlength="4" pattern="[1-9][0-9]{0,3}" required inputmode="numeric" autocomplete="off"></label>
                 </div>
-                <p class="plate-hint">1–3 Zeichen für die Stadt · 2 Buchstaben · 1–4 Ziffern<br>Insgesamt höchstens 8 Zeichen, keine führende Null.</p>
-                <div class="plate-note"><strong>Ein Schild für den Anfang.</strong><p>Du fragst 1 Kennzeichen an. Bitte verwende deine bereits zugeteilte oder reservierte Kombination. Dieses Formular reserviert kein Wunschkennzeichen.</p></div>
+                <p class="plate-hint">1–3 Zeichen für die Stadt · 1–2 Buchstaben · 1–4 Ziffern<br>Insgesamt höchstens 8 Zeichen einschließlich E oder H. Keine führende Null.</p>
+                <div class="plate-note"><strong>Deine Kennzeichen-Kombination</strong><p>Bitte verwende deine bereits zugeteilte oder reservierte Kombination. Dieses Formular reserviert kein Wunschkennzeichen.</p></div>
               </fieldset>
               <fieldset data-step="1" hidden>
-                <legend tabindex="-1">Wie kommt dein Schild zu dir?</legend>
+                <legend tabindex="-1">Wie kommen deine Kennzeichen zu dir?</legend>
                 <p class="step-copy">Wähle die Lieferung, die zu dir passt.</p>
-                <label class="delivery-option"><input type="radio" name="delivery" value="shipping" checked required><span><strong>Kostenloser Versand</strong><small>Versand innerhalb Deutschlands. Keine Versandkosten.</small></span><span class="delivery-tag">Kostenlos</span></label>
-                <label class="delivery-option"><input type="radio" name="delivery" value="local" required><span><strong>Direkte Auslieferung</strong><small>In Hamburg persönlich geliefert. Termin und mögliche Lieferkosten stimmen wir mit dir ab.</small></span></label>
-                <div class="plate-note"><strong>So geht es danach weiter</strong><p>Wir prüfen deine Angaben und stimmen den Gesamtpreis mit dir ab. Anschließend erhältst du deine Rechnung per E-Mail. Den Liefertermin bestätigen wir persönlich.</p></div>
+                <label class="delivery-option"><input type="radio" name="delivery" value="shipping" checked required><span><strong>DHL Expressversand · 26,40 €</strong><small>Versand innerhalb Deutschlands.</small></span></label>
+                <label class="delivery-option"><input type="radio" name="delivery" value="local" required><span><strong>Express-Lieferung innerhalb Hamburgs · 20,00 €</strong></span></label>
+                <div class="plate-note"><strong>So geht es danach weiter</strong><p>Bestellungen sind jederzeit möglich. Die Prägung erfolgt Montag bis Freitag. Samstag und Sonntag ist Vorbestellung möglich. Deine Rechnung erhältst du per E-Mail. Den Liefertermin bestätigen wir persönlich.</p></div>
               </fieldset>
               <fieldset data-step="2" hidden>
                 <legend tabindex="-1">Wohin dürfen wir liefern?</legend>
@@ -180,9 +195,10 @@
                 <div class="form-row"><label>Postleitzahl<input name="postcode" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label><label>Ort<input name="town" autocomplete="address-level2" maxlength="100" required></label></div>
                 <p class="plate-hint">Lieferland: Deutschland. Eine abweichende Rechnungsadresse kannst du uns hier mitteilen.</p>
                 <label>Hinweise / abweichende Rechnungsadresse (optional)<textarea name="notes" rows="3" maxlength="1000"></textarea></label>
-                <div class="plate-summary"><strong>Deine Zusammenfassung</strong><p data-summary></p><small>Preis pro Schild: [Preis folgt]. Gesamtpreis nach persönlicher Abstimmung. Mit dem Absenden stellst du eine unverbindliche Bestellanfrage für 1 Schild.</small></div>
+                <div class="plate-summary"><strong>Deine Zusammenfassung</strong><p data-summary></p><small>Mit dem Absenden stellst du eine unverbindliche Bestellanfrage für deine ausgewählten Kennzeichen und Zusatzoptionen.</small></div>
                 <label class="privacy"><input name="privacy" type="checkbox" required><span>Ich stimme der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</span></label>
               </fieldset>
+              <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong>Dein Gesamtpreis</strong><p data-price-details></p><output data-total></output></div>
               <p class="form-status" role="status" aria-live="polite"></p>
               <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zurück</button><button class="btn btn-primary" type="button" data-next>Weiter zur Lieferung →</button><button class="btn btn-primary submit" type="submit" hidden>Bestellanfrage abschicken</button></div>
               <noscript>Bitte aktiviere JavaScript für das Bestellformular oder ruf uns unter +49 1590 6808767 an.</noscript>
@@ -191,7 +207,7 @@
           </div>
         </div>
       </section>
-      <section class="container plate-aftercare" aria-label="So geht es weiter"><div><span>01</span><h2>Kennzeichen gestalten</h2><p>Deine Kombination eingeben und ein einzelnes Schild anfragen.</p></div><div><span>02</span><h2>Rechnung erhalten</h2><p>Wir stimmen den Preis mit dir ab und schicken dir anschließend die Rechnung per E-Mail.</p></div><div><span>03</span><h2>Schild bekommen</h2><p>Kostenlos per Versand oder direkt in Hamburg nach Terminabsprache.</p></div></section>
+      <section class="container plate-aftercare" aria-label="So geht es weiter"><div><span>01</span><h2>Kennzeichen gestalten</h2><p>Deine Kombination eingeben, 1 oder 2 Schilder und Zusatzoptionen auswählen.</p></div><div><span>02</span><h2>Rechnung erhalten</h2><p>Der Gesamtpreis wird im Formular angezeigt. Deine Rechnung erhältst du per E-Mail.</p></div><div><span>03</span><h2>Schild bekommen</h2><p>Per DHL Expressversand oder Express-Lieferung innerhalb Hamburgs. Prägung Montag bis Freitag; Vorbestellung auch am Wochenende.</p></div></section>
     </main>
 
     <footer class="site-footer">

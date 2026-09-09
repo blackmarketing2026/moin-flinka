@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const nodemailer = require("nodemailer");
+const prices = require("../plate-prices.json");
 
 function getRecipients() {
   return (process.env.smtp_empaenger || "")
@@ -188,23 +189,45 @@ module.exports = async (req, res) => {
   }
   let { name, phone, email, topic, message } = body;
   if (body.orderType === "plate") {
+    const suffix = { electric: "E", historic: "H" }[body.plateVariant] || "";
     const required = ["name", "phone", "email", "city", "letters", "digits", "street", "postcode", "town"];
     if (required.some(key => typeof body[key] !== "string" || !body[key].trim() || body[key].length > 200) ||
-        !/^[A-ZÄÖÜ]{1,3}$/.test(body.city) || !/^[A-Z]{2}$/.test(body.letters) ||
-        !/^[1-9][0-9]{0,3}$/.test(body.digits) || (body.city + body.letters + body.digits).length > 8 ||
+        !/^[A-ZÄÖÜ]{1,3}$/.test(body.city) || !/^[A-Z]{1,2}$/.test(body.letters) ||
+        !/^[1-9][0-9]{0,3}$/.test(body.digits) || (body.city + body.letters + body.digits + suffix).length > 8 ||
         !/^[0-9]{5}$/.test(body.postcode) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email) ||
-        !["shipping", "local"].includes(body.delivery) || body.quantity !== 1 || body.privacy !== "on" ||
+        !["shipping", "local"].includes(body.delivery) || ![1, 2].includes(body.quantity) || body.privacy !== "on" ||
+        !["normal", "motorcycle", "electric"].includes(body.plateType) ||
+        !["standard", "electric", "historic"].includes(body.plateVariant) ||
+        (body.plateType === "electric" && body.plateVariant !== "electric") ||
+        ["season", "carbon", "environmentSticker"].some(key => typeof body[key] !== "boolean") ||
+        (body.season && (!/^(0[1-9]|1[0-2])$/.test(body.seasonStart) || !/^(0[1-9]|1[0-2])$/.test(body.seasonEnd) || Number(body.seasonEnd) <= Number(body.seasonStart))) ||
         (body.notes != null && (typeof body.notes !== "string" || body.notes.length > 1000))) {
       return res.status(400).json({ ok: false, error: "Bitte prüfe deine Bestellangaben." });
     }
+    const basePriceCents = body.quantity === 1 ? prices.single : prices.pair;
+    const extrasPriceCents = (body.carbon ? prices.carbon : 0) + (body.environmentSticker ? prices.environmentSticker : 0);
+    const deliveryPriceCents = prices[body.delivery];
+    const totalPriceCents = basePriceCents + extrasPriceCents + deliveryPriceCents;
+    if (body.basePriceCents !== basePriceCents || body.extrasPriceCents !== extrasPriceCents ||
+        body.deliveryPriceCents !== deliveryPriceCents || body.totalPriceCents !== totalPriceCents) {
+      return res.status(400).json({ ok: false, error: "Der Preis hat sich geändert. Bitte lade die Seite neu und prüfe deine Auswahl." });
+    }
+    const money = cents => (cents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
     topic = "Kennzeichen-Bestellanfrage";
     message = [
-      `Kennzeichen: ${body.city} ${body.letters} ${body.digits}`,
-      "Menge: 1 Schild",
-      `Lieferung: ${body.delivery === "shipping" ? "Kostenloser Versand" : "Direkte Auslieferung in Hamburg; Termin und Kosten abstimmen"}`,
+      `Kennzeichen: ${body.city} ${body.letters} ${body.digits}${suffix}`,
+      `Kennzeichentyp: ${{ normal: "Normales Kennzeichen", motorcycle: "Motorrad-Kennzeichen", electric: "E-Kennzeichen" }[body.plateType]}`,
+      `Ausführung: ${{ standard: "Standard", electric: "E-Kennzeichen", historic: "H-Kennzeichen" }[body.plateVariant]}`,
+      `Saisonkennzeichen: ${body.season ? `${body.seasonStart}–${body.seasonEnd}` : "Nein"}`,
+      `Menge: ${body.quantity} ${body.quantity === 1 ? "Schild" : "Schilder (Satz)"}`,
+      `Grundpreis: ${money(basePriceCents)}`,
+      `Carbon-Optik: ${body.carbon ? money(prices.carbon) : "Nein"}`,
+      `Grüne Umweltplakette: ${body.environmentSticker ? money(prices.environmentSticker) : "Nein"}`,
+      `Lieferung: ${body.delivery === "shipping" ? "DHL Expressversand" : "Express-Lieferung innerhalb Hamburgs"}: ${money(deliveryPriceCents)}`,
+      `Gesamtpreis: ${money(totalPriceCents)}`,
       `Liefer- und Rechnungsadresse: ${name}, ${body.street}, ${body.postcode} ${body.town}, Deutschland`,
       `Hinweise / abweichende Rechnungsadresse: ${body.notes || "Keine"}`,
-      "Unverbindliche Bestellanfrage. Gesamtpreis persönlich abstimmen und anschließend Rechnung per E-Mail senden.",
+      "Unverbindliche Bestellanfrage. Rechnung per E-Mail senden. Prägung Montag bis Freitag; Vorbestellung Samstag und Sonntag möglich.",
       "Datenschutz: zugestimmt",
     ].join("\n");
   }
