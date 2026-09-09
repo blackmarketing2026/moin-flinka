@@ -40,15 +40,15 @@ async function call(body) {
       }
       await page.locator('[data-back]').click();
     }
-    await page.locator('[name=plateType]').selectOption('electric');
+    await page.locator('[name=plateType][value=electric]').check();
     assert.equal(await page.locator('[name=plateVariant]').inputValue(), 'electric');
     await page.locator('[name=digits]').fill('1234');
     await page.locator('[data-next]').click();
     assert.equal(await page.locator('[data-step="0"]').isVisible(), true);
     await page.locator('[name=digits]').fill('123');
     await page.locator('[name=plateVariant]').selectOption('historic');
-    assert.equal(await page.locator('[name=plateType]').inputValue(), 'normal');
-    await page.locator('[name=plateType]').selectOption('motorcycle');
+    assert.equal(await page.locator('[name=plateType]:checked').inputValue(), 'normal');
+    await page.locator('[name=plateType][value=motorcycle]').check();
     await page.locator('[name=season]').check();
     await page.locator('[name=seasonEnd]').selectOption('03');
     await page.locator('[data-next]').click();
