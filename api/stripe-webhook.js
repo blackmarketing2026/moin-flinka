@@ -14,6 +14,7 @@ function metadataToOrder(metadata) {
     season: metadata.season === "true",
     carbon: metadata.carbon === "true",
     environmentSticker: metadata.environmentSticker === "true",
+    testMode: metadata.testMode === "true",
     quantity: Number(metadata.quantity),
   };
 }
@@ -28,12 +29,15 @@ function metadataToPricing(metadata) {
 }
 
 async function notifyBusiness(session, order, pricing) {
-  const message = [...buildOrderSummaryLines(order, pricing), `Stripe-Zahlung eingegangen (Session ${session.id}).`].join(
-    "\n"
-  );
+  const testPrefix = order.testMode ? "[TEST] " : "";
+  const message = [
+    ...(order.testMode ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 1,00 € gesetzt."] : []),
+    ...buildOrderSummaryLines(order, pricing),
+    `Stripe-Zahlung eingegangen (Session ${session.id}).`,
+  ].join("\n");
 
   await sendMail({
-    subject: "Zahlung eingegangen - Kennzeichen-Bestellung Moin Flinka",
+    subject: `${testPrefix}Zahlung eingegangen - Kennzeichen-Bestellung Moin Flinka`,
     text: [`Name: ${order.name}`, `Telefon: ${order.phone}`, `E-Mail: ${order.email}`, "", message].join("\n"),
     html: buildPaymentConfirmedHtml({
       name: order.name,
@@ -47,7 +51,10 @@ async function notifyBusiness(session, order, pricing) {
 }
 
 async function notifyCustomer(session, order, pricing) {
-  const summaryLines = buildOrderSummaryLines(order, pricing);
+  const testPrefix = order.testMode ? "[TEST] " : "";
+  const summaryLines = order.testMode
+    ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 1,00 € gesetzt.", ...buildOrderSummaryLines(order, pricing)]
+    : buildOrderSummaryLines(order, pricing);
 
   let invoicePdfUrl = null;
   if (session.invoice) {
@@ -61,7 +68,7 @@ async function notifyCustomer(session, order, pricing) {
 
   await sendMail({
     to: order.email,
-    subject: "Vielen Dank für deine Bestellung - Moin Flinka",
+    subject: `${testPrefix}Vielen Dank für deine Bestellung - Moin Flinka`,
     text: [
       `Moin ${order.name}, vielen Dank für deine Bestellung!`,
       invoicePdfUrl ? "Deine Rechnung findest du im Anhang." : "Deine Rechnung folgt in Kürze separat.",

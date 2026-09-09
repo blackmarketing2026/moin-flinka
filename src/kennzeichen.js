@@ -18,7 +18,9 @@ if (form) {
   const variantLabels = { standard: 'Standard', electric: 'E-Kennzeichen', historic: 'H-Kennzeichen' };
   const quantity = () => field('plateType').value === 'motorcycle' ? 1 : 2;
   const quantityLabel = () => quantity() === 1 ? '1 Schild' : '2 Schilder (Satz)';
+  const isTestMode = () => Boolean(field('testMode')?.checked);
   function orderPrices() {
+    if (isTestMode()) return { basePriceCents: 100, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 100 };
     const basePriceCents = quantity() === 1 ? prices.single : prices.pair;
     const extrasPriceCents = (field('carbon').checked ? prices.carbon : 0) + (field('environmentSticker').checked ? prices.environmentSticker : 0);
     const deliveryPriceCents = prices[field('delivery').value];
@@ -37,11 +39,16 @@ if (form) {
     if (field('season').checked) options.push(`Saison ${field('seasonStart').value}–${field('seasonEnd').value}`);
     if (field('carbon').checked) options.push('Carbon-Optik');
     if (field('environmentSticker').checked) options.push('Grüne Umweltplakette');
+    if (isTestMode()) options.push('TESTMODUS');
     form.querySelector('[data-summary]').textContent = `${plate()} · ${quantityLabel()} · ${options.join(' · ')} · ${delivery()} · Gesamtpreis: ${money(totals.totalPriceCents)}`;
-    const lines = [`${quantityLabel()}: ${money(totals.basePriceCents)}`];
-    if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
-    if (field('environmentSticker').checked) lines.push(`Grüne Umweltplakette: ${money(prices.environmentSticker)}`);
-    lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
+    const lines = isTestMode()
+      ? ['Testmodus aktiv: Gesamtpreis auf 1,00 € gesetzt, reguläre Preise werden ignoriert']
+      : [`${quantityLabel()}: ${money(totals.basePriceCents)}`];
+    if (!isTestMode()) {
+      if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
+      if (field('environmentSticker').checked) lines.push(`Grüne Umweltplakette: ${money(prices.environmentSticker)}`);
+      lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
+    }
     form.querySelector('[data-price-details]').textContent = lines.join(' · ');
     form.querySelector('[data-total]').textContent = money(totals.totalPriceCents);
   }
@@ -106,6 +113,7 @@ if (form) {
     data.orderType = 'plate';
     data.quantity = quantity();
     ['season', 'carbon', 'environmentSticker'].forEach(name => { data[name] = field(name).checked; });
+    if (field('testMode')) data.testMode = isTestMode();
     Object.assign(data, orderPrices());
     data.topic = 'Kennzeichen-Bestellanfrage';
     sending = true;

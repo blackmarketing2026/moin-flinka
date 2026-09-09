@@ -1,6 +1,8 @@
 const stripe = require("./_lib/stripe-client");
 const { prices, getSuffix, validatePlateOrder, computePricing, pricesMatch } = require("./_lib/plate-order");
 
+const TEST_PRICING = { basePriceCents: 100, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 100 };
+
 async function readJsonBody(req) {
   if (req.body && typeof req.body === "object") return req.body;
 
@@ -32,7 +34,8 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: validation.error });
   }
 
-  const pricing = computePricing(body);
+  const testMode = body.testMode === true;
+  const pricing = testMode ? TEST_PRICING : computePricing(body);
   if (!pricesMatch(body, pricing)) {
     return res.status(400).json({ ok: false, error: "Der Preis hat sich geändert. Bitte lade die Seite neu und prüfe deine Auswahl." });
   }
@@ -47,12 +50,14 @@ module.exports = async (req, res) => {
     quantity: 1,
   });
 
-  const line_items = [
-    lineItem(`Kennzeichen ${body.city} ${body.letters} ${body.digits}${suffix} · ${quantityLabel}`, pricing.basePriceCents),
-  ];
-  if (body.carbon) line_items.push(lineItem("Carbon-Optik", prices.carbon));
-  if (body.environmentSticker) line_items.push(lineItem("Grüne Umweltplakette", prices.environmentSticker));
-  line_items.push(lineItem(deliveryLabel, pricing.deliveryPriceCents));
+  const line_items = testMode
+    ? [lineItem(`TEST-Bestellung ${body.city} ${body.letters} ${body.digits}${suffix}`, pricing.totalPriceCents)]
+    : [lineItem(`Kennzeichen ${body.city} ${body.letters} ${body.digits}${suffix} · ${quantityLabel}`, pricing.basePriceCents)];
+  if (!testMode) {
+    if (body.carbon) line_items.push(lineItem("Carbon-Optik", prices.carbon));
+    if (body.environmentSticker) line_items.push(lineItem("Grüne Umweltplakette", prices.environmentSticker));
+    line_items.push(lineItem(deliveryLabel, pricing.deliveryPriceCents));
+  }
 
   const origin = req.headers.origin || "https://www.moin-flinka.de";
   const metadata = {
@@ -75,6 +80,7 @@ module.exports = async (req, res) => {
     postcode: body.postcode,
     town: body.town,
     notes: (body.notes || "").slice(0, 500),
+    testMode: String(testMode),
     basePriceCents: String(pricing.basePriceCents),
     extrasPriceCents: String(pricing.extrasPriceCents),
     deliveryPriceCents: String(pricing.deliveryPriceCents),
