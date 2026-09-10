@@ -225,3 +225,4 @@ if (form) {
 }
 
 import "./kennzeichen.js";
+import "./order-confirmation.js";

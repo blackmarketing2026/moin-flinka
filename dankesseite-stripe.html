@@ -121,10 +121,24 @@
             </svg>
           </div>
           <h1>Vielen Dank f&uuml;r deine Bestellung!</h1>
-          <p class="thanks-text">
+          <p class="thanks-text" data-thanks-text>
             Deine Zahlung war erfolgreich. Du erh&auml;ltst in K&uuml;rze eine Best&auml;tigungs-E-Mail mit deiner
             Rechnung als PDF. Bei Fragen erreichst du uns direkt per &bdquo;WhatsApp&ldquo; oder telefonisch.
           </p>
+          <div class="notice" data-order-summary hidden>
+            <span>
+              <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                <path d="m17 33 9 9 21-23" />
+              </svg>
+            </span>
+            <div>
+              <strong>Dein Kennzeichen: <span data-order-plate></span></strong>
+              <p>Gesamtpreis: <span data-order-total></span></p>
+              <a class="btn btn-light" data-invoice-link href="#" target="_blank" rel="noopener" hidden
+                >Rechnung herunterladen (PDF)</a
+              >
+            </div>
+          </div>
           <div class="thanks-actions">
             <a
               class="btn btn-primary"
