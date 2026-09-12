@@ -88,6 +88,26 @@ function buildOrderSummaryLines(body, pricing) {
   ];
 }
 
+function metadataToOrder(metadata) {
+  return {
+    ...metadata,
+    season: metadata.season === "true",
+    carbon: metadata.carbon === "true",
+    environmentSticker: metadata.environmentSticker === "true",
+    testMode: metadata.testMode === "true",
+    quantity: Number(metadata.quantity),
+  };
+}
+
+function metadataToPricing(metadata) {
+  return {
+    basePriceCents: Number(metadata.basePriceCents),
+    extrasPriceCents: Number(metadata.extrasPriceCents),
+    deliveryPriceCents: Number(metadata.deliveryPriceCents),
+    totalPriceCents: Number(metadata.totalPriceCents),
+  };
+}
+
 module.exports = {
   prices,
   money,
@@ -96,6 +116,8 @@ module.exports = {
   computePricing,
   pricesMatch,
   buildOrderSummaryLines,
+  metadataToOrder,
+  metadataToPricing,
   PLATE_TYPE_LABELS,
   PLATE_VARIANT_LABELS,
 };

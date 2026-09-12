@@ -1,31 +1,17 @@
 const stripe = require("./_lib/stripe-client");
 const { sendMail, buildPaymentConfirmedHtml, buildCustomerThankYouHtml } = require("./_lib/mailer");
-const { buildOrderSummaryLines, getSuffix, PLATE_TYPE_LABELS } = require("./_lib/plate-order");
+const {
+  buildOrderSummaryLines,
+  getSuffix,
+  metadataToOrder,
+  metadataToPricing,
+  PLATE_TYPE_LABELS,
+} = require("./_lib/plate-order");
 
 async function readRawBody(req) {
   const chunks = [];
   for await (const chunk of req) chunks.push(chunk);
   return Buffer.concat(chunks);
-}
-
-function metadataToOrder(metadata) {
-  return {
-    ...metadata,
-    season: metadata.season === "true",
-    carbon: metadata.carbon === "true",
-    environmentSticker: metadata.environmentSticker === "true",
-    testMode: metadata.testMode === "true",
-    quantity: Number(metadata.quantity),
-  };
-}
-
-function metadataToPricing(metadata) {
-  return {
-    basePriceCents: Number(metadata.basePriceCents),
-    extrasPriceCents: Number(metadata.extrasPriceCents),
-    deliveryPriceCents: Number(metadata.deliveryPriceCents),
-    totalPriceCents: Number(metadata.totalPriceCents),
-  };
 }
 
 async function notifyBusiness(session, order, pricing) {

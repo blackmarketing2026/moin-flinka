@@ -9,11 +9,9 @@ if (summary) {
         summary.querySelector('[data-order-plate]').textContent = result.plate;
         summary.querySelector('[data-order-total]').textContent = result.totalPriceFormatted;
         summary.hidden = false;
-        if (result.invoicePdfUrl) {
-          const invoiceLink = summary.querySelector('[data-invoice-link]');
-          invoiceLink.href = result.invoicePdfUrl;
-          invoiceLink.hidden = false;
-        }
+        const invoiceLink = summary.querySelector('[data-invoice-link]');
+        invoiceLink.href = `/api/order-receipt?session_id=${encodeURIComponent(sessionId)}`;
+        invoiceLink.hidden = false;
         const thanksText = document.querySelector('[data-thanks-text]');
         if (thanksText) {
           thanksText.textContent = result.testMode
