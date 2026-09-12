@@ -21,6 +21,7 @@ document.addEventListener("click", (event) => {
 
 const CONSENT_STORAGE_KEY = "moinflinka_cookie_consent";
 const banner = document.querySelector("#cookieBanner");
+const backdrop = document.querySelector("#cookieBackdrop");
 const settingsPanel = document.querySelector("#cookieSettings");
 const analyticsCheckbox = document.querySelector("#cookieAnalytics");
 const marketingCheckbox = document.querySelector("#cookieMarketing");
@@ -47,6 +48,7 @@ function saveConsent(consent) {
   localStorage.setItem(CONSENT_STORAGE_KEY, JSON.stringify(consent));
   pushConsent(consent);
   if (banner) banner.hidden = true;
+  if (backdrop) backdrop.hidden = true;
   if (settingsPanel) settingsPanel.hidden = true;
 }
 
@@ -65,6 +67,7 @@ if (banner) {
     pushConsent(storedConsent);
   } else {
     banner.hidden = false;
+    if (backdrop) backdrop.hidden = false;
   }
 
   banner.querySelector("[data-cookie-accept]")?.addEventListener("click", () => {
@@ -94,6 +97,7 @@ if (banner) {
       if (analyticsCheckbox) analyticsCheckbox.checked = Boolean(current?.analytics);
       if (marketingCheckbox) marketingCheckbox.checked = Boolean(current?.marketing);
       banner.hidden = false;
+      if (backdrop) backdrop.hidden = false;
       if (settingsPanel) settingsPanel.hidden = false;
     });
   });
