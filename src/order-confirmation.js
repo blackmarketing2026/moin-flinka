@@ -15,7 +15,7 @@ if (summary) {
         const thanksText = document.querySelector('[data-thanks-text]');
         if (thanksText) {
           thanksText.textContent = result.testMode
-            ? 'Dies war eine Testzahlung (1,00 €). Du erhältst in Kürze eine Bestätigungs-E-Mail mit deiner Rechnung als PDF.'
+            ? 'Dies war eine Testzahlung (0,50 €). Du erhältst in Kürze eine Bestätigungs-E-Mail mit deiner Rechnung als PDF.'
             : 'Deine Zahlung war erfolgreich. Du erhältst in Kürze eine Bestätigungs-E-Mail mit deiner Rechnung als PDF.';
         }
       })

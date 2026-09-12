@@ -1,7 +1,7 @@
 const stripe = require("./_lib/stripe-client");
 const { prices, getSuffix, validatePlateOrder, computePricing, pricesMatch } = require("./_lib/plate-order");
 
-const TEST_PRICING = { basePriceCents: 100, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 100 };
+const TEST_PRICING = { basePriceCents: 50, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 50 };
 
 async function readJsonBody(req) {
   if (req.body && typeof req.body === "object") return req.body;

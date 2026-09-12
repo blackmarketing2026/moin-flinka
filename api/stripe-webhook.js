@@ -17,7 +17,7 @@ async function readRawBody(req) {
 async function notifyBusiness(session, order, pricing) {
   const testPrefix = order.testMode ? "[TEST] " : "";
   const message = [
-    ...(order.testMode ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 1,00 € gesetzt."] : []),
+    ...(order.testMode ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 0,50 € gesetzt."] : []),
     ...buildOrderSummaryLines(order, pricing),
     `Stripe-Zahlung eingegangen (Session ${session.id}).`,
   ].join("\n");
@@ -39,7 +39,7 @@ async function notifyBusiness(session, order, pricing) {
 async function notifyCustomer(session, order, pricing) {
   const testPrefix = order.testMode ? "[TEST] " : "";
   const summaryLines = order.testMode
-    ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 1,00 € gesetzt.", ...buildOrderSummaryLines(order, pricing)]
+    ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 0,50 € gesetzt.", ...buildOrderSummaryLines(order, pricing)]
     : buildOrderSummaryLines(order, pricing);
 
   let invoicePdfUrl = null;

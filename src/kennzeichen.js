@@ -20,7 +20,7 @@ if (form) {
   const quantityLabel = () => quantity() === 1 ? '1 Schild' : '2 Schilder (Satz)';
   const isTestMode = () => Boolean(field('testMode')?.checked);
   function orderPrices() {
-    if (isTestMode()) return { basePriceCents: 100, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 100 };
+    if (isTestMode()) return { basePriceCents: 50, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 50 };
     const basePriceCents = quantity() === 1 ? prices.single : prices.pair;
     const extrasPriceCents = (field('carbon').checked ? prices.carbon : 0) + (field('environmentSticker').checked ? prices.environmentSticker : 0);
     const deliveryPriceCents = prices[field('delivery').value];
@@ -42,7 +42,7 @@ if (form) {
     if (isTestMode()) options.push('TESTMODUS');
     form.querySelector('[data-summary]').textContent = `${plate()} · ${quantityLabel()} · ${options.join(' · ')} · ${delivery()} · Gesamtpreis: ${money(totals.totalPriceCents)}`;
     const lines = isTestMode()
-      ? ['Testmodus aktiv: Gesamtpreis auf 1,00 € gesetzt, reguläre Preise werden ignoriert']
+      ? ['Testmodus aktiv: Gesamtpreis auf 0,50 € gesetzt, reguläre Preise werden ignoriert']
       : [`${quantityLabel()}: ${money(totals.basePriceCents)}`];
     if (!isTestMode()) {
       if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
