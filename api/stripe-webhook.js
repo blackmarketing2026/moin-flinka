@@ -1,6 +1,6 @@
 const stripe = require("./_lib/stripe-client");
 const { sendMail, buildPaymentConfirmedHtml, buildCustomerThankYouHtml } = require("./_lib/mailer");
-const { buildOrderSummaryLines } = require("./_lib/plate-order");
+const { buildOrderSummaryLines, getSuffix, PLATE_TYPE_LABELS } = require("./_lib/plate-order");
 
 async function readRawBody(req) {
   const chunks = [];
@@ -66,16 +66,26 @@ async function notifyCustomer(session, order, pricing) {
     }
   }
 
+  const productLabel = PLATE_TYPE_LABELS[order.plateType] || order.plateType;
+  const plateLabel = `${order.city} ${order.letters} ${order.digits}${getSuffix(order)}`;
+
   await sendMail({
     to: order.email,
     subject: `${testPrefix}Vielen Dank für deine Bestellung - Moin Flinka`,
     text: [
       `Moin ${order.name}, vielen Dank für deine Bestellung!`,
-      invoicePdfUrl ? "Deine Rechnung findest du im Anhang." : "Deine Rechnung folgt in Kürze separat.",
+      "Deine Bestellung ist bei uns eingegangen und deine Zahlung wurde erfolgreich durchgeführt.",
+      "",
+      `Produkt: ${productLabel}`,
+      `Kennzeichen: ${plateLabel}`,
+      "",
+      invoicePdfUrl
+        ? `Deine Rechnung kannst du hier herunterladen: ${invoicePdfUrl}\nDu findest sie außerdem als PDF im Anhang dieser E-Mail.`
+        : "Deine Rechnung folgt in Kürze separat.",
       "",
       ...summaryLines,
     ].join("\n"),
-    html: buildCustomerThankYouHtml({ name: order.name, summaryLines }),
+    html: buildCustomerThankYouHtml({ name: order.name, productLabel, plateLabel, invoicePdfUrl, summaryLines }),
     attachments: invoicePdfUrl ? [{ filename: "Rechnung-Moin-Flinka.pdf", path: invoicePdfUrl }] : [],
   });
 }

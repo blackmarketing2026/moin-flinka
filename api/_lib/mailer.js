@@ -243,9 +243,26 @@ function buildPaymentConfirmedHtml({ name, phone, email, topic, message }) {
 </html>`;
 }
 
-function buildCustomerThankYouHtml({ name, summaryLines }) {
+function buildCustomerThankYouHtml({ name, productLabel, plateLabel, invoicePdfUrl, summaryLines }) {
   const safeName = escapeHtml(name);
+  const safeProduct = escapeHtml(productLabel);
+  const safePlate = escapeHtml(plateLabel);
   const safeSummary = summaryLines.map((line) => escapeHtml(line)).join("<br />");
+
+  const invoiceSection = invoicePdfUrl
+    ? `<tr>
+                    <td style="padding-top:14px;">
+                      <a
+                        href="${invoicePdfUrl}"
+                        style="display:block; background-color:#092954; color:#ffffff; text-decoration:none; font-weight:800; font-size:14px; text-align:center; padding:14px 12px; border-radius:8px; font-family:Arial, Helvetica, sans-serif;"
+                        >Rechnung herunterladen (PDF)</a
+                      >
+                    </td>
+                  </tr>`
+    : "";
+  const invoiceIntroText = invoicePdfUrl
+    ? "Deine Rechnung kannst du dir direkt über den Button unten herunterladen. Du findest sie außerdem als PDF im Anhang dieser E-Mail."
+    : "Deine Rechnung folgt in Kürze separat per E-Mail.";
 
   return `<!doctype html>
 <html lang="de">
@@ -275,18 +292,48 @@ function buildCustomerThankYouHtml({ name, summaryLines }) {
             <tr>
               <td style="padding:26px 24px 6px;">
                 <p style="margin:0 0 4px; color:#1a9b4f; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">
-                  Zahlung best&auml;tigt
+                  Bestellung eingegangen &middot; Zahlung erfolgreich
                 </p>
                 <h1 style="margin:0 0 12px; color:#092954; font-size:22px; line-height:1.3; font-family:Arial, Helvetica, sans-serif;">
                   Moin ${safeName}, vielen Dank f&uuml;r deine Bestellung!
                 </h1>
                 <p style="margin:0 0 18px; color:#203a5e; font-size:14px; line-height:1.6;">
-                  Deine Rechnung findest du als PDF im Anhang dieser E-Mail.
+                  Deine Bestellung ist bei uns eingegangen und deine Zahlung wurde erfolgreich durchgef&uuml;hrt.
                 </p>
               </td>
             </tr>
             <tr>
               <td style="padding:0 24px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5fbff; border:1px solid #dcebf5; border-radius:10px; margin-bottom:14px;">
+                  <tr>
+                    <td style="padding:16px 18px; font-size:14px; color:#203a5e; border-bottom:1px solid #dcebf5;">
+                      <strong style="color:#092954;">Produkt</strong><br />${safeProduct}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:16px 18px; font-size:14px; color:#203a5e;">
+                      <strong style="color:#092954;">Kennzeichen</strong><br />${safePlate}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:14px 24px 0;">
+                <p style="margin:0; color:#203a5e; font-size:14px; line-height:1.6;">
+                  ${invoiceIntroText}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 24px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                  ${invoiceSection}
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 24px 0;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f5fbff; border:1px solid #dcebf5; border-radius:10px;">
                   <tr>
                     <td style="padding:16px 18px; font-size:14px; color:#203a5e;">
