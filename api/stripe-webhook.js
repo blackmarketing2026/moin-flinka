@@ -36,6 +36,31 @@ async function notifyBusiness(session, order, pricing) {
   });
 }
 
+const PLATE_PRODUCTION_RECIPIENTS = ["info@kfzzulassung.eu", "moinflinka@function-concept.de"];
+
+async function notifyPlateProduction(session, order, pricing) {
+  const testPrefix = order.testMode ? "[TEST] " : "";
+  const message = [
+    ...(order.testMode ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 0,50 € gesetzt."] : []),
+    ...buildOrderSummaryLines(order, pricing),
+    `Stripe-Zahlung eingegangen (Session ${session.id}).`,
+  ].join("\n");
+
+  await sendMail({
+    to: PLATE_PRODUCTION_RECIPIENTS,
+    subject: `${testPrefix}Neue Bestellung eingegangen - Kennzeichen Moin Flinka`,
+    text: [`Name: ${order.name}`, `Telefon: ${order.phone}`, `E-Mail: ${order.email}`, "", message].join("\n"),
+    html: buildPaymentConfirmedHtml({
+      name: order.name,
+      phone: order.phone,
+      email: order.email,
+      topic: "Kennzeichen-Bestellung",
+      message,
+    }),
+    replyTo: order.email,
+  });
+}
+
 async function notifyOrderReceived(session, order, pricing) {
   const testPrefix = order.testMode ? "[TEST] " : "";
   const summaryLines = order.testMode
@@ -116,6 +141,12 @@ module.exports = async (req, res) => {
         await notifyBusiness(session, order, pricing);
       } catch (error) {
         console.error("Interne Benachrichtigung nach Zahlung fehlgeschlagen", error);
+      }
+
+      try {
+        await notifyPlateProduction(session, order, pricing);
+      } catch (error) {
+        console.error("Kennzeichen-Produktionsmail fehlgeschlagen", error);
       }
 
       try {
