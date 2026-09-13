@@ -108,6 +108,13 @@ module.exports = async (req, res) => {
   };
 
   try {
+    let promotionCodeId = null;
+    const discountCode = typeof body.discountCode === "string" ? body.discountCode.trim() : "";
+    if (discountCode) {
+      const found = await stripe.promotionCodes.list({ code: discountCode, active: true, limit: 1 });
+      if (found.data[0]) promotionCodeId = found.data[0].id;
+    }
+
     const vatTaxRateId = await getGermanVatTaxRateId();
     const lineItem = (name, unit_amount) => ({
       price_data: { currency: "eur", product_data: { name }, unit_amount },
@@ -144,7 +151,7 @@ module.exports = async (req, res) => {
       invoice_creation: { enabled: true, invoice_data: { metadata } },
       success_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}${returnPath}?checkout=cancelled#formular`,
-      allow_promotion_codes: true,
+      ...(promotionCodeId ? { discounts: [{ promotion_code: promotionCodeId }] } : { allow_promotion_codes: true }),
       metadata,
       payment_intent_data: { metadata },
     });

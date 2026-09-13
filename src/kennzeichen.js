@@ -26,6 +26,8 @@ if (form) {
   const quantityLabel = () => quantity() === 1 ? '1 Schild' : '2 Schilder (Satz)';
   const DISCOUNT_TEST_CODE = 'FLINKATEST50';
   const isTestMode = () => Boolean(field('testMode')?.checked) || (field('discountCode')?.value || '').trim().toUpperCase() === DISCOUNT_TEST_CODE;
+  let appliedDiscount = null;
+  let discountError = null;
   function orderPrices() {
     if (isTestMode()) return { basePriceCents: 50, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 50 };
     const basePriceCents = quantity() === 1 ? prices.single : prices.pair;
@@ -43,7 +45,11 @@ if (form) {
     previewSuffix.hidden = !suffix();
     const totals = orderPrices();
     const showDeliveryPrice = !deferDeliveryPrice || step > 0;
-    const displayedTotalCents = showDeliveryPrice ? totals.totalPriceCents : totals.basePriceCents + totals.extrasPriceCents;
+    const baseDisplayedTotalCents = showDeliveryPrice ? totals.totalPriceCents : totals.basePriceCents + totals.extrasPriceCents;
+    const hasDiscount = Boolean(appliedDiscount) && !isTestMode();
+    const displayedTotalCents = hasDiscount
+      ? Math.round(baseDisplayedTotalCents * (1 - appliedDiscount.percentOff / 100))
+      : baseDisplayedTotalCents;
     const options = [...new Set([typeLabels[field('plateType').value], variantLabels[field('plateVariant').value]])];
     if (field('season').checked) options.push(`Saison ${field('seasonStart').value}–${field('seasonEnd').value}`);
     if (field('carbon').checked) options.push('Carbon-Optik');
@@ -54,15 +60,67 @@ if (form) {
       if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
       if (field('environmentSticker').checked) lines.push(`Grüne Umweltplakette: ${money(prices.environmentSticker)}`);
       if (showDeliveryPrice) lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
+      if (hasDiscount) lines.push(`Rabattcode ${appliedDiscount.code} (-${appliedDiscount.percentOff} %): -${money(baseDisplayedTotalCents - displayedTotalCents)}`);
     }
     const discountStatus = form.querySelector('[data-discount-status]');
-    if (discountStatus) discountStatus.hidden = !isTestMode();
+    if (discountStatus) {
+      if (isTestMode()) {
+        discountStatus.hidden = false;
+        discountStatus.textContent = '✓ Rabattcode angewendet – Testbestellung für 0,50 €.';
+      } else if (hasDiscount) {
+        discountStatus.hidden = false;
+        discountStatus.textContent = `✓ Rabattcode ${appliedDiscount.code} angewendet – ${appliedDiscount.percentOff} % Rabatt.`;
+      } else if (discountError) {
+        discountStatus.hidden = false;
+        discountStatus.textContent = discountError;
+      } else {
+        discountStatus.hidden = true;
+      }
+    }
     const heading = form.querySelector('[data-price-heading]');
     if (heading) heading.textContent = showDeliveryPrice ? 'Dein Gesamtpreis' : 'Aktueller Preis';
     const details = form.querySelector('[data-price-details]');
     details.textContent = lines.join(' · ');
     details.hidden = lines.length === 0 || (deferDeliveryPrice && step === 0);
     form.querySelector('[data-total]').textContent = money(displayedTotalCents);
+  }
+  const discountApplyButton = form.querySelector('[data-discount-apply]');
+  const discountCodeField = field('discountCode');
+  async function applyDiscountCode() {
+    if (!discountCodeField) return;
+    const code = discountCodeField.value.trim();
+    appliedDiscount = null;
+    discountError = null;
+    if (!code) {
+      updateSummary();
+      return;
+    }
+    try {
+      const response = await fetch(`/api/validate-promo-code?code=${encodeURIComponent(code)}`, {
+        signal: AbortSignal.timeout(10000),
+      });
+      const result = await response.json();
+      if (result.ok) {
+        appliedDiscount = { code, percentOff: result.percentOff };
+      } else {
+        discountError = result.error || 'Rabattcode ungültig.';
+      }
+    } catch {
+      discountError = 'Rabattcode konnte nicht geprüft werden.';
+    }
+    updateSummary();
+  }
+  if (discountApplyButton) {
+    discountApplyButton.addEventListener('click', event => {
+      event.preventDefault();
+      applyDiscountCode();
+    });
+  }
+  if (discountCodeField) {
+    discountCodeField.addEventListener('input', () => {
+      appliedDiscount = null;
+      discountError = null;
+    });
   }
   ['seasonStart', 'seasonEnd'].forEach((name, index) => {
     for (let month = 1; month <= 12; month++) {
