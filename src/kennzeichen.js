@@ -19,7 +19,8 @@ if (form) {
   const variantLabels = { standard: 'Standard', electric: 'E-Kennzeichen', historic: 'H-Kennzeichen' };
   const quantity = () => field('plateType').value === 'motorcycle' ? 1 : 2;
   const quantityLabel = () => quantity() === 1 ? '1 Schild' : '2 Schilder (Satz)';
-  const isTestMode = () => Boolean(field('testMode')?.checked);
+  const DISCOUNT_TEST_CODE = 'FLINKATEST50';
+  const isTestMode = () => Boolean(field('testMode')?.checked) || (field('discountCode')?.value || '').trim().toUpperCase() === DISCOUNT_TEST_CODE;
   function orderPrices() {
     if (isTestMode()) return { basePriceCents: 50, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 50 };
     const basePriceCents = quantity() === 1 ? prices.single : prices.pair;
@@ -52,6 +53,8 @@ if (form) {
       if (field('environmentSticker').checked) lines.push(`Grüne Umweltplakette: ${money(prices.environmentSticker)}`);
       if (showDeliveryPrice) lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
     }
+    const discountStatus = form.querySelector('[data-discount-status]');
+    if (discountStatus) discountStatus.hidden = !isTestMode();
     const heading = form.querySelector('[data-price-heading]');
     if (heading) heading.textContent = showDeliveryPrice ? 'Dein Gesamtpreis' : 'Aktueller Preis';
     const details = form.querySelector('[data-price-details]');
@@ -120,7 +123,7 @@ if (form) {
     data.orderType = 'plate';
     data.quantity = quantity();
     ['season', 'carbon', 'environmentSticker'].forEach(name => { data[name] = field(name).checked; });
-    if (field('testMode')) data.testMode = isTestMode();
+    data.testMode = isTestMode();
     Object.assign(data, orderPrices());
     data.topic = 'Kennzeichen-Bestellanfrage';
     sending = true;
