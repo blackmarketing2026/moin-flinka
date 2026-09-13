@@ -77,6 +77,7 @@ function buildReceiptPdf({ session, order, pricing }) {
     y += 16;
 
     const rows = [
+      ...(order.season ? [["Saisonkennzeichen", `${order.seasonStart}–${order.seasonEnd}`]] : []),
       ["Grundpreis", money(pricing.basePriceCents)],
       ...(order.carbon ? [["Carbon-Optik", money(prices.carbon)]] : []),
       ...(order.environmentSticker ? [["Grüne Umweltplakette", money(prices.environmentSticker)]] : []),

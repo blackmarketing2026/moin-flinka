@@ -42,6 +42,7 @@ module.exports = async (req, res) => {
 
   const suffix = getSuffix(body);
   const quantityLabel = body.quantity === 1 ? "1 Schild" : "2 Schilder (Satz)";
+  const seasonLabel = body.season ? ` · Saison ${body.seasonStart}–${body.seasonEnd}` : "";
   const deliveryLabel =
     body.delivery === "express" ? "DHL-Express (nächster Tag)" : "Klassischer DHL-Versand";
 
@@ -52,7 +53,7 @@ module.exports = async (req, res) => {
 
   const line_items = testMode
     ? [lineItem(`TEST-Bestellung ${body.city} ${body.letters} ${body.digits}${suffix}`, pricing.totalPriceCents)]
-    : [lineItem(`Kennzeichen ${body.city} ${body.letters} ${body.digits}${suffix} · ${quantityLabel}`, pricing.basePriceCents)];
+    : [lineItem(`Kennzeichen ${body.city} ${body.letters} ${body.digits}${suffix} · ${quantityLabel}${seasonLabel}`, pricing.basePriceCents)];
   if (!testMode) {
     if (body.carbon) line_items.push(lineItem("Carbon-Optik", prices.carbon));
     if (body.environmentSticker) line_items.push(lineItem("Grüne Umweltplakette", prices.environmentSticker));
