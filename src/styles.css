@@ -1713,6 +1713,21 @@ section {
     padding-bottom: 78px;
   }
 
+  .plate-order-page {
+    padding-bottom: 0;
+  }
+
+  .plate-order-page .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+  }
+
+  .plate-order-page .site-header {
+    position: relative;
+    top: auto;
+  }
+
   .container {
     padding: 0 15px;
   }
