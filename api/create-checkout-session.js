@@ -3,6 +3,26 @@ const { prices, getSuffix, validatePlateOrder, computePricing, pricesMatch } = r
 
 const TEST_PRICING = { basePriceCents: 50, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 50 };
 
+let cachedVatTaxRateId = null;
+async function getGermanVatTaxRateId() {
+  if (cachedVatTaxRateId) return cachedVatTaxRateId;
+  const existing = await stripe.taxRates.list({ active: true, limit: 100 });
+  const found = existing.data.find((rate) => rate.inclusive === true && rate.percentage === 19 && rate.country === "DE");
+  if (found) {
+    cachedVatTaxRateId = found.id;
+    return cachedVatTaxRateId;
+  }
+  const created = await stripe.taxRates.create({
+    display_name: "MwSt.",
+    percentage: 19,
+    inclusive: true,
+    country: "DE",
+    description: "Gesetzliche Mehrwertsteuer Deutschland (19%, in den Preisen enthalten)",
+  });
+  cachedVatTaxRateId = created.id;
+  return cachedVatTaxRateId;
+}
+
 async function readJsonBody(req) {
   if (req.body && typeof req.body === "object") return req.body;
 
@@ -46,20 +66,6 @@ module.exports = async (req, res) => {
   const deliveryLabel =
     body.delivery === "express" ? "DHL-Express (nächster Tag)" : "Klassischer DHL-Versand";
 
-  const lineItem = (name, unit_amount) => ({
-    price_data: { currency: "eur", product_data: { name }, unit_amount },
-    quantity: 1,
-  });
-
-  const line_items = testMode
-    ? [lineItem(`TEST-Bestellung ${body.city} ${body.letters} ${body.digits}${suffix}`, pricing.totalPriceCents)]
-    : [lineItem(`Kennzeichen ${body.city} ${body.letters} ${body.digits}${suffix} · ${quantityLabel}${seasonLabel}`, pricing.basePriceCents)];
-  if (!testMode) {
-    if (body.carbon) line_items.push(lineItem("Carbon-Optik", prices.carbon));
-    if (body.environmentSticker) line_items.push(lineItem("Grüne Umweltplakette", prices.environmentSticker));
-    line_items.push(lineItem(deliveryLabel, pricing.deliveryPriceCents));
-  }
-
   const origin = req.headers.origin || "https://www.moin-flinka.de";
   const metadata = {
     plateType: body.plateType,
@@ -89,6 +95,22 @@ module.exports = async (req, res) => {
   };
 
   try {
+    const vatTaxRateId = await getGermanVatTaxRateId();
+    const lineItem = (name, unit_amount) => ({
+      price_data: { currency: "eur", product_data: { name }, unit_amount },
+      quantity: 1,
+      tax_rates: [vatTaxRateId],
+    });
+
+    const line_items = testMode
+      ? [lineItem(`TEST-Bestellung ${body.city} ${body.letters} ${body.digits}${suffix}`, pricing.totalPriceCents)]
+      : [lineItem(`Kennzeichen ${body.city} ${body.letters} ${body.digits}${suffix} · ${quantityLabel}${seasonLabel}`, pricing.basePriceCents)];
+    if (!testMode) {
+      if (body.carbon) line_items.push(lineItem("Carbon-Optik", prices.carbon));
+      if (body.environmentSticker) line_items.push(lineItem("Grüne Umweltplakette", prices.environmentSticker));
+      line_items.push(lineItem(deliveryLabel, pricing.deliveryPriceCents));
+    }
+
     const customer = await stripe.customers.create({
       name: body.name,
       email: body.email,
