@@ -1,4 +1,12 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "functions": {
+    "api/order-receipt.js": {
+      "includeFiles": "node_modules/pdfkit/js/**"
+    },
+    "api/send-test-email.js": {
+      "includeFiles": "node_modules/pdfkit/js/**"
+    }
+  }
 }
