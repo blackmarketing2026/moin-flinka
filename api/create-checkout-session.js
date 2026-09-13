@@ -88,13 +88,24 @@ module.exports = async (req, res) => {
   };
 
   try {
+    const customer = await stripe.customers.create({
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      address: {
+        line1: body.street,
+        postal_code: body.postcode,
+        city: body.town,
+        country: "DE",
+      },
+    });
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       locale: "de",
       payment_method_types: ["card"],
       line_items,
-      customer_email: body.email,
-      customer_creation: "always",
+      customer: customer.id,
       invoice_creation: { enabled: true, invoice_data: { metadata } },
       success_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/kennzeichen-stripe?checkout=cancelled#formular`,
