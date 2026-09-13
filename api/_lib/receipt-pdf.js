@@ -81,7 +81,7 @@ function buildReceiptPdf({ session, order, pricing }) {
       ...(order.carbon ? [["Carbon-Optik", money(prices.carbon)]] : []),
       ...(order.environmentSticker ? [["Grüne Umweltplakette", money(prices.environmentSticker)]] : []),
       [
-        order.delivery === "shipping" ? "Lieferung: DHL Express" : "Lieferung: Hamburg-Express",
+        order.delivery === "express" ? "Lieferung: DHL-Express" : "Lieferung: Klassischer DHL-Versand",
         money(pricing.deliveryPriceCents),
       ],
     ];

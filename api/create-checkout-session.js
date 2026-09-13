@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
   const suffix = getSuffix(body);
   const quantityLabel = body.quantity === 1 ? "1 Schild" : "2 Schilder (Satz)";
   const deliveryLabel =
-    body.delivery === "shipping" ? "DHL Express (nächster Tag)" : "Hamburg-Express (eigene Kurierfahrer)";
+    body.delivery === "express" ? "DHL-Express (nächster Tag)" : "Klassischer DHL-Versand";
 
   const lineItem = (name, unit_amount) => ({
     price_data: { currency: "eur", product_data: { name }, unit_amount },

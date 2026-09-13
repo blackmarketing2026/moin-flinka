@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     plateType: "normal",
     plateVariant: "standard",
     season: false,
-    delivery: "shipping",
+    delivery: "express",
     carbon: true,
     environmentSticker: true,
     quantity: 2,

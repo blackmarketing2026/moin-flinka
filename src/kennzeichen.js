@@ -13,7 +13,7 @@ if (form) {
   const money = cents => (cents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
   const suffix = () => ({ electric: 'E', historic: 'H' }[field('plateVariant').value] || '');
   const plate = () => `${field('city').value} ${field('letters').value} ${field('digits').value}${suffix()}`;
-  const delivery = () => field('delivery').value === 'shipping' ? 'DHL Express am nächsten Tag' : 'Hamburg-Express mit eigenen Kurierfahrern (Bestellung vor 12:00 Uhr, Lieferung am selben Nachmittag)';
+  const delivery = () => field('delivery').value === 'express' ? 'DHL-Express (Lieferung am nächsten Tag)' : 'Klassischer DHL-Versand (versandfertig noch am selben Tag bei Bestellung vor 14:00 Uhr, sonst am nächsten Tag)';
   const typeLabels = { normal: 'Normales Kennzeichen', motorcycle: 'Motorrad-Kennzeichen', electric: 'E-Kennzeichen', historic: 'Oldtimer' };
   const variantLabels = { standard: 'Standard', electric: 'E-Kennzeichen', historic: 'H-Kennzeichen' };
   const quantity = () => field('plateType').value === 'motorcycle' ? 1 : 2;
