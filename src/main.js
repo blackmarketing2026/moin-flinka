@@ -15,6 +15,7 @@ const shippingCountdown = document.querySelector("[data-shipping-countdown]");
 
 if (shippingCountdown) {
   const targetHour = Number(shippingCountdown.dataset.countdownHour) || 14;
+  const deliveryDayLabel = document.querySelector("[data-delivery-day-label]");
   const timeZone = "Europe/Berlin";
   const formatter = new Intl.DateTimeFormat("en-CA", {
     timeZone,
@@ -46,6 +47,10 @@ if (shippingCountdown) {
     const berlinNow = zonedParts(now);
     const todayAtTwo = berlinTimeToEpoch(berlinNow, targetHour);
     let target = todayAtTwo;
+
+    if (deliveryDayLabel) {
+      deliveryDayLabel.textContent = now.getTime() < todayAtTwo ? "Heute geliefert" : "Morgen geliefert";
+    }
 
     if (now.getTime() >= todayAtTwo) {
       const tomorrow = new Date(Date.UTC(berlinNow.year, berlinNow.month - 1, berlinNow.day + 1));
