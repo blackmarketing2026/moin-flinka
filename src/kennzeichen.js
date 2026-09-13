@@ -43,11 +43,8 @@ if (form) {
     if (field('season').checked) options.push(`Saison ${field('seasonStart').value}–${field('seasonEnd').value}`);
     if (field('carbon').checked) options.push('Carbon-Optik');
     if (field('environmentSticker').checked) options.push('Grüne Umweltplakette');
-    if (isTestMode()) options.push('TESTMODUS');
     form.querySelector('[data-summary]').textContent = `${plate()} · ${quantityLabel()} · ${options.join(' · ')} · ${delivery()} · Gesamtpreis: ${money(totals.totalPriceCents)}`;
-    const lines = isTestMode()
-      ? ['Testmodus aktiv: Gesamtpreis auf 0,50 € gesetzt, reguläre Preise werden ignoriert']
-      : [`${quantityLabel()}: ${money(totals.basePriceCents)}`];
+    const lines = isTestMode() ? [] : [`${quantityLabel()}: ${money(totals.basePriceCents)}`];
     if (!isTestMode()) {
       if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
       if (field('environmentSticker').checked) lines.push(`Grüne Umweltplakette: ${money(prices.environmentSticker)}`);
@@ -59,7 +56,7 @@ if (form) {
     if (heading) heading.textContent = showDeliveryPrice ? 'Dein Gesamtpreis' : 'Aktueller Preis';
     const details = form.querySelector('[data-price-details]');
     details.textContent = lines.join(' · ');
-    details.hidden = deferDeliveryPrice && step === 0;
+    details.hidden = lines.length === 0 || (deferDeliveryPrice && step === 0);
     form.querySelector('[data-total]').textContent = money(displayedTotalCents);
   }
   ['seasonStart', 'seasonEnd'].forEach((name, index) => {
