@@ -14,6 +14,8 @@ export default defineConfig({
         kennzeichenStripe: resolve(__dirname, "kennzeichen-stripe.html"),
         kennzeichenDeutschland: resolve(__dirname, "kennzeichen-deutschland.html"),
         dankesseiteStripe: resolve(__dirname, "dankesseite-stripe.html"),
+        agb: resolve(__dirname, "agb.html"),
+        widerruf: resolve(__dirname, "widerruf.html"),
       },
     },
   },
