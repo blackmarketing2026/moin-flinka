@@ -108,7 +108,7 @@ module.exports = async (req, res) => {
       customer: customer.id,
       invoice_creation: { enabled: true, invoice_data: { metadata } },
       success_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/kennzeichen-stripe?checkout=cancelled#formular`,
+      cancel_url: `${origin}/kennzeichen-deutschland?checkout=cancelled#formular`,
       metadata,
       payment_intent_data: { metadata },
     });

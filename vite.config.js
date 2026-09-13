@@ -11,7 +11,6 @@ export default defineConfig({
         dankesseite: resolve(__dirname, "dankesseite.html"),
         sitemap: resolve(__dirname, "sitemap.html"),
         kennzeichen: resolve(__dirname, "kennzeichen.html"),
-        kennzeichenStripe: resolve(__dirname, "kennzeichen-stripe.html"),
         kennzeichenDeutschland: resolve(__dirname, "kennzeichen-deutschland.html"),
         dankesseiteStripe: resolve(__dirname, "dankesseite-stripe.html"),
         agb: resolve(__dirname, "agb.html"),
