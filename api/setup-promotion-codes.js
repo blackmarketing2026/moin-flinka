@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
         name: `Moin Flinka ${percentOff}% Rabatt`,
       });
       const promotionCode = await stripe.promotionCodes.create({
-        coupon: coupon.id,
+        promotion: { type: "coupon", coupon: coupon.id },
         code,
         active: true,
       });
