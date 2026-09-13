@@ -103,7 +103,6 @@ module.exports = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       locale: "de",
-      payment_method_types: ["card"],
       line_items,
       customer: customer.id,
       invoice_creation: { enabled: true, invoice_data: { metadata } },
