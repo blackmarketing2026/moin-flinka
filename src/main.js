@@ -11,6 +11,62 @@ import "./styles.css";
 const configNode = document.querySelector("#site-config");
 const siteConfig = configNode ? JSON.parse(configNode.textContent) : {};
 
+const shippingCountdown = document.querySelector("[data-shipping-countdown]");
+
+if (shippingCountdown) {
+  const timeZone = "Europe/Berlin";
+  const formatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  });
+
+  const zonedParts = (date) => Object.fromEntries(
+    formatter.formatToParts(date).filter(({ type }) => type !== "literal").map(({ type, value }) => [type, Number(value)]),
+  );
+
+  function berlinTimeToEpoch({ year, month, day }, hour) {
+    const guess = Date.UTC(year, month - 1, day, hour);
+    const firstPass = zonedParts(new Date(guess));
+    const firstOffset = Date.UTC(firstPass.year, firstPass.month - 1, firstPass.day, firstPass.hour, firstPass.minute, firstPass.second) - guess;
+    const adjusted = guess - firstOffset;
+    const secondPass = zonedParts(new Date(adjusted));
+    const secondOffset = Date.UTC(secondPass.year, secondPass.month - 1, secondPass.day, secondPass.hour, secondPass.minute, secondPass.second) - adjusted;
+    return guess - secondOffset;
+  }
+
+  function updateShippingCountdown() {
+    const now = new Date();
+    const berlinNow = zonedParts(now);
+    const todayAtTwo = berlinTimeToEpoch(berlinNow, 14);
+    let target = todayAtTwo;
+
+    if (now.getTime() >= todayAtTwo) {
+      const tomorrow = new Date(Date.UTC(berlinNow.year, berlinNow.month - 1, berlinNow.day + 1));
+      target = berlinTimeToEpoch({
+        year: tomorrow.getUTCFullYear(),
+        month: tomorrow.getUTCMonth() + 1,
+        day: tomorrow.getUTCDate(),
+      }, 14);
+    }
+
+    const remainingSeconds = Math.max(0, Math.ceil((target - now.getTime()) / 1000));
+    const hours = Math.floor(remainingSeconds / 3600);
+    const minutes = Math.floor((remainingSeconds % 3600) / 60);
+    const seconds = remainingSeconds % 60;
+    shippingCountdown.textContent = [hours, minutes, seconds].map((value) => String(value).padStart(2, "0")).join(":");
+    shippingCountdown.dateTime = `PT${hours}H${minutes}M${seconds}S`;
+  }
+
+  updateShippingCountdown();
+  window.setInterval(updateShippingCountdown, 1000);
+}
+
 document.addEventListener("click", (event) => {
   const whatsappLink = event.target.closest('a[href*="wa.me"]');
   if (!whatsappLink) return;

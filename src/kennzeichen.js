@@ -7,6 +7,7 @@ if (form) {
   const back = form.querySelector('[data-back]');
   const submit = form.querySelector('[type="submit"]');
   const submitLabel = submit.textContent;
+  const deferDeliveryPrice = form.hasAttribute('data-defer-delivery-price');
   let step = 0;
   let sending = false;
   const field = name => form.elements.namedItem(name);
@@ -35,6 +36,8 @@ if (form) {
     previewSuffix.textContent = suffix();
     previewSuffix.hidden = !suffix();
     const totals = orderPrices();
+    const showDeliveryPrice = !deferDeliveryPrice || step > 0;
+    const displayedTotalCents = showDeliveryPrice ? totals.totalPriceCents : totals.basePriceCents + totals.extrasPriceCents;
     const options = [...new Set([typeLabels[field('plateType').value], variantLabels[field('plateVariant').value]])];
     if (field('season').checked) options.push(`Saison ${field('seasonStart').value}–${field('seasonEnd').value}`);
     if (field('carbon').checked) options.push('Carbon-Optik');
@@ -47,10 +50,14 @@ if (form) {
     if (!isTestMode()) {
       if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
       if (field('environmentSticker').checked) lines.push(`Grüne Umweltplakette: ${money(prices.environmentSticker)}`);
-      lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
+      if (showDeliveryPrice) lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
     }
-    form.querySelector('[data-price-details]').textContent = lines.join(' · ');
-    form.querySelector('[data-total]').textContent = money(totals.totalPriceCents);
+    const heading = form.querySelector('[data-price-heading]');
+    if (heading) heading.textContent = showDeliveryPrice ? 'Dein Gesamtpreis' : 'Aktueller Preis';
+    const details = form.querySelector('[data-price-details]');
+    details.textContent = lines.join(' · ');
+    details.hidden = deferDeliveryPrice && step === 0;
+    form.querySelector('[data-total]').textContent = money(displayedTotalCents);
   }
   ['seasonStart', 'seasonEnd'].forEach((name, index) => {
     for (let month = 1; month <= 12; month++) {

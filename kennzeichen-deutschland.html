@@ -79,6 +79,10 @@
     <div class="topbar">
       <div class="container topbar-inner">
         <p>Kennzeichen deutschlandweit · Klassischer DHL-Versand ab 4,90 € · DHL-Express am nächsten Tag · +49 1590 6808767</p>
+        <div class="shipping-countdown" aria-label="Countdown bis zur Versandfertigstellung um 14 Uhr">
+          <span>Versandfertig bis 14:00 Uhr</span>
+          <time data-shipping-countdown datetime="PT0S">00:00:00</time>
+        </div>
         <a class="topbar-call" href="tel:+4915906808767" aria-label="Jetzt telefonisch anrufen">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
             <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
@@ -151,7 +155,7 @@
         <div class="container">
           <div class="quiz-card plate-quiz">
             <ol class="plate-progress" aria-label="Bestellschritte"><li aria-current="step">1 <span>Kennzeichen</span></li><li>2 <span>Lieferung</span></li><li>3 <span>Deine Daten</span></li></ol>
-            <form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/create-checkout-session">
+            <form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/create-checkout-session" data-defer-delivery-price>
               <fieldset data-step="0">
                 <legend id="form-title" tabindex="-1">Wie soll das Kennzeichen aussehen?</legend>
                 <div class="plate-types" role="radiogroup" aria-label="Kennzeichentyp">
@@ -200,7 +204,7 @@
                 <div class="plate-summary"><strong>Deine Zusammenfassung</strong><p data-summary></p><small>Mit dem Absenden wirst du zur sicheren Zahlung über Stripe weitergeleitet.</small></div>
                 <label class="privacy"><input name="privacy" type="checkbox" required><span>Ich stimme der <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.</span></label>
               </fieldset>
-              <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong>Dein Gesamtpreis</strong><p data-price-details></p><output data-total></output></div>
+              <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong data-price-heading>Aktueller Preis</strong><p data-price-details hidden></p><output data-total></output></div>
               <p class="form-status" role="status" aria-live="polite"></p>
               <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zurück</button><button class="btn btn-primary" type="button" data-next>Weiter zur Lieferung →</button><button class="btn btn-primary submit" type="submit" hidden>Jetzt sicher bezahlen</button></div>
               <noscript>Bitte aktiviere JavaScript für das Bestellformular oder ruf uns unter +49 1590 6808767 an.</noscript>
@@ -228,7 +232,7 @@
             </article>
             <article class="faq-item">
               <h3><button type="button" id="plate-faq-button-3" aria-expanded="false" aria-controls="plate-faq-panel-3">Wie viele Schilder bekomme ich und was kosten sie?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>
-              <div class="faq-panel" id="plate-faq-panel-3" role="region" aria-labelledby="plate-faq-button-3" hidden><p>Für ein Motorrad erhältst du ein Schild für 11,99 €. Für Auto, Elektro und Oldtimer erhältst du einen Satz mit zwei Schildern für 19,99 €. Die Anzahl wird automatisch anhand deiner Auswahl festgelegt.</p></div>
+              <div class="faq-panel" id="plate-faq-panel-3" role="region" aria-labelledby="plate-faq-button-3" hidden><p>Für ein Motorrad erhältst du ein Schild für 11,99 €. Für Auto, Elektro und Oldtimer erhältst du einen Satz mit zwei Schildern für 19,90 €. Die Anzahl wird automatisch anhand deiner Auswahl festgelegt.</p></div>
             </article>
             <article class="faq-item">
               <h3><button type="button" id="plate-faq-button-4" aria-expanded="false" aria-controls="plate-faq-panel-4">Welche Zusatzoptionen gibt es?<svg viewBox="0 0 32 32" aria-hidden="true"><path d="m8 12 8 8 8-8"/></svg></button></h3>

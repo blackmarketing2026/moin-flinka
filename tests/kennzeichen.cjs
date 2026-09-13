@@ -37,7 +37,7 @@ async function call(body) {
       await page.locator('[data-next]').click();
       for (const delivery of ['express', 'standard']) {
         await page.locator(`[name=delivery][value=${delivery}]`).check();
-        const total = ((quantity === 1 ? 1199 : 1999) + (carbon ? 999 : 0) + (sticker ? 999 : 0) + (delivery === 'express' ? 2640 : 490)) / 100;
+        const total = ((quantity === 1 ? 1199 : 1990) + (carbon ? 999 : 0) + (sticker ? 999 : 0) + (delivery === 'express' ? 2640 : 490)) / 100;
         assert.equal(await page.locator('[data-total]').textContent(), total.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }));
       }
       await page.locator('[data-back]').click();
@@ -68,15 +68,15 @@ async function call(body) {
     fail = false;
     await page.locator('[type=submit]').click();
     await page.waitForFunction(() => document.querySelector('.form-status').classList.contains('is-success'));
-    assert.equal(submitted.totalPriceCents, 4487);
-    for (const text of ['HH MF 123H', 'Oldtimer', 'H-Kennzeichen', '04–10', '2 Schilder', 'Carbon-Optik', 'Grüne Umweltplakette', 'Klassischer DHL-Versand', '44,87', 'Testweg 1']) {
+    assert.equal(submitted.totalPriceCents, 4478);
+    for (const text of ['HH MF 123H', 'Oldtimer', 'H-Kennzeichen', '04–10', '2 Schilder', 'Carbon-Optik', 'Grüne Umweltplakette', 'Klassischer DHL-Versand', '44,78', 'Testweg 1']) {
       assert.ok(sent.text.includes(text), text);
       assert.ok(sent.html.includes(text), text);
     }
     for (const change of [{ quantity: 3 }, { totalPriceCents: 1 }, { carbon: 'false' }, { delivery: 'unknown' }, { privacy: '' }, { seasonEnd: '01' }, { plateType: 'unknown' }, { plateVariant: 'unknown' }]) assert.equal(await call({ ...submitted, ...change }), 400);
     for (const plateType of ['normal', 'motorcycle', 'electric', 'historic']) for (const delivery of ['express', 'standard']) for (const carbon of [false, true]) for (const environmentSticker of [false, true]) {
       const quantity = plateType === 'motorcycle' ? 1 : 2;
-      const basePriceCents = quantity === 1 ? 1199 : 1999;
+      const basePriceCents = quantity === 1 ? 1199 : 1990;
       const extrasPriceCents = (carbon ? 999 : 0) + (environmentSticker ? 999 : 0);
       const deliveryPriceCents = delivery === 'express' ? 2640 : 490;
       assert.equal(await call({ ...submitted, plateType, plateVariant: ['electric', 'historic'].includes(plateType) ? plateType : 'standard', quantity, delivery, carbon, environmentSticker, basePriceCents, extrasPriceCents, deliveryPriceCents, totalPriceCents: basePriceCents + extrasPriceCents + deliveryPriceCents }), 200);
