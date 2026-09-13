@@ -60,6 +60,7 @@ async function notifyOrderReceived(session, order, pricing) {
       ...summaryLines,
     ].join("\n"),
     html: buildCustomerThankYouHtml({ name: order.name, productLabel, plateLabel, summaryLines }),
+    account: "order",
   });
 }
 
@@ -81,6 +82,7 @@ async function notifyInvoiceReady(invoice) {
     ].join("\n"),
     html: buildCustomerInvoiceHtml({ name: order.name, plateLabel, invoicePdfUrl: invoice.invoice_pdf }),
     attachments: [{ filename: "Rechnung-Moin-Flinka.pdf", path: invoice.invoice_pdf }],
+    account: "order",
   });
 }
 

@@ -408,10 +408,16 @@ function buildCustomerInvoiceHtml({ name, plateLabel, invoicePdfUrl }) {
 </html>`;
 }
 
-async function sendMail({ subject, text, html, replyTo, to, attachments = [] }) {
-  const smtpServer = process.env.smtp_server;
-  const smtpUser = process.env.smtp_user;
-  const smtpPassword = process.env.smtp_passwort;
+const SMTP_ACCOUNTS = {
+  default: { server: "smtp_server", user: "smtp_user", password: "smtp_passwort" },
+  order: { server: "order_smtp_server", user: "order_smtp_user", password: "order_smtp_passwort" },
+};
+
+async function sendMail({ subject, text, html, replyTo, to, attachments = [], account = "default" }) {
+  const envKeys = SMTP_ACCOUNTS[account];
+  const smtpServer = process.env[envKeys.server];
+  const smtpUser = process.env[envKeys.user];
+  const smtpPassword = process.env[envKeys.password];
   const recipients = to || getRecipients();
   const hasRecipients = Array.isArray(recipients) ? recipients.length > 0 : Boolean(recipients);
 
