@@ -243,26 +243,11 @@ function buildPaymentConfirmedHtml({ name, phone, email, topic, message }) {
 </html>`;
 }
 
-function buildCustomerThankYouHtml({ name, productLabel, plateLabel, invoicePdfUrl, summaryLines }) {
+function buildCustomerThankYouHtml({ name, productLabel, plateLabel, summaryLines }) {
   const safeName = escapeHtml(name);
   const safeProduct = escapeHtml(productLabel);
   const safePlate = escapeHtml(plateLabel);
   const safeSummary = summaryLines.map((line) => escapeHtml(line)).join("<br />");
-
-  const invoiceSection = invoicePdfUrl
-    ? `<tr>
-                    <td style="padding-top:14px;">
-                      <a
-                        href="${invoicePdfUrl}"
-                        style="display:block; background-color:#092954; color:#ffffff; text-decoration:none; font-weight:800; font-size:14px; text-align:center; padding:14px 12px; border-radius:8px; font-family:Arial, Helvetica, sans-serif;"
-                        >Rechnung herunterladen (PDF)</a
-                      >
-                    </td>
-                  </tr>`
-    : "";
-  const invoiceIntroText = invoicePdfUrl
-    ? "Deine Rechnung kannst du dir direkt über den Button unten herunterladen. Du findest sie außerdem als PDF im Anhang dieser E-Mail."
-    : "Deine Rechnung folgt in Kürze separat per E-Mail.";
 
   return `<!doctype html>
 <html lang="de">
@@ -298,7 +283,7 @@ function buildCustomerThankYouHtml({ name, productLabel, plateLabel, invoicePdfU
                   Moin ${safeName}, vielen Dank f&uuml;r deine Bestellung!
                 </h1>
                 <p style="margin:0 0 18px; color:#203a5e; font-size:14px; line-height:1.6;">
-                  Deine Bestellung ist bei uns eingegangen und deine Zahlung wurde erfolgreich durchgef&uuml;hrt.
+                  Deine Bestellung ist bei uns eingegangen und deine Zahlung wurde erfolgreich durchgef&uuml;hrt. Deine Bestellung wird umgehend bearbeitet.
                 </p>
               </td>
             </tr>
@@ -321,15 +306,8 @@ function buildCustomerThankYouHtml({ name, productLabel, plateLabel, invoicePdfU
             <tr>
               <td style="padding:14px 24px 0;">
                 <p style="margin:0; color:#203a5e; font-size:14px; line-height:1.6;">
-                  ${invoiceIntroText}
+                  Deine Rechnung senden wir dir automatisch per E-Mail zu, sobald sie vorliegt.
                 </p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:0 24px;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-                  ${invoiceSection}
-                </table>
               </td>
             </tr>
             <tr>
@@ -338,6 +316,78 @@ function buildCustomerThankYouHtml({ name, productLabel, plateLabel, invoicePdfU
                   <tr>
                     <td style="padding:16px 18px; font-size:14px; color:#203a5e;">
                       ${safeSummary}
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 24px 26px;">
+                <p style="margin:0; color:#a9c2d8; font-size:11px; text-align:center;">
+                  Bei Fragen erreichst du uns unter info@moin-flinka.de oder +49 1590 6808767.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+}
+
+function buildCustomerInvoiceHtml({ name, plateLabel, invoicePdfUrl }) {
+  const safeName = escapeHtml(name);
+  const safePlate = escapeHtml(plateLabel);
+
+  return `<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deine Rechnung</title>
+  </head>
+  <body style="margin:0; padding:0; background-color:#eaf7fe; font-family:Arial, Helvetica, sans-serif;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#eaf7fe; padding:24px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px; background-color:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 12px 28px rgba(9,41,84,0.14);">
+            <tr>
+              <td align="center" style="background-color:#f5fbff; padding:24px 20px;">
+                <img
+                  src="cid:moinflinkalogo"
+                  width="180"
+                  alt="Moin Flinka"
+                  style="display:block; max-width:180px; width:100%; height:auto; border:0;"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td style="background-color:#092954; padding:4px;"></td>
+            </tr>
+            <tr>
+              <td style="padding:26px 24px 6px;">
+                <p style="margin:0 0 4px; color:#092954; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;">
+                  Deine Rechnung
+                </p>
+                <h1 style="margin:0 0 12px; color:#092954; font-size:22px; line-height:1.3; font-family:Arial, Helvetica, sans-serif;">
+                  Moin ${safeName}, hier ist deine Rechnung!
+                </h1>
+                <p style="margin:0 0 18px; color:#203a5e; font-size:14px; line-height:1.6;">
+                  Anbei findest du die Rechnung zu deiner Bestellung f&uuml;r dein Kennzeichen <strong>${safePlate}</strong> als PDF im Anhang.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 24px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td>
+                      <a
+                        href="${invoicePdfUrl}"
+                        style="display:block; background-color:#092954; color:#ffffff; text-decoration:none; font-weight:800; font-size:14px; text-align:center; padding:14px 12px; border-radius:8px; font-family:Arial, Helvetica, sans-serif;"
+                        >Rechnung herunterladen (PDF)</a
+                      >
                     </td>
                   </tr>
                 </table>
@@ -405,5 +455,6 @@ module.exports = {
   buildLeadHtml,
   buildPaymentConfirmedHtml,
   buildCustomerThankYouHtml,
+  buildCustomerInvoiceHtml,
   sendMail,
 };

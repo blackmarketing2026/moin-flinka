@@ -95,7 +95,7 @@ module.exports = async (req, res) => {
       line_items,
       customer_email: body.email,
       customer_creation: "always",
-      invoice_creation: { enabled: true },
+      invoice_creation: { enabled: true, invoice_data: { metadata } },
       success_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/kennzeichen-stripe?checkout=cancelled#formular`,
       metadata,

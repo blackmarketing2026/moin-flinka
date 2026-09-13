@@ -1,5 +1,5 @@
 const stripe = require("./_lib/stripe-client");
-const { sendMail, buildPaymentConfirmedHtml, buildCustomerThankYouHtml } = require("./_lib/mailer");
+const { sendMail, buildPaymentConfirmedHtml, buildCustomerThankYouHtml, buildCustomerInvoiceHtml } = require("./_lib/mailer");
 const {
   buildOrderSummaryLines,
   getSuffix,
@@ -36,21 +36,11 @@ async function notifyBusiness(session, order, pricing) {
   });
 }
 
-async function notifyCustomer(session, order, pricing) {
+async function notifyOrderReceived(session, order, pricing) {
   const testPrefix = order.testMode ? "[TEST] " : "";
   const summaryLines = order.testMode
     ? ["⚠️ TESTBESTELLUNG – Gesamtpreis manuell auf 0,50 € gesetzt.", ...buildOrderSummaryLines(order, pricing)]
     : buildOrderSummaryLines(order, pricing);
-
-  let invoicePdfUrl = null;
-  if (session.invoice) {
-    try {
-      const invoice = await stripe.invoices.retrieve(session.invoice);
-      invoicePdfUrl = invoice.invoice_pdf || null;
-    } catch (error) {
-      console.error("Rechnungs-PDF konnte nicht geladen werden", error);
-    }
-  }
 
   const productLabel = PLATE_TYPE_LABELS[order.plateType] || order.plateType;
   const plateLabel = `${order.city} ${order.letters} ${order.digits}${getSuffix(order)}`;
@@ -60,19 +50,37 @@ async function notifyCustomer(session, order, pricing) {
     subject: `${testPrefix}Vielen Dank für deine Bestellung - Moin Flinka`,
     text: [
       `Moin ${order.name}, vielen Dank für deine Bestellung!`,
-      "Deine Bestellung ist bei uns eingegangen und deine Zahlung wurde erfolgreich durchgeführt.",
+      "Deine Bestellung ist bei uns eingegangen und deine Zahlung wurde erfolgreich durchgeführt. Deine Bestellung wird umgehend bearbeitet.",
       "",
       `Produkt: ${productLabel}`,
       `Kennzeichen: ${plateLabel}`,
       "",
-      invoicePdfUrl
-        ? `Deine Rechnung kannst du hier herunterladen: ${invoicePdfUrl}\nDu findest sie außerdem als PDF im Anhang dieser E-Mail.`
-        : "Deine Rechnung folgt in Kürze separat.",
+      "Deine Rechnung senden wir dir automatisch per E-Mail zu, sobald sie vorliegt.",
       "",
       ...summaryLines,
     ].join("\n"),
-    html: buildCustomerThankYouHtml({ name: order.name, productLabel, plateLabel, invoicePdfUrl, summaryLines }),
-    attachments: invoicePdfUrl ? [{ filename: "Rechnung-Moin-Flinka.pdf", path: invoicePdfUrl }] : [],
+    html: buildCustomerThankYouHtml({ name: order.name, productLabel, plateLabel, summaryLines }),
+  });
+}
+
+async function notifyInvoiceReady(invoice) {
+  if (!invoice.metadata || !invoice.metadata.plateType) return;
+  if (!invoice.invoice_pdf) return;
+
+  const order = metadataToOrder(invoice.metadata);
+  const testPrefix = order.testMode ? "[TEST] " : "";
+  const plateLabel = `${order.city} ${order.letters} ${order.digits}${getSuffix(order)}`;
+
+  await sendMail({
+    to: order.email,
+    subject: `${testPrefix}Deine Rechnung zur Bestellung - Moin Flinka`,
+    text: [
+      `Moin ${order.name}, anbei deine Rechnung zu deiner Bestellung für dein Kennzeichen ${plateLabel}.`,
+      `Du kannst sie hier herunterladen: ${invoice.invoice_pdf}`,
+      "Du findest sie außerdem als PDF im Anhang dieser E-Mail.",
+    ].join("\n"),
+    html: buildCustomerInvoiceHtml({ name: order.name, plateLabel, invoicePdfUrl: invoice.invoice_pdf }),
+    attachments: [{ filename: "Rechnung-Moin-Flinka.pdf", path: invoice.invoice_pdf }],
   });
 }
 
@@ -109,10 +117,19 @@ module.exports = async (req, res) => {
       }
 
       try {
-        await notifyCustomer(session, order, pricing);
+        await notifyOrderReceived(session, order, pricing);
       } catch (error) {
         console.error("Kunden-Bestätigungsmail nach Zahlung fehlgeschlagen", error);
       }
+    }
+  }
+
+  if (event.type === "invoice.paid") {
+    const invoice = event.data.object;
+    try {
+      await notifyInvoiceReady(invoice);
+    } catch (error) {
+      console.error("Rechnungs-Mail an Kunden fehlgeschlagen", error);
     }
   }
 
