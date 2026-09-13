@@ -72,6 +72,14 @@ module.exports = async (req, res) => {
   const deliveryLabel = SHORT_DELIVERY_LABELS[body.delivery];
 
   const origin = req.headers.origin || "https://www.moin-flinka.de";
+  const refererPath = (() => {
+    try {
+      return new URL(req.headers.referer).pathname;
+    } catch {
+      return null;
+    }
+  })();
+  const returnPath = refererPath && refererPath.startsWith("/kennzeichen") ? refererPath : "/kennzeichen-deutschland";
   const metadata = {
     plateType: body.plateType,
     plateVariant: body.plateVariant,
@@ -135,7 +143,8 @@ module.exports = async (req, res) => {
       customer: customer.id,
       invoice_creation: { enabled: true, invoice_data: { metadata } },
       success_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/kennzeichen-deutschland?checkout=cancelled#formular`,
+      cancel_url: `${origin}${returnPath}?checkout=cancelled#formular`,
+      allow_promotion_codes: true,
       metadata,
       payment_intent_data: { metadata },
     });
