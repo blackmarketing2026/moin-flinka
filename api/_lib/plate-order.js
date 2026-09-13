@@ -13,6 +13,12 @@ const PLATE_VARIANT_LABELS = {
   historic: "H-Kennzeichen",
 };
 
+const DELIVERY_LABELS = {
+  standard: "Klassischer DHL-Versand (versandfertig noch am selben Tag bei Bestellung vor 14:00 Uhr, sonst am nächsten Tag)",
+  express: "DHL-Express (Lieferung am nächsten Tag)",
+  courier: "Lieferung mit eigenem Kurier (Bestellung bis 12:00 Uhr: Lieferung noch am selben Tag innerhalb Hamburgs)",
+};
+
 function money(cents) {
   return (cents / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 }
@@ -32,7 +38,7 @@ function validatePlateOrder(body) {
     (body.city + body.letters + body.digits + suffix).length > 8 ||
     !/^[0-9]{5}$/.test(body.postcode) ||
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email) ||
-    !["express", "standard"].includes(body.delivery) ||
+    !["express", "standard", "courier"].includes(body.delivery) ||
     body.quantity !== (body.plateType === "motorcycle" ? 1 : 2) ||
     body.privacy !== "on" ||
     !["normal", "motorcycle", "electric", "historic"].includes(body.plateType) ||
@@ -81,7 +87,7 @@ function buildOrderSummaryLines(body, pricing) {
     `Grundpreis: ${money(pricing.basePriceCents)}`,
     `Carbon-Optik: ${body.carbon ? money(prices.carbon) : "Nein"}`,
     `Grüne Umweltplakette: ${body.environmentSticker ? money(prices.environmentSticker) : "Nein"}`,
-    `Lieferung: ${body.delivery === "express" ? "DHL-Express (Lieferung am nächsten Tag)" : "Klassischer DHL-Versand (versandfertig noch am selben Tag bei Bestellung vor 14:00 Uhr, sonst am nächsten Tag)"}: ${money(pricing.deliveryPriceCents)}`,
+    `Lieferung: ${DELIVERY_LABELS[body.delivery] || body.delivery}: ${money(pricing.deliveryPriceCents)}`,
     `Gesamtpreis: ${money(pricing.totalPriceCents)}`,
     `Liefer- und Rechnungsadresse: ${body.name}, ${body.street}, ${body.postcode} ${body.town}, Deutschland`,
     `Hinweise / abweichende Rechnungsadresse: ${body.notes || "Keine"}`,
@@ -120,4 +126,5 @@ module.exports = {
   metadataToPricing,
   PLATE_TYPE_LABELS,
   PLATE_VARIANT_LABELS,
+  DELIVERY_LABELS,
 };

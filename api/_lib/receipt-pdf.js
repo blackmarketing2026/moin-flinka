@@ -1,6 +1,12 @@
 const PDFDocument = require("pdfkit");
 const { money, getSuffix, PLATE_TYPE_LABELS, prices } = require("./plate-order");
 
+const SHORT_DELIVERY_LABELS = {
+  standard: "Lieferung: Klassischer DHL-Versand",
+  express: "Lieferung: DHL-Express",
+  courier: "Lieferung: Eigener Kurier",
+};
+
 function formatDate(date) {
   return date.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
@@ -82,7 +88,7 @@ function buildReceiptPdf({ session, order, pricing }) {
       ...(order.carbon ? [["Carbon-Optik", money(prices.carbon)]] : []),
       ...(order.environmentSticker ? [["Grüne Umweltplakette", money(prices.environmentSticker)]] : []),
       [
-        order.delivery === "express" ? "Lieferung: DHL-Express" : "Lieferung: Klassischer DHL-Versand",
+        SHORT_DELIVERY_LABELS[order.delivery] || "Lieferung",
         money(pricing.deliveryPriceCents),
       ],
     ];

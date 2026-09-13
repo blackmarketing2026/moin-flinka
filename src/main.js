@@ -14,6 +14,7 @@ const siteConfig = configNode ? JSON.parse(configNode.textContent) : {};
 const shippingCountdown = document.querySelector("[data-shipping-countdown]");
 
 if (shippingCountdown) {
+  const targetHour = Number(shippingCountdown.dataset.countdownHour) || 14;
   const timeZone = "Europe/Berlin";
   const formatter = new Intl.DateTimeFormat("en-CA", {
     timeZone,
@@ -43,7 +44,7 @@ if (shippingCountdown) {
   function updateShippingCountdown() {
     const now = new Date();
     const berlinNow = zonedParts(now);
-    const todayAtTwo = berlinTimeToEpoch(berlinNow, 14);
+    const todayAtTwo = berlinTimeToEpoch(berlinNow, targetHour);
     let target = todayAtTwo;
 
     if (now.getTime() >= todayAtTwo) {
@@ -52,7 +53,7 @@ if (shippingCountdown) {
         year: tomorrow.getUTCFullYear(),
         month: tomorrow.getUTCMonth() + 1,
         day: tomorrow.getUTCDate(),
-      }, 14);
+      }, targetHour);
     }
 
     const remainingSeconds = Math.max(0, Math.ceil((target - now.getTime()) / 1000));

@@ -3,6 +3,12 @@ const { prices, getSuffix, validatePlateOrder, computePricing, pricesMatch } = r
 
 const TEST_PRICING = { basePriceCents: 50, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 50 };
 
+const SHORT_DELIVERY_LABELS = {
+  standard: "Klassischer DHL-Versand",
+  express: "DHL-Express (nächster Tag)",
+  courier: "Eigener Kurier (noch am selben Tag)",
+};
+
 let cachedVatTaxRateId = null;
 async function getGermanVatTaxRateId() {
   if (cachedVatTaxRateId) return cachedVatTaxRateId;
@@ -63,8 +69,7 @@ module.exports = async (req, res) => {
   const suffix = getSuffix(body);
   const quantityLabel = body.quantity === 1 ? "1 Schild" : "2 Schilder (Satz)";
   const seasonLabel = body.season ? ` · Saison ${body.seasonStart}–${body.seasonEnd}` : "";
-  const deliveryLabel =
-    body.delivery === "express" ? "DHL-Express (nächster Tag)" : "Klassischer DHL-Versand";
+  const deliveryLabel = SHORT_DELIVERY_LABELS[body.delivery];
 
   const origin = req.headers.origin || "https://www.moin-flinka.de";
   const metadata = {

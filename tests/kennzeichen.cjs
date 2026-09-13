@@ -74,11 +74,11 @@ async function call(body) {
       assert.ok(sent.html.includes(text), text);
     }
     for (const change of [{ quantity: 3 }, { totalPriceCents: 1 }, { carbon: 'false' }, { delivery: 'unknown' }, { privacy: '' }, { seasonEnd: '01' }, { plateType: 'unknown' }, { plateVariant: 'unknown' }]) assert.equal(await call({ ...submitted, ...change }), 400);
-    for (const plateType of ['normal', 'motorcycle', 'electric', 'historic']) for (const delivery of ['express', 'standard']) for (const carbon of [false, true]) for (const environmentSticker of [false, true]) {
+    for (const plateType of ['normal', 'motorcycle', 'electric', 'historic']) for (const delivery of ['express', 'standard', 'courier']) for (const carbon of [false, true]) for (const environmentSticker of [false, true]) {
       const quantity = plateType === 'motorcycle' ? 1 : 2;
       const basePriceCents = quantity === 1 ? 1199 : 1990;
       const extrasPriceCents = (carbon ? 999 : 0) + (environmentSticker ? 999 : 0);
-      const deliveryPriceCents = delivery === 'express' ? 2640 : 490;
+      const deliveryPriceCents = { express: 2640, standard: 490, courier: 2000 }[delivery];
       assert.equal(await call({ ...submitted, plateType, plateVariant: ['electric', 'historic'].includes(plateType) ? plateType : 'standard', quantity, delivery, carbon, environmentSticker, basePriceCents, extrasPriceCents, deliveryPriceCents, totalPriceCents: basePriceCents + extrasPriceCents + deliveryPriceCents }), 200);
       assert.equal(await call({ ...submitted, plateType, quantity: quantity === 1 ? 2 : 1 }), 400);
     }
@@ -90,7 +90,7 @@ async function call(body) {
       if ([390, 1440].includes(width)) await page.screenshot({ path: `.qa/kennzeichen-${width}.png`, fullPage: true });
     }
     assert.deepEqual(errors, []);
-    console.log('Passed: automatic quantities, browser price matrix, validation, retry, API/email integration, 32 API combinations, tampering rejection, general contact regression, responsive widths. SMTP mocked; no emails sent.');
+    console.log('Passed: automatic quantities, browser price matrix, validation, retry, API/email integration, 48 API combinations, tampering rejection, general contact regression, responsive widths. SMTP mocked; no emails sent.');
   } finally {
     await browser.close();
   }
