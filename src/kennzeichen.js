@@ -122,6 +122,103 @@ if (form) {
       discountError = null;
     });
   }
+
+  const discountPopup = document.querySelector('[data-discount-popup]');
+  const discountPopupBackdrop = document.querySelector('[data-discount-popup-backdrop]');
+  if (discountPopup && discountPopupBackdrop && discountCodeField) {
+    const POPUP_CODE = 'MoinRX10';
+    const POPUP_SESSION_KEY = 'moinflinka_discount_popup_seen';
+    const popupClose = discountPopup.querySelector('[data-discount-popup-close]');
+    const popupCopy = discountPopup.querySelector('[data-discount-popup-copy]');
+    const popupActivate = discountPopup.querySelector('[data-discount-popup-activate]');
+    const popupStatus = discountPopup.querySelector('[data-discount-popup-status]');
+    let popupTriggered = false;
+    let lastFocusedElement = null;
+
+    const popupWasSeen = () => {
+      try { return sessionStorage.getItem(POPUP_SESSION_KEY) === 'true'; } catch { return false; }
+    };
+    const rememberPopup = () => {
+      try { sessionStorage.setItem(POPUP_SESSION_KEY, 'true'); } catch { /* Storage may be unavailable. */ }
+    };
+    const cookieDialogIsOpen = () => !document.querySelector('#cookieBanner')?.hidden;
+
+    function showDiscountPopup() {
+      if (popupTriggered || popupWasSeen()) return;
+      popupTriggered = true;
+      const openWhenAvailable = () => {
+        if (cookieDialogIsOpen()) {
+          window.setTimeout(openWhenAvailable, 500);
+          return;
+        }
+        lastFocusedElement = document.activeElement;
+        discountPopupBackdrop.hidden = false;
+        discountPopup.hidden = false;
+        document.body.classList.add('discount-popup-open');
+        popupClose.focus();
+      };
+      openWhenAvailable();
+    }
+
+    function closeDiscountPopup() {
+      if (discountPopup.hidden) return;
+      rememberPopup();
+      discountPopup.hidden = true;
+      discountPopupBackdrop.hidden = true;
+      document.body.classList.remove('discount-popup-open');
+      if (lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus();
+    }
+
+    async function copyPopupCode() {
+      try {
+        await navigator.clipboard.writeText(POPUP_CODE);
+        popupStatus.textContent = `Rabattcode ${POPUP_CODE} wurde kopiert.`;
+      } catch {
+        popupStatus.textContent = `Dein Rabattcode: ${POPUP_CODE}`;
+      }
+    }
+
+    popupClose.addEventListener('click', closeDiscountPopup);
+    discountPopupBackdrop.addEventListener('click', closeDiscountPopup);
+    popupCopy.addEventListener('click', copyPopupCode);
+    popupActivate.addEventListener('click', async () => {
+      popupActivate.disabled = true;
+      discountCodeField.value = POPUP_CODE;
+      discountCodeField.dispatchEvent(new Event('input', { bubbles: true }));
+      await copyPopupCode();
+      await applyDiscountCode();
+      popupStatus.textContent = appliedDiscount
+        ? `${POPUP_CODE} wurde eingefügt, kopiert und mit ${appliedDiscount.percentOff}\u00a0% Rabatt aktiviert.`
+        : `${POPUP_CODE} wurde eingefügt und kopiert. Du kannst den Code im letzten Bestellschritt anwenden.`;
+      popupActivate.disabled = false;
+      window.setTimeout(closeDiscountPopup, 1400);
+    });
+    discountPopup.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeDiscountPopup();
+      if (event.key !== 'Tab') return;
+      const focusable = [...discountPopup.querySelectorAll('button:not(:disabled)')];
+      const first = focusable[0];
+      const last = focusable.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    if (!popupWasSeen()) {
+      window.setTimeout(showDiscountPopup, 15000);
+      document.addEventListener('mouseout', event => {
+        if (event.clientY <= 0 && !event.relatedTarget) showDiscountPopup();
+      });
+      window.addEventListener('scroll', () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        if (scrollable > 0 && window.scrollY / scrollable >= 0.4) showDiscountPopup();
+      }, { passive: true });
+    }
+  }
   ['seasonStart', 'seasonEnd'].forEach((name, index) => {
     for (let month = 1; month <= 12; month++) {
       const value = String(month).padStart(2, '0');

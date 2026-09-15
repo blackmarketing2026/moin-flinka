@@ -203,6 +203,10 @@
               <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong data-price-heading>Aktueller Preis</strong><p data-price-details hidden></p><output data-total></output></div>
               <p class="form-status" role="status" aria-live="polite"></p>
               <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zurück</button><button class="btn btn-primary" type="button" data-next>Weiter zur Lieferung →</button><button class="btn btn-primary submit" type="submit" hidden>Jetzt sicher bezahlen</button></div>
+              <p class="stripe-payment-note">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                <span>Sicher bezahlen mit <strong>Stripe</strong></span>
+              </p>
               <noscript>Bitte aktiviere JavaScript für das Bestellformular oder ruf uns unter +49 1590 6808767 an.</noscript>
             </form>
             <p class="quiz-alt-contact">Noch eine Frage? <a href="https://wa.me/4915906808767" target="_blank" rel="noopener">Schreib uns über WhatsApp</a></p>
@@ -319,6 +323,30 @@
         <span>www.moin-flinka.de</span>
       </div>
     </footer>
+
+    <div class="discount-popup-backdrop" data-discount-popup-backdrop hidden></div>
+    <section
+      class="discount-popup"
+      data-discount-popup
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="discount-popup-title"
+      aria-describedby="discount-popup-copy"
+      hidden
+    >
+      <button type="button" class="discount-popup-close" data-discount-popup-close aria-label="Rabattfenster schlie&szlig;en">&times;</button>
+      <p class="discount-popup-kicker">Nur f&uuml;r kurze Zeit</p>
+      <h2 id="discount-popup-title">10&nbsp;% Rabatt auf deine Kennzeichen</h2>
+      <p id="discount-popup-copy">Sichere dir jetzt 10&nbsp;% Rabatt auf deine Bestellung.</p>
+      <div class="discount-popup-code" aria-label="Rabattcode MoinRX10">
+        <code>MoinRX10</code>
+        <button type="button" data-discount-popup-copy>Code kopieren</button>
+      </div>
+      <button type="button" class="btn btn-primary discount-popup-activate" data-discount-popup-activate>
+        Hey, jetzt Rabattcode von 10% aktivieren!
+      </button>
+      <p class="discount-popup-status" data-discount-popup-status role="status" aria-live="polite"></p>
+    </section>
 
     <div class="cookie-backdrop" id="cookieBackdrop" hidden></div>
     <div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-label="Cookie-Einstellungen" hidden>
