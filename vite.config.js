@@ -5,7 +5,6 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        bestellseite: resolve(__dirname, "bestellseite.html"),
         admin: resolve(__dirname, "admin.html"),
         main: resolve(__dirname, "index.html"),
         impressum: resolve(__dirname, "impressum.html"),

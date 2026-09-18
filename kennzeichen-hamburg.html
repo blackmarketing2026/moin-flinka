@@ -83,7 +83,7 @@
           <span data-delivery-day-label>Heute geliefert</span>
           <time data-shipping-countdown data-countdown-hour="12" datetime="PT0S">00:00:00</time>
         </div>
-        <a class="topbar-call" href="/bestellseite" aria-label="Jetzt Kennzeichen bestellen">
+        <a class="topbar-call" href="#formular" aria-label="Jetzt Kennzeichen bestellen">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
             <rect x="9" y="17" width="46" height="30" rx="5" />
             <path d="m22 32 7 7 14-15" />
@@ -123,7 +123,7 @@
             </svg>
             <span>WhatsApp</span>
           </a>
-          <a class="btn btn-primary" href="/bestellseite">Jetzt bestellen</a>
+          <a class="btn btn-primary" href="#formular">Jetzt bestellen</a>
           <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Navigation &ouml;ffnen">
             <svg class="icon-menu" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
               <path d="M14 20h36M14 32h36M14 44h36" />
@@ -142,9 +142,85 @@
         <h1 id="hero-title">Kennzeichen aus Hamburg bestellen<br><span>Heute bestellt. Heute geliefert.</span></h1>
         <p class="plate-lead">Lieferung innerhalb Hamburgs für 20 € noch am selben Tag.</p>
         <p class="plate-hint">Bestellung bis 12:00 Uhr für die Lieferung am selben Tag mit eigenem Kurier. Außerhalb Hamburgs oder alternativ: klassischer DHL-Versand oder DHL-Express.</p>
-        <div class="plate-hero-actions"><a class="btn btn-primary" href="/bestellseite">Jetzt Kennzeichen bestellen</a><span>✓ Bestellungen jederzeit möglich<br>✓ Direkt sicher online bezahlen</span></div>
+        <div class="plate-hero-actions"><a class="btn btn-primary" href="#formular">Jetzt Kennzeichen bestellen</a><span>✓ Bestellungen jederzeit möglich<br>✓ Direkt sicher online bezahlen</span></div>
       </section>
-      <section class="order-section" id="bestellen"><div class="container"><div class="order-card"><p class="eyebrow">Deine Kennzeichen. Direkt bestellt.</p><h2>Kennzeichen online bestellen</h2><p>Wähle deine Kennzeichen, gib deine Lieferadresse an und bezahle sicher direkt auf unserer Bestellseite.</p><div class="plate-about-actions"><a class="btn btn-primary" href="/bestellseite">Jetzt Kennzeichen bestellen</a><a class="btn btn-light" href="https://wa.me/4915906808767">WhatsApp-Support</a></div></div></div></section>
+      <section class="order-section" id="formular" aria-labelledby="form-title">
+        <div class="container">
+          <div class="order-card">
+
+            <form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/create-checkout-session">
+              <fieldset data-step="0">
+                <legend id="form-title" tabindex="-1">Wie soll das Kennzeichen aussehen?</legend>
+                <div class="plate-types" role="radiogroup" aria-label="Kennzeichentyp">
+                  <label class="plate-type"><input type="radio" name="plateType" value="normal" checked required><svg viewBox="0 0 64 48" aria-hidden="true"><path d="m12 23 5-13h30l5 13M8 23h48v16H8zM15 39v4m34-4v4M15 29h7m20 0h7"/></svg><span>Auto</span></label>
+                  <label class="plate-type"><input type="radio" name="plateType" value="motorcycle" required><svg viewBox="0 0 64 48" aria-hidden="true"><circle cx="13" cy="34" r="9"/><circle cx="51" cy="34" r="9"/><path d="m13 34 12-18 13 18H13m25 0 8-19-4-8h-8m12 8 5 19M20 16h12"/></svg><span>Motorrad</span></label>
+                  <label class="plate-type"><input type="radio" name="plateType" value="electric" required><svg viewBox="0 0 64 48" aria-hidden="true"><path d="M36 3 17 27h14l-3 18 19-26H33z"/></svg><span>Elektro / E</span></label>
+                  <label class="plate-type"><input type="radio" name="plateType" value="historic" required><svg viewBox="0 0 64 48" aria-hidden="true"><path d="M13 27 18 11h28l5 16M19 24h26M9 39V28a5 5 0 0 1 5-5h36a5 5 0 0 1 5 5v11H9Zm5 0v4m36-4v4M27 29h10v10H27z"/><circle cx="18" cy="31" r="4"/><circle cx="46" cy="31" r="4"/></svg><span>Oldtimer</span></label>
+                </div>
+                <p class="step-copy" id="plate-help">Wähle deinen Kennzeichentyp und trag deine bereits zugeteilte oder reservierte Kombination ins Schild ein.</p>
+                <div class="german-plate" role="group" aria-label="Kennzeichen gestalten" aria-describedby="plate-help">
+                  <div class="euro-band" aria-hidden="true"><span class="euro-stars"></span><b>D</b></div>
+                  <label class="plate-city"><span>Stadt</span><input name="city" aria-label="Stadtkürzel" placeholder="HH" maxlength="3" pattern="[A-ZÄÖÜ]{1,3}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+                  <div class="plate-seals" aria-hidden="true"><i></i><i></i></div>
+                  <label class="plate-letters"><span>Buchstaben</span><input name="letters" aria-label="Buchstaben" placeholder="MF" maxlength="2" pattern="[A-Z]{1,2}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+                  <label class="plate-digits"><span>Ziffern</span><span class="plate-number"><input name="digits" aria-label="Ziffern" placeholder="1234" maxlength="4" pattern="[1-9][0-9]{0,3}" required inputmode="numeric" autocomplete="off"><span class="plate-suffix" data-plate-suffix hidden></span></span></label>
+                </div>
+                <p class="plate-hint">1–3 Zeichen für die Stadt · 1–2 Buchstaben · 1–4 Ziffern<br>Insgesamt höchstens 8 Zeichen einschließlich E oder H. Keine führende Null.</p>
+                <input type="hidden" name="plateVariant" value="standard">
+                <label class="delivery-option"><input type="checkbox" name="season"><span>Saisonkennzeichen</span></label>
+                <div class="form-row" data-season hidden>
+                  <label>Saison von (Monat)<select name="seasonStart" disabled></select></label>
+                  <label>Saison bis (Monat)<select name="seasonEnd" disabled></select></label>
+                </div>
+                <div role="group" aria-label="Zusatzoptionen" class="plate-choices">
+                  <label class="delivery-option"><input type="checkbox" name="carbon"><span>Carbon-Optik · +9,99 €</span></label>
+                  <label class="delivery-option"><input type="checkbox" name="environmentSticker"><span>Grüne Umweltplakette · +9,99 €</span></label>
+                </div>
+                <div class="plate-note"><strong>Deine Kennzeichen-Kombination</strong><p>Bitte verwende deine bereits zugeteilte oder reservierte Kombination. Diese Bestellung reserviert kein Wunschkennzeichen.</p></div>
+              </fieldset>
+              <fieldset data-step="1">
+                <legend tabindex="-1">Wie kommen deine Kennzeichen zu dir?</legend>
+                <p class="step-copy">Wähle die Lieferung, die zu dir passt.</p><label class="delivery-option"><input type="radio" name="delivery" value="courier" checked required><span><strong>Lieferung mit eigenem Kurier · 20,00 €</strong><small>Bestellung bis 12:00 Uhr: Lieferung noch am selben Tag innerhalb Hamburgs.</small></span></label>
+                <label class="delivery-option"><input type="radio" name="delivery" value="standard" required><span><strong>Klassischer DHL-Versand · 4,90 €</strong><small>Versandfertig noch am selben Tag bei Bestellung vor 14:00 Uhr, sonst am nächsten Tag.</small></span></label>
+                <label class="delivery-option"><input type="radio" name="delivery" value="express" required><span><strong>DHL-Express · 26,40 €</strong><small>Bestellung vor 12:00 Uhr eingegangen: Lieferung am nächsten Tag garantiert.</small></span></label>
+                <div class="plate-note"><strong>So geht es danach weiter</strong><p>Bestellungen sind jederzeit möglich. Die Prägung erfolgt Montag bis Freitag. Bei Bestellung vor 14:00 Uhr ist dein Kennzeichen noch am selben Tag versandfertig, sonst am nächsten Tag. Samstag und Sonntag ist Vorbestellung möglich. Du bezahlst sicher direkt auf dieser Seite.</p></div>
+              </fieldset>
+              <fieldset data-step="2">
+                <legend tabindex="-1">Wohin dürfen wir liefern?</legend>
+                <p class="step-copy">Deine Adresse verwenden wir für Lieferung und Rechnung.</p>
+                <div class="form-row"><label>Vor- und Nachname<input name="name" autocomplete="name" maxlength="120" required></label><label>Telefonnummer<input name="phone" type="tel" autocomplete="tel" maxlength="40" required></label></div>
+                <label>E-Mail für die Rechnung<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
+                <label>Straße und Hausnummer<input name="street" autocomplete="street-address" maxlength="200" required></label>
+                <div class="form-row"><label>Postleitzahl<input name="postcode" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" required></label><label>Ort<input name="town" autocomplete="address-level2" maxlength="100" required></label></div>
+                <p class="plate-hint">Lieferland: Deutschland. Eine abweichende Rechnungsadresse kannst du uns hier mitteilen.</p>
+                <label>Hinweise / abweichende Rechnungsadresse (optional)<textarea name="notes" rows="3" maxlength="1000"></textarea></label>
+                <label>Rabattcode (optional)<input name="discountCode" autocomplete="off" maxlength="40" spellcheck="false"></label>
+                <button type="button" class="btn btn-light" data-discount-apply>Rabattcode anwenden</button>
+                <small data-discount-status hidden></small>
+                <div class="plate-summary"><strong>Deine Zusammenfassung</strong><p data-summary></p><small>Prüfe deine Angaben. Im Anschluss schließt du die Bestellung mit der Zahlung direkt hier ab.</small></div>
+                <label class="privacy"><input name="privacy" type="checkbox" required><span>Hiermit stimme ich der Kennzeichenerstellung gemäß den <a href="/agb" target="_blank" rel="noopener">AGB</a> zu.</span></label>
+              </fieldset>
+              <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong data-price-heading>Aktueller Preis</strong><p data-price-details hidden></p><output data-total></output></div>
+              <p class="form-status" role="status" aria-live="polite"></p>
+              <div class="plate-navigation"><button class="btn btn-primary submit" type="submit">Weiter zur sicheren Zahlung</button></div>
+              <p class="stripe-payment-note">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                <span>Sicher direkt bei Moin Flinka bezahlen</span>
+              </p>
+              <noscript>Bitte aktiviere JavaScript für die Bestellung oder nutze unseren WhatsApp-Support.</noscript>
+            </form><section id="payment-panel" class="native-checkout" hidden aria-labelledby="payment-title">
+              <p class="eyebrow">Deine Bestellung bei Moin Flinka</p><h2 id="payment-title" tabindex="-1">Bestellung abschließen</h2>
+              <div class="checkout-review"><h3>Deine Bestellübersicht</h3><p id="checkout-summary"></p><p id="checkout-address"></p><strong>Gesamt inkl. MwSt. und Lieferung: <span id="checkout-total"></span></strong></div>
+              <button type="button" class="btn btn-light" id="edit-order">Bestellung ändern</button>
+              <div id="express-payment"></div>
+              <form id="payment-form"><h3>Zahlungsmethode wählen</h3><div id="payment-element"></div><p id="payment-error" class="form-status is-error" role="status" aria-live="polite"></p><button type="submit" class="btn btn-primary" id="pay-order" disabled>Jetzt zahlungspflichtig bestellen</button></form>
+              <p class="checkout-security">Deine Zahlungsdaten werden verschlüsselt verarbeitet. Du bestellst direkt bei Moin Flinka.</p>
+              <p><a href="https://wa.me/4915906808767">Fragen? WhatsApp-Support</a></p>
+            </section>
+            <p class="order-support">Noch eine Frage? <a href="https://wa.me/4915906808767" target="_blank" rel="noopener">Schreib uns über WhatsApp</a></p>
+          </div>
+        </div>
+      </section>
       <section class="container plate-aftercare" aria-label="So geht es weiter"><div><span>01</span><h2>Kennzeichen gestalten</h2><p>Kennzeichentyp und Zusatzoptionen auswählen und deine Kombination eingeben.</p></div><div><span>02</span><h2>Rechnung erhalten</h2><p>Der Gesamtpreis wird im Formular angezeigt. Deine Rechnung erhältst du per E-Mail.</p></div><div><span>03</span><h2>Schild bekommen</h2><p>Lieferung mit eigenem Kurier innerhalb Hamburgs noch am selben Tag bei Bestellung bis 12:00 Uhr. Alternativ klassischer DHL-Versand oder DHL-Express.</p></div></section>
       <section class="faq-section plate-faq" id="faq" aria-labelledby="plate-faq-title">
         <div class="container plate-info-grid">
@@ -184,7 +260,7 @@
       <section class="plate-about" id="ueber-uns" aria-labelledby="plate-about-title">
         <div class="container plate-info-grid">
           <div class="plate-about-brand"><img src="./assets/img/moin-flinka-logo.png" alt="Moin Flinka – Kennzeichen und Schilder" width="2172" height="724" loading="lazy"><p>Deine Kennzeichen aus Hamburg.</p></div>
-          <div class="plate-section-intro"><p class="eyebrow">Moin aus Hamburg</p><h2 id="plate-about-title">Über Moin Flinka</h2><p>Moin Flinka ist dein Ansprechpartner für Kennzeichen und Kfz-Schilder in Hamburg. Wir drucken deine Schilder in Hamburg und liefern innerhalb Hamburgs noch am selben Tag mit eigenem Kurier für 20 €, bei Bestellung bis 12:00 Uhr. Alternativ oder außerhalb Hamburgs: klassischer DHL-Versand ab 4,90 € oder DHL-Express am nächsten Tag.</p><p>Ob Auto, Motorrad, Elektro oder Oldtimer: Auf der Bestellseite stellst du deine Kennzeichen zusammen und siehst den Gesamtpreis einschließlich Zusatzoptionen und Lieferung. Wenn du Fragen hast, erreichst du unseren WhatsApp-Support.</p><div class="plate-about-actions"><a class="btn btn-primary" href="/bestellseite">Kennzeichen zusammenstellen</a><a class="btn btn-light" href="https://wa.me/4915906808767" target="_blank" rel="noopener">WhatsApp</a></div></div>
+          <div class="plate-section-intro"><p class="eyebrow">Moin aus Hamburg</p><h2 id="plate-about-title">Über Moin Flinka</h2><p>Moin Flinka ist dein Ansprechpartner für Kennzeichen und Kfz-Schilder in Hamburg. Wir drucken deine Schilder in Hamburg und liefern innerhalb Hamburgs noch am selben Tag mit eigenem Kurier für 20 €, bei Bestellung bis 12:00 Uhr. Alternativ oder außerhalb Hamburgs: klassischer DHL-Versand ab 4,90 € oder DHL-Express am nächsten Tag.</p><p>Ob Auto, Motorrad, Elektro oder Oldtimer: Direkt auf dieser Seite stellst du deine Kennzeichen zusammen und siehst den Gesamtpreis einschließlich Zusatzoptionen und Lieferung. Wenn du Fragen hast, erreichst du unseren WhatsApp-Support.</p><div class="plate-about-actions"><a class="btn btn-primary" href="#formular">Kennzeichen zusammenstellen</a><a class="btn btn-light" href="https://wa.me/4915906808767" target="_blank" rel="noopener">WhatsApp</a></div></div>
         </div>
       </section>
     </main>
@@ -223,7 +299,7 @@
             </svg>
             <span>WhatsApp</span>
           </a>
-          <a href="/bestellseite">Kennzeichen bestellen</a>
+          <a href="#formular">Kennzeichen bestellen</a>
         </div>
         <div class="footer-art" aria-hidden="true">
           <span class="footer-crane one"></span>

@@ -7,18 +7,31 @@ const assert = require('node:assert/strict');
     page.on('pageerror', error => errors.push(error.message));
     await page.addInitScript(() => localStorage.setItem('moinflinka_cookie_consent', JSON.stringify({ necessary: true, analytics: false, marketing: false })));
     for (const name of ['index', 'kennzeichen', 'kennzeichen-deutschland', 'kennzeichen-hamburg']) {
-      await page.goto(`http://127.0.0.1:5173/${name}.html`); assert.equal(await page.locator('form').count(), 0); assert.equal(await page.locator('[data-step]').count(), 0); assert.equal(await page.locator('.payment-method').count(), 7);
+      await page.goto(`http://127.0.0.1:5173/${name}.html`); assert.equal(await page.locator('#kennzeichenForm').count(), 1); assert.equal(await page.locator('fieldset:visible').count(), 3); assert.equal(await page.locator('a[href="/bestellseite"]').count(), 0); assert.equal(await page.locator('.payment-method').count(), 7);
+      if (name === 'kennzeichen-hamburg') assert.equal(await page.locator('[name=delivery][value=courier]').isChecked(), true);
     }
-    await page.goto('http://127.0.0.1:5173/bestellseite.html');
+    await page.goto('http://127.0.0.1:5173/kennzeichen.html');
     assert.equal(await page.locator('fieldset:visible').count(), 3);
     for (const [key, value] of Object.entries({ city: 'hh', letters: 'mf', digits: '123', name: 'Testkunde', phone: '+49123456789', email: 'test@example.com', street: 'Teststraße 1', postcode: '20095', town: 'Hamburg' })) await page.locator(`[name=${key}]`).fill(value);
     await page.locator('[name=privacy]').check();
     assert.equal(await page.locator('[name=city]').inputValue(), 'HH');
     let payload;
-    await page.route('**/api/create-checkout-session', route => { payload = route.request().postDataJSON(); return route.fulfill({ json: { ok: true, clientSecret: 'fake', publishableKey: 'pk_test_fake' } }); });
-    await page.evaluate(() => { window.Stripe = () => ({ initEmbeddedCheckout: async () => ({ mount: selector => { document.querySelector(selector).textContent = 'Test payment'; }, destroy: () => { document.querySelector('#embedded-checkout').replaceChildren(); } }) }); });
-    await page.locator('[type=submit]').click(); await page.locator('#payment-panel').waitFor({ state: 'visible' });
+    await page.route('**/api/create-checkout-session', route => { payload = route.request().postDataJSON(); return route.fulfill({ json: { ok: true, clientSecret: 'fake', publishableKey: 'pk_test_fake', amountTotal: 2490, sessionId: 'cs_test_order' } }); });
+    await page.evaluate(() => {
+      const element = selectorText => ({ mount: selector => { document.querySelector(selector).textContent = selectorText; }, destroy: () => {}, on: () => {} });
+      window.Stripe = () => ({ initCheckoutElementsSdk: () => ({ loadActions: async () => ({ type: 'success', actions: { getSession: () => ({ currency: 'eur', minorUnitsAmountDivisor: 100, canConfirm: true, total: { total: { minorUnitsAmount: 2490 } } }), confirm: async () => ({ type: 'error', error: { message: 'Test: Zahlung abgelehnt' } }) } }), on: () => {}, createPaymentElement: () => element('Sichere Zahlungsfelder'), createExpressCheckoutElement: () => element('Wallets') }) });
+    });
+    await page.locator('#kennzeichenForm [type=submit]').click(); await page.locator('#payment-panel').waitFor({ state: 'visible' });
     assert.equal(payload.orderType, 'plate'); assert.equal(payload.testMode, false); assert.equal(await page.locator('#kennzeichenForm').isVisible(), false);
+    assert.equal(new URL(page.url()).pathname, '/kennzeichen.html');
+    assert.match(await page.locator('#checkout-total').textContent(), /24,90/);
+    await page.locator('#pay-order').click();
+    await page.getByText('Test: Zahlung abgelehnt', { exact: true }).waitFor();
+    assert.equal(await page.locator('#pay-order').isEnabled(), true);
+    await page.screenshot({ path: '.qa/checkout-desktop.png', fullPage: true });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.screenshot({ path: '.qa/checkout-mobile.png', fullPage: true });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     await page.locator('#edit-order').click(); assert.equal(await page.locator('#kennzeichenForm').isVisible(), true); assert.equal(await page.locator('[name=street]').inputValue(), 'Teststraße 1');
     await page.setViewportSize({ width: 390, height: 844 });
     await page.screenshot({ path: '.qa/order-mobile.png', fullPage: true });
@@ -41,6 +54,6 @@ const assert = require('node:assert/strict');
     await page.locator('#status-form select').selectOption('Gedruckt'); await page.locator('#status-form button').click(); await page.getByText('Status gespeichert.', { exact: true }).waitFor(); assert.equal(changedStatus, 'Gedruckt');
     await page.screenshot({ path: '.qa/admin-desktop.png', fullPage: true });
     assert.deepEqual(errors, []);
-    console.log('PASS: All public pages, single-page order, embedded payment and edit, mobile layout, admin login and status UI');
+    console.log('PASS: All public pages, inline orders, own checkout with payment error and edit, mobile layout, admin login and status UI');
   } finally { await browser.close(); }
 })().catch(e => { console.error(e); process.exitCode = 1; });

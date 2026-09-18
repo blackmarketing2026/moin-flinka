@@ -2,7 +2,7 @@
 
 ## Bestellungen und Adminbereich (aktueller Stand)
 
-- `/bestellseite`: Kennzeichen, Lieferung und Kundendaten auf einer Seite; Stripe Embedded Checkout übernimmt die Zahlung direkt auf der Webseite.
+- Bestellung direkt auf Startseite und den drei Kennzeichen-Seiten: Kennzeichen, Lieferung und Kundendaten bleiben auf der jeweiligen Seite. Der eigene Moin-Flinka-Checkout verwendet Stripe Elements ausschließlich für sichere Zahlungsfelder und Wallets; es gibt keine Weiterleitung zu einer Stripe-Bestellseite. `/bestellseite` wird auf den Bestellbereich der Kennzeichen-Seite zurückgeführt.
 - `/admin`: geschützter Zugang mit Benutzername `admin`, Bestellungen chronologisch (neueste zuerst), Kundendetails und Status `Eingegangen`, `Gedruckt`, `Zum Ausliefern bereit`.
 - Bestellungen und Bearbeitungsstatus liegen bei Stripe (Checkout-Session-Metadaten). Es wird keine lokale Datei als Datenbank verwendet. Bestehende bezahlte Kennzeichen-Bestellungen erscheinen ebenfalls. Weitere Bestellungen und Rabattcodes werden seitenweise geladen.
 - Prozent-Rabattcodes werden über Stripe erstellt, mit optionalem Ablaufdatum und Einlösungslimit. Codes können aktiviert/deaktiviert werden. Änderungen an Rabattbetrag oder Laufzeit erfolgen über einen neuen Code.

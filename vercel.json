@@ -8,5 +8,12 @@
     "api/send-test-email.js": {
       "includeFiles": "node_modules/pdfkit/js/**"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/bestellseite",
+      "destination": "/kennzeichen#formular",
+      "permanent": false
+    }
+  ]
 }

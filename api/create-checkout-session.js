@@ -143,14 +143,14 @@ module.exports = async (req, res) => {
       line_items,
       customer: customer.id,
       invoice_creation: { enabled: true, invoice_data: { metadata } },
-      ui_mode: "embedded",
+      ui_mode: "elements",
       return_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
       ...(promotionCodeId ? { discounts: [{ promotion_code: promotionCodeId }] } : { allow_promotion_codes: true }),
       metadata,
       payment_intent_data: { metadata },
     });
 
-    return res.status(200).json({ ok: true, clientSecret: session.client_secret, publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
+    return res.status(200).json({ ok: true, clientSecret: session.client_secret, sessionId: session.id, amountTotal: session.amount_total, publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
   } catch (error) {
     console.error("Stripe Checkout Session fehlgeschlagen", error);
     return res.status(502).json({ ok: false, error: "Zahlung konnte nicht gestartet werden." });

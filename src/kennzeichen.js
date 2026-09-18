@@ -1,3 +1,4 @@
+import { openNativeCheckout } from './native-checkout.js';
 import prices from '../plate-prices.json';
 const form = document.querySelector('#kennzeichenForm');
 if (form) {
@@ -183,29 +184,11 @@ if (form) {
       });
       const result = await response.json();
       if (!response.ok || result.ok !== true) throw new Error(result.error || 'Zahlung konnte nicht gestartet werden.');
-      if (!window.Stripe) {
-        await new Promise((resolve, reject) => {
-          const script = document.createElement('script');
-          script.src = 'https://js.stripe.com/v3/';
-          script.onload = resolve;
-          script.onerror = () => { script.remove(); reject(new Error('Zahlung konnte nicht geladen werden.')); };
-          document.head.append(script);
-        });
-      }
-      const checkout = await window.Stripe(result.publishableKey).initEmbeddedCheckout({ clientSecret: result.clientSecret });
-      const panel = document.querySelector('#payment-panel');
-      form.hidden = true;
-      panel.hidden = false;
-      checkout.mount('#embedded-checkout');
-      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      document.querySelector('#edit-order').onclick = () => {
-        checkout.destroy();
-        panel.hidden = true;
-        form.hidden = false;
+      await openNativeCheckout(result, data, form, () => {
         sending = false;
         submit.disabled = false;
         submit.textContent = submitLabel;
-      };
+      });
     } catch (error) {
       form.hidden = false;
       document.querySelector('#payment-panel').hidden = true;

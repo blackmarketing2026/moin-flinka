@@ -2751,7 +2751,14 @@ body.discount-popup-open {
 .order-card h1, .order-card h2 { margin: 0 0 20px; }
 .order-card fieldset { margin-bottom: 28px; }
 .order-support { margin-top: 24px; text-align: center; }
-#embedded-checkout { margin-top: 24px; min-height: 360px; }
+.native-checkout { padding-top: 16px; }
+.checkout-review { padding: 24px; margin: 24px 0; border: 1px solid #c7ddeb; background: #eff8fd; border-radius: 10px; }
+.checkout-review p { overflow-wrap: anywhere; }
+#express-payment { margin-top: 24px; }
+#payment-form { margin-top: 28px; }
+#payment-element { margin: 20px 0; }
+#pay-order { width: 100%; margin-top: 16px; }
+.checkout-security { margin-top: 18px; font-size: 13px; color: #40516b; }
 [hidden] { display: none !important; }
 .payment-methods { display: grid; gap: 16px; text-align: center; padding: 32px 16px; }
 .payment-method-icons { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }

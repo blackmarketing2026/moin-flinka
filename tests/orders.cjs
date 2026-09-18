@@ -33,7 +33,7 @@ async function call(handler, method, body, extra = {}) {
   assert.equal(isCompletedPayment({ payment_status: 'no_payment_required', status: 'complete' }), true);
   assert.equal(isCompletedPayment({ payment_status: 'no_payment_required', status: 'open' }), false);
   let result = await call(checkout, 'POST', body);
-  assert.equal(result.status, 200); assert.equal(created.ui_mode, 'embedded'); assert.equal(created.success_url, undefined); assert.match(created.return_url, /^https:\/\/www.moin-flinka.de/); assert.equal(result.body.clientSecret, 'test_secret');
+  assert.equal(result.status, 200); assert.equal(created.ui_mode, 'elements'); assert.equal(created.success_url, undefined); assert.match(created.return_url, /^https:\/\/www.moin-flinka.de/); assert.equal(result.body.clientSecret, 'test_secret');
   result = await call(checkout, 'POST', { ...body, testMode: true, basePriceCents: 50, deliveryPriceCents: 0, totalPriceCents: 50 }); assert.equal(result.status, 400, 'Public test pricing cannot bypass real prices');
   result = await call(checkout, 'POST', { ...body, discountCode: 'INVALID' }); assert.equal(result.status, 400);
   result = await call(admin, 'GET'); assert.equal(result.status, 401); assert.equal(result.body.orders, undefined);
@@ -48,5 +48,5 @@ async function call(handler, method, body, extra = {}) {
   result = await call(admin, 'POST', { action: 'create-discount', code: 'MOIN10', percent: '10', max: '20' }, authenticated); assert.equal(result.status, 200); assert.equal(promotion.promotion.coupon, 'coupon_test'); assert.equal(promotion.max_redemptions, 20);
   result = await call(admin, 'POST', { action: 'create-discount', code: 'MOIN10', percent: '101' }, authenticated); assert.equal(result.status, 400);
   for (let i = 0; i < 6; i++) result = await call(admin, 'POST', { action: 'login', username: 'admin', password: 'wrong' }); assert.equal(result.status, 429);
-  console.log('PASS: Embedded checkout, server pricing, login protection, order data, statuses, CSRF, discounts, login rate limit');
+  console.log('PASS: Custom checkout, server pricing, login protection, order data, statuses, CSRF, discounts, login rate limit');
 })().catch(e => { console.error(e); process.exitCode = 1; });
