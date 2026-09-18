@@ -578,6 +578,7 @@
           <div class="order-card">
 
             <form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/create-checkout-session">
+              <ol class="plate-progress" aria-label="Bestellschritte"><li aria-current="step">1 <span>Kennzeichen</span></li><li>2 <span>Versand</span></li><li>3 <span>Checkout</span></li></ol>
               <fieldset data-step="0">
                 <legend id="form-title" tabindex="-1">Wie soll das Kennzeichen aussehen?</legend>
                 <div class="plate-types" role="radiogroup" aria-label="Kennzeichentyp">
@@ -607,15 +608,15 @@
                 </div>
                 <div class="plate-note"><strong>Deine Kennzeichen-Kombination</strong><p>Bitte verwende deine bereits zugeteilte oder reservierte Kombination. Diese Bestellung reserviert kein Wunschkennzeichen.</p></div>
               </fieldset>
-              <fieldset data-step="1">
-                <legend tabindex="-1">Wie kommen deine Kennzeichen zu dir?</legend>
+              <fieldset data-step="1" hidden>
+                <legend tabindex="-1">Versand auswählen</legend>
                 <p class="step-copy">Wähle die Lieferung, die zu dir passt.</p>
                 <label class="delivery-option"><input type="radio" name="delivery" value="standard" checked required><span><strong>Klassischer DHL-Versand · 4,90 €</strong><small>Versandfertig noch am selben Tag bei Bestellung vor 14:00 Uhr, sonst am nächsten Tag.</small></span></label>
                 <label class="delivery-option"><input type="radio" name="delivery" value="express" required><span><strong>DHL-Express · 26,40 €</strong><small>Bestellung vor 12:00 Uhr eingegangen: Lieferung am nächsten Tag garantiert.</small></span></label>
                 <div class="plate-note"><strong>So geht es danach weiter</strong><p>Bestellungen sind jederzeit möglich. Die Prägung erfolgt Montag bis Freitag. Bei Bestellung vor 14:00 Uhr ist dein Kennzeichen noch am selben Tag versandfertig, sonst am nächsten Tag. Samstag und Sonntag ist Vorbestellung möglich. Du bezahlst sicher direkt auf dieser Seite.</p></div>
               </fieldset>
-              <fieldset data-step="2">
-                <legend tabindex="-1">Wohin dürfen wir liefern?</legend>
+              <fieldset data-step="2" hidden>
+                <legend tabindex="-1">Lieferadresse &amp; Checkout</legend>
                 <p class="step-copy">Deine Adresse verwenden wir für Lieferung und Rechnung.</p>
                 <div class="form-row"><label>Vor- und Nachname<input name="name" autocomplete="name" maxlength="120" required></label><label>Telefonnummer<input name="phone" type="tel" autocomplete="tel" maxlength="40" required></label></div>
                 <label>E-Mail für die Rechnung<input name="email" type="email" autocomplete="email" maxlength="200" required></label>
@@ -631,7 +632,7 @@
               </fieldset>
               <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong data-price-heading>Aktueller Preis</strong><p data-price-details hidden></p><output data-total></output></div>
               <p class="form-status" role="status" aria-live="polite"></p>
-              <div class="plate-navigation"><button class="btn btn-primary submit" type="submit">Weiter zur sicheren Zahlung</button></div>
+              <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zurück</button><button class="btn btn-primary" type="button" data-next>Weiter: Versand auswählen →</button><button class="btn btn-primary submit" type="submit" hidden>Weiter zur Zahlung</button></div>
               <p class="stripe-payment-note">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
                 <span>Sicher direkt bei Moin Flinka bezahlen</span>

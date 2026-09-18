@@ -7,12 +7,25 @@ const assert = require('node:assert/strict');
     page.on('pageerror', error => errors.push(error.message));
     await page.addInitScript(() => localStorage.setItem('moinflinka_cookie_consent', JSON.stringify({ necessary: true, analytics: false, marketing: false })));
     for (const name of ['index', 'kennzeichen', 'kennzeichen-deutschland', 'kennzeichen-hamburg']) {
-      await page.goto(`http://127.0.0.1:5173/${name}.html`); assert.equal(await page.locator('#kennzeichenForm').count(), 1); assert.equal(await page.locator('fieldset:visible').count(), 3); assert.equal(await page.locator('a[href="/bestellseite"]').count(), 0); assert.equal(await page.locator('.payment-method').count(), 7);
+      await page.goto(`http://127.0.0.1:5173/${name}.html`); assert.equal(await page.locator('#kennzeichenForm').count(), 1); assert.equal(await page.locator('fieldset:visible').count(), 1); assert.equal(await page.locator('a[href="/bestellseite"]').count(), 0); assert.equal(await page.locator('.payment-method').count(), 7);
       if (name === 'kennzeichen-hamburg') assert.equal(await page.locator('[name=delivery][value=courier]').isChecked(), true);
     }
     await page.goto('http://127.0.0.1:5173/kennzeichen.html');
-    assert.equal(await page.locator('fieldset:visible').count(), 3);
-    for (const [key, value] of Object.entries({ city: 'hh', letters: 'mf', digits: '123', name: 'Testkunde', phone: '+49123456789', email: 'test@example.com', street: 'Teststraße 1', postcode: '20095', town: 'Hamburg' })) await page.locator(`[name=${key}]`).fill(value);
+    assert.equal(await page.locator('fieldset:visible').count(), 1);
+    await page.locator('[data-next]').click();
+    assert.equal(await page.locator('[data-step="0"]').isVisible(), true);
+    for (const [key, value] of Object.entries({ city: 'hh', letters: 'mf', digits: '123' })) await page.locator(`[name=${key}]`).fill(value);
+    await page.locator('[data-next]').click();
+    assert.equal(await page.locator('[data-step="1"]').isVisible(), true);
+    await page.locator('[name=delivery][value=express]').check();
+    await page.locator('[data-back]').click();
+    assert.equal(await page.locator('[name=city]').inputValue(), 'HH');
+    await page.locator('[data-next]').click();
+    assert.equal(await page.locator('[name=delivery][value=express]').isChecked(), true);
+    await page.locator('[name=delivery][value=standard]').check();
+    await page.locator('[data-next]').click();
+    assert.equal(await page.locator('[data-step="2"]').isVisible(), true);
+    for (const [key, value] of Object.entries({ name: 'Testkunde', phone: '+49123456789', email: 'test@example.com', street: 'Teststraße 1', postcode: '20095', town: 'Hamburg' })) await page.locator(`[name=${key}]`).fill(value);
     await page.locator('[name=privacy]').check();
     assert.equal(await page.locator('[name=city]').inputValue(), 'HH');
     let payload;
@@ -54,6 +67,6 @@ const assert = require('node:assert/strict');
     await page.locator('#status-form select').selectOption('Gedruckt'); await page.locator('#status-form button').click(); await page.getByText('Status gespeichert.', { exact: true }).waitFor(); assert.equal(changedStatus, 'Gedruckt');
     await page.screenshot({ path: '.qa/admin-desktop.png', fullPage: true });
     assert.deepEqual(errors, []);
-    console.log('PASS: All public pages, inline orders, own checkout with payment error and edit, mobile layout, admin login and status UI');
+    console.log('PASS: All public pages, multi-step orders with validation and preserved inputs, own checkout with payment error and edit, mobile layout, admin login and status UI');
   } finally { await browser.close(); }
 })().catch(e => { console.error(e); process.exitCode = 1; });

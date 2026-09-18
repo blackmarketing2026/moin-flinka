@@ -6,6 +6,8 @@ if (form) {
   const status = form.querySelector('.form-status');
   const submit = form.querySelector('[type="submit"]');
   const submitLabel = submit.textContent;
+  const next = form.querySelector('[data-next]');
+  const back = form.querySelector('[data-back]');
   const deferDeliveryPrice = form.hasAttribute('data-defer-delivery-price');
   let step = 0;
   let sending = false;
@@ -137,9 +139,20 @@ if (form) {
   });
   form.addEventListener('input', updateSummary);
   function show(index, focus = true) {
-    step = 2;
-    steps.forEach(panel => { panel.hidden = false; });
+    step = index;
+    steps.forEach((panel, i) => { panel.hidden = i !== step; });
+    form.querySelectorAll('.plate-progress li').forEach((item, i) => {
+      if (i === step) item.setAttribute('aria-current', 'step');
+      else item.removeAttribute('aria-current');
+      item.classList.toggle('is-done', i < step);
+    });
+    back.hidden = step === 0;
+    next.hidden = step === 2;
+    submit.hidden = step !== 2;
+    next.textContent = step === 0 ? 'Weiter: Versand auswählen →' : 'Weiter zum Checkout →';
+    status.textContent = '';
     updateSummary();
+    if (focus) steps[step].querySelector('legend').focus();
   }
   ['city', 'letters'].forEach(name => field(name).addEventListener('input', () => {
     field(name).value = field(name).value.toLocaleUpperCase('de-DE');
@@ -162,9 +175,12 @@ if (form) {
   }
 
 
+  next.addEventListener('click', () => { if (validate(step)) show(step + 1); });
+  back.addEventListener('click', () => show(step - 1));
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (sending) return;
+    if (step < 2) { if (validate(step)) show(step + 1); return; }
     for (let i = 0; i < steps.length; i++) if (!validate(i)) return;
     const data = Object.fromEntries(new FormData(form));
     data.orderType = 'plate';
@@ -174,6 +190,7 @@ if (form) {
     Object.assign(data, orderPrices());
     sending = true;
     submit.disabled = true;
+    back.disabled = true;
 
     submit.textContent = 'Wird gesendet …';
     status.textContent = '';
@@ -187,6 +204,7 @@ if (form) {
       await openNativeCheckout(result, data, form, () => {
         sending = false;
         submit.disabled = false;
+        back.disabled = false;
         submit.textContent = submitLabel;
       });
     } catch (error) {
@@ -196,6 +214,7 @@ if (form) {
       status.textContent = error.message || 'Bitte versuche es erneut oder nutze unseren WhatsApp-Support.';
       sending = false;
       submit.disabled = false;
+      back.disabled = false;
 
       submit.textContent = submitLabel;
     }
