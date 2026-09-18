@@ -42,7 +42,6 @@ if (orderForm) {
   let audio;
   let timer;
   let started = false;
-  let responding = false;
   const queue = [];
   function enableAudio() {
     if (!soundEnabled) return;
@@ -119,20 +118,13 @@ if (orderForm) {
     const button = document.createElement('button'); button.type = 'button'; button.textContent = label;
     button.setAttribute('aria-pressed', 'false');
     button.onclick = () => {
-      if (responding) return;
-      responding = true;
+      const url = `https://wa.me/4915906808767?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
       for (const option of options.children) option.setAttribute('aria-pressed', String(option === button));
       appendMessage(label, true);
-      whatsapp.href = `https://wa.me/4915906808767?text=${encodeURIComponent(message)}`;
-      whatsapp.hidden = true;
-      for (const option of options.children) option.disabled = true;
-      queue.push({ text: 'Alles klar! Ich bringe dich zu unserem Team auf WhatsApp. Deine Frage ist schon vorbereitet. 💬', delay: 800, after: () => {
-        responding = false;
-        for (const option of options.children) option.disabled = false;
-        whatsapp.hidden = false;
-        whatsapp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      } });
-      deliverNext();
+      appendMessage('Weiter geht’s auf WhatsApp! Deine Frage ist schon vorbereitet. 💬');
+      whatsapp.href = url;
+      whatsapp.hidden = false;
     };
     options.append(button);
   }

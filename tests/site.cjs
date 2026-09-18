@@ -20,11 +20,13 @@ const assert = require('node:assert/strict');
     await page.getByRole('button', { name: 'Chat-Ton ausschalten', exact: true }).click();
     assert.equal(await page.getByRole('button', { name: 'Chat-Ton einschalten', exact: true }).getAttribute('aria-pressed'), 'false');
     assert.equal(await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).isVisible(), false);
+    await page.evaluate(() => { window.chatOpenedUrls = []; window.open = url => { window.chatOpenedUrls.push(url); return null; }; });
     for (const [topic, text] of [['Auto online zulassen', 'online zulassen'], ['Auto abmelden', 'abmelden'], ['Hilfe bei der Kennzeichen-Erstellung', 'Kennzeichen-Erstellung'], ['Mit einem Mitarbeiter schreiben', 'Mitarbeiter']]) {
       await page.getByRole('button', { name: topic, exact: true }).click();
       await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).waitFor({ state: 'visible' });
       const url = new URL(await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).getAttribute('href'));
       assert.equal(url.hostname, 'wa.me'); assert.equal(url.pathname, '/4915906808767'); assert.ok(url.searchParams.get('text').includes(text));
+      assert.equal(await page.evaluate(() => window.chatOpenedUrls.at(-1)), url.href);
     }
     await page.setViewportSize({ width: 390, height: 844 });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
