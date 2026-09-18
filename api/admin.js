@@ -32,20 +32,37 @@ module.exports = async (req, res) => {
       }
       if (req.query.id) {
         const session = await stripe.checkout.sessions.retrieve(req.query.id);
-        if (!session.metadata.plateType || !isCompletedPayment(session)) return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
+        if (!session.metadata.plateType || session.metadata.adminDeleted === 'true' || !isCompletedPayment(session)) return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
         return res.status(200).json({ ok: true, order: orderView(session) });
       }
       const result = await stripe.checkout.sessions.list({ limit: 100, ...(req.query.cursor ? { starting_after: req.query.cursor } : {}) });
-      return res.status(200).json({ ok: true, orders: result.data.filter(s => isCompletedPayment(s) && s.metadata.plateType).map(orderView), nextCursor: result.has_more ? result.data.at(-1).id : null });
+      return res.status(200).json({ ok: true, orders: result.data.filter(s => isCompletedPayment(s) && s.metadata.plateType && s.metadata.adminDeleted !== 'true').map(orderView), nextCursor: result.has_more ? result.data.at(-1).id : null });
     }
     if (body.action === 'logout') {
       res.setHeader('Set-Cookie', 'mf_admin=; HttpOnly; Secure; SameSite=Strict; Path=/api/admin; Max-Age=0');
       return res.status(200).json({ ok: true });
     }
+    if (body.action === 'delete-orders') {
+      if (!Array.isArray(body.ids) || body.ids.length < 1 || body.ids.length > 100 || body.ids.some(id => typeof id !== 'string' || !/^cs_[A-Za-z0-9_]{1,250}$/.test(id))) return res.status(400).json({ ok: false, error: 'Bitte 1 bis 100 Bestellungen ausw\u00e4hlen.' });
+      const ids = [...new Set(body.ids)];
+      // Validate the whole selection before making any changes.
+      for (const id of ids) {
+        const session = await stripe.checkout.sessions.retrieve(id);
+        if (!session.metadata.plateType || !isCompletedPayment(session)) return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
+      }
+      const deletedIds = [], failedIds = [];
+      for (const id of ids) {
+        try {
+          await stripe.checkout.sessions.update(id, { metadata: { adminDeleted: 'true', adminDeletedAt: String(Math.floor(Date.now() / 1000)) } });
+          deletedIds.push(id);
+        } catch { failedIds.push(id); }
+      }
+      return res.status(200).json({ ok: true, deletedIds, failedIds });
+    }
     if (body.action === 'status') {
       if (!statuses.includes(body.status) || typeof body.id !== 'string') return res.status(400).json({ ok: false, error: 'Ungültiger Status.' });
       const session = await stripe.checkout.sessions.retrieve(body.id);
-      if (!session.metadata.plateType || !isCompletedPayment(session)) return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
+      if (!session.metadata.plateType || session.metadata.adminDeleted === 'true' || !isCompletedPayment(session)) return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
       await stripe.checkout.sessions.update(body.id, { metadata: { fulfillmentStatus: body.status } });
       return res.status(200).json({ ok: true });
     }

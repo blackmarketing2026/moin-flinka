@@ -51,23 +51,32 @@ const assert = require('node:assert/strict');
     await page.screenshot({ path: '.qa/order-mobile.png', fullPage: true });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
     await page.setViewportSize({ width: 1440, height: 1000 }); await page.screenshot({ path: '.qa/order-desktop.png', fullPage: true });
-    let loggedIn = false; let changedStatus;
+    let loggedIn = false; let changedStatus; let deletedIds = []; let adminOrders;
     const order = { id: 'cs_test', created: 1700000000, plate: 'HH MF 123', amount: 2490, status: 'Eingegangen', customer: { name: 'Testkunde', street: 'Teststraße 1', postcode: '20095', town: 'Hamburg', email: 'test@example.com', phone: '+49123456789' }, details: { quantity: '2' } };
+    adminOrders = [order, { ...order, id: 'cs_second', plate: 'HH MF 124' }];
     await page.route('**/api/admin*', route => {
       const req = route.request(); const data = req.method() === 'POST' ? req.postDataJSON() : null;
       if (data?.action === 'login') { assert.equal(data.username, 'admin'); loggedIn = true; return route.fulfill({ json: { ok: true } }); }
       if (!loggedIn) return route.fulfill({ status: 401, json: { error: 'Bitte anmelden.' } });
       if (data?.action === 'status') { changedStatus = data.status; return route.fulfill({ json: { ok: true } }); }
+      if (data?.action === 'delete-orders') { deletedIds = data.ids; adminOrders = adminOrders.filter(order => !deletedIds.includes(order.id)); return route.fulfill({ json: { ok: true, deletedIds, failedIds: [] } }); }
       if (data) return route.fulfill({ json: { ok: true } });
       if (req.url().includes('resource=discounts')) return route.fulfill({ json: { ok: true, codes: [], nextCursor: null } });
       if (req.url().includes('?id=')) return route.fulfill({ json: { ok: true, order } });
-      return route.fulfill({ json: { ok: true, orders: [order], nextCursor: null } });
+      return route.fulfill({ json: { ok: true, orders: adminOrders, nextCursor: null } });
     });
     await page.goto('http://127.0.0.1:5173/admin.html'); await page.locator('[name=password]').fill('test-password'); await page.locator('#admin-login button').click(); await page.locator('#dashboard').waitFor({ state: 'visible' });
-    await page.locator('#orders button').click(); await page.locator('#order-detail').waitFor({ state: 'visible' }); assert.match(await page.locator('#detail-content').textContent(), /Teststraße 1/);
+    await page.getByRole('button', { name: 'Bestellung HH MF 123 ansehen', exact: true }).click(); await page.locator('#order-detail').waitFor({ state: 'visible' }); assert.match(await page.locator('#detail-content').textContent(), /Teststraße 1/);
     await page.locator('#status-form select').selectOption('Gedruckt'); await page.locator('#status-form button').click(); await page.getByText('Status gespeichert.', { exact: true }).waitFor(); assert.equal(changedStatus, 'Gedruckt');
     await page.screenshot({ path: '.qa/admin-desktop.png', fullPage: true });
+    await page.locator('#close-detail').click();
+    await page.locator('#select-all-orders').check(); assert.equal(await page.locator('#selection-count').textContent(), '2 ausgew\u00e4hlt');
+    page.once('dialog', dialog => dialog.dismiss()); await page.locator('#delete-selected').click(); assert.deepEqual(deletedIds, []); assert.equal(await page.locator('#orders tr').count(), 2);
+    page.once('dialog', dialog => dialog.accept()); await page.locator('#delete-selected').click(); await page.getByText('2 Bestellung(en) gel\u00f6scht.', { exact: true }).waitFor(); assert.deepEqual(deletedIds, ['cs_test', 'cs_second']); assert.equal(await page.locator('#orders tr').count(), 0); assert.equal(await page.locator('#delete-selected').isDisabled(), true);
+    adminOrders = [order]; await page.locator('#refresh').click(); await page.locator('#orders tr').waitFor();
+    page.once('dialog', dialog => dialog.accept()); await page.getByRole('button', { name: 'Bestellung HH MF 123 l\u00f6schen', exact: true }).click(); await page.getByText('1 Bestellung(en) gel\u00f6scht.', { exact: true }).waitFor(); assert.deepEqual(deletedIds, ['cs_test']);
+    await page.locator('#refresh').click(); assert.equal(await page.locator('#orders tr').count(), 0);
     assert.deepEqual(errors, []);
-    console.log('PASS: All public pages, multi-step orders with validation and preserved inputs, own checkout with payment error and edit, mobile layout, admin login and status UI');
+    console.log('PASS: All public pages, multi-step orders with validation and preserved inputs, own checkout with payment error and edit, mobile layout, admin login, status and single/bulk deletion UI');
   } finally { await browser.close(); }
 })().catch(e => { console.error(e); process.exitCode = 1; });

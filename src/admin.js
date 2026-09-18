@@ -2,6 +2,8 @@ const $ = s => document.querySelector(s);
 let ordersCursor = null;
 let codesCursor = null;
 let selectedId = null;
+const selectedOrders = new Set();
+let deletingOrders = false;
 const message = text => { $('#admin-message').textContent = text; };
 async function api(path = '', body) {
   const response = await fetch(`/api/admin${path}`, { cache: 'no-store', ...(body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {}) });
@@ -17,14 +19,56 @@ const date = seconds => new Date(seconds * 1000).toLocaleString('de-DE');
 function cell(row, value) { const td = document.createElement('td'); td.textContent = value || '—'; row.append(td); return td; }
 async function loadOrders(more = false) {
   const result = await api(more && ordersCursor ? `?cursor=${encodeURIComponent(ordersCursor)}` : '');
-  if (!more) $('#orders').replaceChildren();
+  if (!more) { $('#orders').replaceChildren(); selectedOrders.clear(); }
   for (const order of result.orders) {
-    const row = document.createElement('tr');
+    const row = document.createElement('tr'); row.dataset.id = order.id;
+    const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.dataset.orderId = order.id;
+    checkbox.setAttribute('aria-label', `Bestellung ${order.plate} ausw\u00e4hlen`);
+    checkbox.onchange = () => { if (checkbox.checked) selectedOrders.add(order.id); else selectedOrders.delete(order.id); updateSelection(); };
+    cell(row, '').replaceChildren(checkbox);
     cell(row, date(order.created)); cell(row, order.plate); cell(row, order.customer.name); cell(row, money(order.amount)); cell(row, order.status);
-    const button = document.createElement('button'); button.className = 'btn btn-light small'; button.textContent = 'Ansehen'; button.setAttribute('aria-label', `Bestellung ${order.plate} ansehen`); button.onclick = () => detail(order.id).catch(e => message(e.message)); cell(row, '').replaceChildren(button); $('#orders').append(row);
+    const button = document.createElement('button'); button.className = 'btn btn-light small'; button.textContent = 'Ansehen'; button.setAttribute('aria-label', `Bestellung ${order.plate} ansehen`); button.onclick = () => detail(order.id).catch(e => message(e.message)); const remove = document.createElement('button'); remove.className = 'btn btn-light small'; remove.textContent = 'L\u00f6schen';
+    remove.setAttribute('aria-label', `Bestellung ${order.plate} l\u00f6schen`); remove.onclick = () => deleteOrders([order.id]);
+    cell(row, '').replaceChildren(button, remove); $('#orders').append(row);
   }
+  updateSelection();
   ordersCursor = result.nextCursor; $('#more-orders').hidden = !ordersCursor; $('#orders-empty').hidden = Boolean($('#orders').children.length);
 }
+
+function updateSelection() {
+  const checkboxes = [...document.querySelectorAll('[data-order-id]')];
+  $('#selection-count').textContent = `${selectedOrders.size} ausgew\u00e4hlt`;
+  $('#delete-selected').disabled = deletingOrders || selectedOrders.size === 0;
+  $('#select-all-orders').checked = checkboxes.length > 0 && selectedOrders.size === checkboxes.length;
+  $('#select-all-orders').indeterminate = selectedOrders.size > 0 && selectedOrders.size < checkboxes.length;
+  $('#select-all-orders').disabled = deletingOrders || checkboxes.length === 0;
+}
+async function deleteOrders(ids) {
+  if (deletingOrders || !ids.length) return;
+  if (!window.confirm(`${ids.length === 1 ? 'Diese Bestellung' : ids.length + ' Bestellungen'} aus der Verwaltung l\u00f6schen? Zahlungen und Rechnungen bleiben erhalten.`)) return;
+  deletingOrders = true;
+  const controls = [...document.querySelectorAll('#orders button, #orders input, #refresh, #more-orders')];
+  controls.forEach(control => { control.disabled = true; }); updateSelection();
+  try {
+    const result = await api('', { action: 'delete-orders', ids });
+    for (const id of result.deletedIds) {
+      [...$('#orders').children].find(row => row.dataset.id === id)?.remove(); selectedOrders.delete(id);
+      if (selectedId === id) { $('#order-detail').close(); $('#detail-content').replaceChildren(); selectedId = null; }
+    }
+    $('#orders-empty').hidden = Boolean($('#orders').children.length);
+    message(`${result.deletedIds.length} Bestellung(en) gel\u00f6scht.${result.failedIds.length ? ' ' + result.failedIds.length + ' konnten nicht gel\u00f6scht werden. Bitte erneut versuchen.' : ''}`);
+  } catch (e) { message(e.message); }
+  finally { deletingOrders = false; controls.forEach(control => { control.disabled = false; }); updateSelection(); }
+}
+$('#select-all-orders').onchange = e => {
+  for (const checkbox of document.querySelectorAll('[data-order-id]')) {
+    checkbox.checked = e.currentTarget.checked;
+    if (checkbox.checked) selectedOrders.add(checkbox.dataset.orderId); else selectedOrders.delete(checkbox.dataset.orderId);
+  }
+  updateSelection();
+};
+$('#delete-selected').onclick = () => deleteOrders([...selectedOrders]);
+
 async function detail(id) {
   const { order } = await api(`?id=${encodeURIComponent(id)}`); selectedId = id;
   const dl = document.createElement('dl');
