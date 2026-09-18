@@ -3,8 +3,6 @@ const form = document.querySelector('#kennzeichenForm');
 if (form) {
   const steps = [...form.querySelectorAll('[data-step]')];
   const status = form.querySelector('.form-status');
-  const next = form.querySelector('[data-next]');
-  const back = form.querySelector('[data-back]');
   const submit = form.querySelector('[type="submit"]');
   const submitLabel = submit.textContent;
   const deferDeliveryPrice = form.hasAttribute('data-defer-delivery-price');
@@ -24,8 +22,7 @@ if (form) {
   const variantLabels = { standard: 'Standard', electric: 'E-Kennzeichen', historic: 'H-Kennzeichen' };
   const quantity = () => field('plateType').value === 'motorcycle' ? 1 : 2;
   const quantityLabel = () => quantity() === 1 ? '1 Schild' : '2 Schilder (Satz)';
-  const DISCOUNT_TEST_CODE = 'FLINKATEST50';
-  const isTestMode = () => Boolean(field('testMode')?.checked) || (field('discountCode')?.value || '').trim().toUpperCase() === DISCOUNT_TEST_CODE;
+  const isTestMode = () => false;
   let appliedDiscount = null;
   let discountError = null;
   function orderPrices() {
@@ -123,102 +120,6 @@ if (form) {
     });
   }
 
-  const discountPopup = document.querySelector('[data-discount-popup]');
-  const discountPopupBackdrop = document.querySelector('[data-discount-popup-backdrop]');
-  if (discountPopup && discountPopupBackdrop && discountCodeField) {
-    const POPUP_CODE = 'MoinRX10';
-    const POPUP_SESSION_KEY = 'moinflinka_discount_popup_seen';
-    const popupClose = discountPopup.querySelector('[data-discount-popup-close]');
-    const popupCopy = discountPopup.querySelector('[data-discount-popup-copy]');
-    const popupActivate = discountPopup.querySelector('[data-discount-popup-activate]');
-    const popupStatus = discountPopup.querySelector('[data-discount-popup-status]');
-    let popupTriggered = false;
-    let lastFocusedElement = null;
-
-    const popupWasSeen = () => {
-      try { return sessionStorage.getItem(POPUP_SESSION_KEY) === 'true'; } catch { return false; }
-    };
-    const rememberPopup = () => {
-      try { sessionStorage.setItem(POPUP_SESSION_KEY, 'true'); } catch { /* Storage may be unavailable. */ }
-    };
-    const cookieDialogIsOpen = () => !document.querySelector('#cookieBanner')?.hidden;
-
-    function showDiscountPopup() {
-      if (popupTriggered || popupWasSeen()) return;
-      popupTriggered = true;
-      const openWhenAvailable = () => {
-        if (cookieDialogIsOpen()) {
-          window.setTimeout(openWhenAvailable, 500);
-          return;
-        }
-        lastFocusedElement = document.activeElement;
-        discountPopupBackdrop.hidden = false;
-        discountPopup.hidden = false;
-        document.body.classList.add('discount-popup-open');
-        popupClose.focus();
-      };
-      openWhenAvailable();
-    }
-
-    function closeDiscountPopup() {
-      if (discountPopup.hidden) return;
-      rememberPopup();
-      discountPopup.hidden = true;
-      discountPopupBackdrop.hidden = true;
-      document.body.classList.remove('discount-popup-open');
-      if (lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus();
-    }
-
-    async function copyPopupCode() {
-      try {
-        await navigator.clipboard.writeText(POPUP_CODE);
-        popupStatus.textContent = `Rabattcode ${POPUP_CODE} wurde kopiert.`;
-      } catch {
-        popupStatus.textContent = `Dein Rabattcode: ${POPUP_CODE}`;
-      }
-    }
-
-    popupClose.addEventListener('click', closeDiscountPopup);
-    discountPopupBackdrop.addEventListener('click', closeDiscountPopup);
-    popupCopy.addEventListener('click', copyPopupCode);
-    popupActivate.addEventListener('click', async () => {
-      popupActivate.disabled = true;
-      discountCodeField.value = POPUP_CODE;
-      discountCodeField.dispatchEvent(new Event('input', { bubbles: true }));
-      await copyPopupCode();
-      await applyDiscountCode();
-      popupStatus.textContent = appliedDiscount
-        ? `${POPUP_CODE} wurde eingefügt, kopiert und mit ${appliedDiscount.percentOff}\u00a0% Rabatt aktiviert.`
-        : `${POPUP_CODE} wurde eingefügt und kopiert. Du kannst den Code im letzten Bestellschritt anwenden.`;
-      popupActivate.disabled = false;
-      window.setTimeout(closeDiscountPopup, 1400);
-    });
-    discountPopup.addEventListener('keydown', event => {
-      if (event.key === 'Escape') closeDiscountPopup();
-      if (event.key !== 'Tab') return;
-      const focusable = [...discountPopup.querySelectorAll('button:not(:disabled)')];
-      const first = focusable[0];
-      const last = focusable.at(-1);
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    });
-
-    if (!popupWasSeen()) {
-      window.setTimeout(showDiscountPopup, 15000);
-      document.addEventListener('mouseout', event => {
-        if (event.clientY <= 0 && !event.relatedTarget) showDiscountPopup();
-      });
-      window.addEventListener('scroll', () => {
-        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-        if (scrollable > 0 && window.scrollY / scrollable >= 0.4) showDiscountPopup();
-      }, { passive: true });
-    }
-  }
   ['seasonStart', 'seasonEnd'].forEach((name, index) => {
     for (let month = 1; month <= 12; month++) {
       const value = String(month).padStart(2, '0');
@@ -235,20 +136,9 @@ if (form) {
   });
   form.addEventListener('input', updateSummary);
   function show(index, focus = true) {
-    step = index;
-    steps.forEach((panel, i) => { panel.hidden = i !== step; });
-    document.querySelectorAll('.plate-progress li').forEach((item, i) => {
-      if (i === step) item.setAttribute('aria-current', 'step');
-      else item.removeAttribute('aria-current');
-      item.classList.toggle('is-done', i < step);
-    });
-    back.hidden = step === 0;
-    next.hidden = step === 2;
-    submit.hidden = step !== 2;
-    next.textContent = step === 0 ? 'Weiter zur Lieferung →' : 'Weiter zu deinen Daten →';
+    step = 2;
+    steps.forEach(panel => { panel.hidden = false; });
     updateSummary();
-    status.textContent = '';
-    if (focus) steps[step].querySelector('legend').focus();
   }
   ['city', 'letters'].forEach(name => field(name).addEventListener('input', () => {
     field(name).value = field(name).value.toLocaleUpperCase('de-DE');
@@ -269,8 +159,8 @@ if (form) {
     invalid.focus();
     return false;
   }
-  next.addEventListener('click', () => { if (validate(step)) show(step + 1); });
-  back.addEventListener('click', () => show(step - 1));
+
+
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (sending) return;
@@ -285,7 +175,7 @@ if (form) {
     data.topic = 'Kennzeichen-Bestellanfrage';
     sending = true;
     submit.disabled = true;
-    back.disabled = true;
+
     submit.textContent = 'Wird gesendet …';
     status.textContent = '';
     try {
@@ -294,24 +184,36 @@ if (form) {
         signal: AbortSignal.timeout(20000),
       });
       const result = await response.json();
-      if (!response.ok || result.ok !== true) throw new Error('Versand fehlgeschlagen');
-      if (result.url) {
-        window.location.href = result.url;
-        return;
+      if (!response.ok || result.ok !== true) throw new Error(result.error || 'Zahlung konnte nicht gestartet werden.');
+      if (!window.Stripe) {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://js.stripe.com/v3/';
+          script.onload = resolve;
+          script.onerror = () => { script.remove(); reject(new Error('Zahlung konnte nicht geladen werden.')); };
+          document.head.append(script);
+        });
       }
-      steps.forEach(panel => { panel.hidden = true; });
-      form.querySelector('.plate-navigation').hidden = true;
-      document.querySelector('.plate-progress').hidden = true;
-      status.className = 'form-status is-success';
-      status.textContent = `Vielen Dank! Deine Bestellanfrage für ${quantityLabel()} (${plate()}) mit einem Gesamtpreis von ${money(data.totalPriceCents)} ist bei uns eingegangen. Deine Rechnung erhältst du per E-Mail an ${data.email}.`;
-      status.tabIndex = -1;
-      status.focus();
-    } catch {
+      const checkout = await window.Stripe(result.publishableKey).initEmbeddedCheckout({ clientSecret: result.clientSecret });
+      const panel = document.querySelector('#payment-panel');
+      form.hidden = true;
+      panel.hidden = false;
+      checkout.mount('#embedded-checkout');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector('#edit-order').onclick = () => {
+        checkout.destroy();
+        panel.hidden = true;
+        form.hidden = false;
+        sending = false;
+        submit.disabled = false;
+        submit.textContent = submitLabel;
+      };
+    } catch (error) {
       status.className = 'form-status is-error';
-      status.textContent = 'Der Versand konnte nicht bestätigt werden. Deine Eingaben bleiben erhalten. Bitte versuche es erneut oder kontaktiere uns unter +49 1590 6808767.';
+      status.textContent = error.message || 'Bitte versuche es erneut oder nutze unseren WhatsApp-Support.';
       sending = false;
       submit.disabled = false;
-      back.disabled = false;
+
       submit.textContent = submitLabel;
     }
   });

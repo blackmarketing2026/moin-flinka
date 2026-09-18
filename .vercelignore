@@ -1,0 +1,8 @@
+.env
+.env.*
+.qa/
+_reference/
+tests/
+node_modules/
+dist/
+.claude/

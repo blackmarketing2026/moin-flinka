@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="de">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Bestellverwaltung | Moin Flinka</title></head>
+<body class="admin-page">
+  <header class="admin-header container"><a href="/"><img src="/assets/img/moin-flinka-logo.png" width="220" alt="Moin Flinka"></a><span>Bestellverwaltung</span><button class="btn btn-light" id="logout" hidden>Abmelden</button></header>
+  <main class="container order-section">
+    <p id="admin-message" role="status" aria-live="polite"></p>
+    <form id="admin-login" class="order-card"><p class="eyebrow">Mitgliederbereich</p><h1>Admin anmelden</h1><label>Benutzername<input name="username" autocomplete="username" value="admin" required></label><label>Passwort<input name="password" type="password" autocomplete="current-password" required></label><button class="btn btn-primary">Anmelden</button></form>
+    <section id="dashboard" hidden>
+      <div class="admin-heading"><div><p class="eyebrow">Alles im Blick</p><h1>Bestellungen</h1><p>Bezahlte Bestellungen, neueste zuerst.</p></div><button class="btn btn-light" id="refresh">Aktualisieren</button></div>
+      <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Bestelleingang</th><th>Kennzeichen</th><th>Kunde</th><th>Gesamt</th><th>Status</th><th>Details</th></tr></thead><tbody id="orders"></tbody></table></div><p id="orders-empty" hidden>Noch keine bezahlten Bestellungen auf dieser Seite.</p><button class="btn btn-light" id="more-orders" hidden>Weitere Bestellungen laden</button>
+      <section class="order-card admin-discounts"><p class="eyebrow">Rabatte</p><h2>Rabattcodes erstellen und verwalten</h2><p>Codes werden bei Stripe gespeichert und gelten im Checkout. Betrag oder Laufzeit ändern? Deaktiviere den bisherigen Code und erstelle einen neuen.</p>
+        <form id="discount-form"><div class="form-row"><label>Rabattcode<input name="code" pattern="[A-Za-z0-9_-]{3,40}" maxlength="40" required></label><label>Rabatt in %<input name="percent" type="number" min="0.01" max="100" step="0.01" required></label></div><div class="form-row"><label>Max. Einlösungen (optional)<input name="max" type="number" min="1" step="1"></label><label>Gültig bis (optional)<input name="expires" type="datetime-local"></label></div><button class="btn btn-primary">Rabattcode erstellen</button></form>
+        <ul id="codes" class="admin-codes"></ul><button class="btn btn-light" id="more-codes" hidden>Weitere Codes laden</button>
+      </section>
+    </section>
+    <dialog id="order-detail"><div class="admin-heading"><h2>Bestelldetails</h2><button id="close-detail" class="btn btn-light">Schließen</button></div><div id="detail-content"></div><form id="status-form"><label>Bearbeitungsstatus<select name="status"><option>Eingegangen</option><option>Gedruckt</option><option>Zum Ausliefern bereit</option></select></label><button class="btn btn-primary">Status speichern</button><p id="detail-message" role="status" aria-live="polite"></p></form></dialog>
+  </main>
+  <script type="module" src="/src/main.js"></script><script type="module" src="/src/admin.js"></script>
+</body></html>

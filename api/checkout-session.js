@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
     const metadata = session.metadata || {};
     const suffix = getSuffix(metadata);
     const plate = `${metadata.city || ""} ${metadata.letters || ""} ${metadata.digits || ""}${suffix}`.trim();
-    const totalPriceCents = Number(metadata.totalPriceCents) || session.amount_total || 0;
+    const totalPriceCents = session.amount_total || 0;
     const invoice = session.invoice && typeof session.invoice === "object" ? session.invoice : null;
 
     return res.status(200).json({

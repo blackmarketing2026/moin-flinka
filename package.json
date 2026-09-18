@@ -5,6 +5,8 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
+    "test": "node tests/orders.cjs",
+    "test:ui": "node tests/site.cjs",
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1"

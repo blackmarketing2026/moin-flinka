@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ ok: false, error: validation.error });
   }
 
-  const testMode = body.testMode === true;
+  const testMode = false;
   const pricing = testMode ? TEST_PRICING : computePricing(body);
   if (!pricesMatch(body, pricing)) {
     return res.status(400).json({ ok: false, error: "Der Preis hat sich geändert. Bitte lade die Seite neu und prüfe deine Auswahl." });
@@ -71,15 +71,8 @@ module.exports = async (req, res) => {
   const seasonLabel = body.season ? ` · Saison ${body.seasonStart}–${body.seasonEnd}` : "";
   const deliveryLabel = SHORT_DELIVERY_LABELS[body.delivery];
 
-  const origin = req.headers.origin || "https://www.moin-flinka.de";
-  const refererPath = (() => {
-    try {
-      return new URL(req.headers.referer).pathname;
-    } catch {
-      return null;
-    }
-  })();
-  const returnPath = refererPath && refererPath.startsWith("/kennzeichen") ? refererPath : "/kennzeichen-deutschland";
+  const origin = process.env.SITE_URL || "https://www.moin-flinka.de";
+  if (!process.env.STRIPE_PUBLISHABLE_KEY) return res.status(503).json({ ok: false, error: "Die Online-Zahlung wird gerade eingerichtet. Bitte nutze unseren WhatsApp-Support." });
   const metadata = {
     plateType: body.plateType,
     plateVariant: body.plateVariant,
@@ -112,7 +105,8 @@ module.exports = async (req, res) => {
     const discountCode = typeof body.discountCode === "string" ? body.discountCode.trim() : "";
     if (discountCode) {
       const found = await stripe.promotionCodes.list({ code: discountCode, active: true, limit: 1 });
-      if (found.data[0]) promotionCodeId = found.data[0].id;
+      if (!found.data[0]) return res.status(400).json({ ok: false, error: "Rabattcode ungültig oder abgelaufen." });
+      promotionCodeId = found.data[0].id;
     }
 
     const vatTaxRateId = await getGermanVatTaxRateId();
@@ -149,14 +143,14 @@ module.exports = async (req, res) => {
       line_items,
       customer: customer.id,
       invoice_creation: { enabled: true, invoice_data: { metadata } },
-      success_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}${returnPath}?checkout=cancelled#formular`,
+      ui_mode: "embedded",
+      return_url: `${origin}/dankesseite-stripe?session_id={CHECKOUT_SESSION_ID}`,
       ...(promotionCodeId ? { discounts: [{ promotion_code: promotionCodeId }] } : { allow_promotion_codes: true }),
       metadata,
       payment_intent_data: { metadata },
     });
 
-    return res.status(200).json({ ok: true, url: session.url });
+    return res.status(200).json({ ok: true, clientSecret: session.client_secret, publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
   } catch (error) {
     console.error("Stripe Checkout Session fehlgeschlagen", error);
     return res.status(502).json({ ok: false, error: "Zahlung konnte nicht gestartet werden." });

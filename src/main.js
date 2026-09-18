@@ -231,64 +231,7 @@ faqButtons.forEach((button, index) => {
   });
 });
 
-const form = document.querySelector(".contact-form");
-
-if (form) {
-  const status = form.querySelector(".form-status");
-  const endpoint = form.dataset.formEndpoint || siteConfig.FORM_ENDPOINT || "";
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    status.textContent = "";
-    form.querySelectorAll(".field-error").forEach((error) => error.remove());
-    form.querySelectorAll(".invalid").forEach((field) => field.classList.remove("invalid"));
-
-    if (!form.checkValidity()) {
-      [...form.elements].forEach((field) => {
-        if (field instanceof HTMLElement && "validity" in field && !field.validity.valid) {
-          field.classList.add("invalid");
-          const label = field.closest("label") || field.closest("fieldset");
-          if (label && !label.querySelector(".field-error")) {
-            const error = document.createElement("span");
-            error.className = "field-error";
-            error.textContent = field.validity.valueMissing ? "Bitte ausf\u00fcllen." : "Bitte g\u00fcltig ausf\u00fcllen.";
-            label.append(error);
-          }
-        }
-      });
-      status.textContent = "Bitte pr\u00fcfe die markierten Felder.";
-      status.className = "form-status is-error";
-      return;
-    }
-
-    if (!endpoint) {
-      status.textContent =
-        "Das Formular ist vorbereitet. Zum echten Versand muss FORM_ENDPOINT im site-config-Block in index.html eingetragen werden.";
-      status.className = "form-status is-info";
-      return;
-    }
-
-    try {
-      const data = Object.fromEntries(new FormData(form).entries());
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok) {
-        form.reset();
-        window.location.href = "/dankesseite";
-      } else {
-        status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuche es telefonisch oder per WhatsApp.";
-        status.className = "form-status is-error";
-      }
-    } catch {
-      status.textContent = "Der Versand war nicht m\u00f6glich. Bitte versuche es telefonisch oder per WhatsApp.";
-      status.className = "form-status is-error";
-    }
-  });
-}
-
 import "./kennzeichen.js";
 import "./order-confirmation.js";
+
+import "./payment-methods.js";

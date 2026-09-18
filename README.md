@@ -1,5 +1,20 @@
 # Moin Flinka Designregeln
 
+## Bestellungen und Adminbereich (aktueller Stand)
+
+- `/bestellseite`: Kennzeichen, Lieferung und Kundendaten auf einer Seite; Stripe Embedded Checkout übernimmt die Zahlung direkt auf der Webseite.
+- `/admin`: geschützter Zugang mit Benutzername `admin`, Bestellungen chronologisch (neueste zuerst), Kundendetails und Status `Eingegangen`, `Gedruckt`, `Zum Ausliefern bereit`.
+- Bestellungen und Bearbeitungsstatus liegen bei Stripe (Checkout-Session-Metadaten). Es wird keine lokale Datei als Datenbank verwendet. Bestehende bezahlte Kennzeichen-Bestellungen erscheinen ebenfalls. Weitere Bestellungen und Rabattcodes werden seitenweise geladen.
+- Prozent-Rabattcodes werden über Stripe erstellt, mit optionalem Ablaufdatum und Einlösungslimit. Codes können aktiviert/deaktiviert werden. Änderungen an Rabattbetrag oder Laufzeit erfolgen über einen neuen Code.
+- Kontaktformulare und Quiz wurden entfernt; Support führt zu WhatsApp.
+- Erforderliche Hosting-Variablen: `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY` (zum selben Konto und Modus), `STRIPE_WEBHOOK_SECRET`, `SITE_URL`, `ADMIN_PASSWORD` (mindestens 12 Zeichen), `ADMIN_SESSION_SECRET` (zufällig, mindestens 32 Zeichen). Nur die öffentliche Stripe-Kennung gelangt in den Browser; Passwort und Session-Schlüssel bleiben serverseitig.
+- Die Admin-Sitzung läuft nach 8 Stunden ab. Das Cookie ist Secure/HttpOnly/SameSite=Strict; schreibende API-Aufrufe prüfen den Origin. Fünf fehlgeschlagene Anmeldungen je IP und Funktionsinstanz lösen 15 Minuten Sperre aus. Für eine globale Sperre über alle Serverinstanzen kann zusätzlich eine Hosting-Firewall-Regel eingerichtet werden.
+- Kreditkarten und Wallets werden dynamisch gemäß Stripe-Konto, Gerät und Freischaltung angeboten. Für Apple Pay, Google Pay und Amazon Pay muss die Domain bei Stripe registriert sein. Die Icons sind keine Zusage, dass jede Methode jedem Besucher verfügbar ist.
+- Der öffentliche 0,50-Euro-Testpreis ist deaktiviert. Der Server berechnet alle Preise unabhängig vom Browser.
+- Prüfung: `npm test`, `npm run dev` und in einem zweiten Terminal `npm run test:ui`, anschließend `npm run build`.
+
+Die nachfolgenden ursprünglichen Entwurfsregeln beschreiben teilweise den früheren Stand; für Bestellung und Support gelten die Angaben oben.
+
 Diese Datei ist die Arbeitsgrundlage fuer die spaetere Landingpage-Erstellung. Ziel ist, den gelieferten Landingpage-Entwurf fuer **Moin Flinka - Express Kfz-Zulassung & Schilder in Hamburg** moeglichst exakt, sauber und konsistent nachzubauen.
 
 ## Markenbasis
