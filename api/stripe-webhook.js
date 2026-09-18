@@ -1,6 +1,7 @@
 const stripe = require("./_lib/stripe-client");
 const { sendMail, buildPaymentConfirmedHtml, buildCustomerThankYouHtml, buildCustomerInvoiceHtml } = require("./_lib/mailer");
 const {
+  isCompletedPayment,
   buildOrderSummaryLines,
   getSuffix,
   metadataToOrder,
@@ -133,9 +134,9 @@ module.exports = async (req, res) => {
 
   if (isCheckoutEvent) {
     const session = event.data.object;
-    if (session.payment_status === "paid") {
+    if (isCompletedPayment(session)) {
       const order = metadataToOrder(session.metadata || {});
-      const pricing = metadataToPricing(session.metadata || {});
+      const pricing = { ...metadataToPricing(session.metadata || {}), totalPriceCents: session.amount_total };
 
       try {
         await notifyBusiness(session, order, pricing);

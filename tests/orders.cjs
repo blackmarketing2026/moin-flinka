@@ -20,6 +20,7 @@ stripe.promotionCodes.list = async () => ({ data: [], has_more: false });
 stripe.coupons.create = async () => ({ id: 'coupon_test' });
 stripe.promotionCodes.create = async value => { promotion = value; };
 const checkout = require('../api/create-checkout-session');
+const { isCompletedPayment } = require('../api/_lib/plate-order');
 const admin = require('../api/admin');
 const headers = { origin: process.env.SITE_URL, 'x-forwarded-for': '127.0.0.1' };
 async function call(handler, method, body, extra = {}) {
@@ -29,6 +30,8 @@ async function call(handler, method, body, extra = {}) {
   return result;
 }
 (async () => {
+  assert.equal(isCompletedPayment({ payment_status: 'no_payment_required', status: 'complete' }), true);
+  assert.equal(isCompletedPayment({ payment_status: 'no_payment_required', status: 'open' }), false);
   let result = await call(checkout, 'POST', body);
   assert.equal(result.status, 200); assert.equal(created.ui_mode, 'embedded'); assert.equal(created.success_url, undefined); assert.match(created.return_url, /^https:\/\/www.moin-flinka.de/); assert.equal(result.body.clientSecret, 'test_secret');
   result = await call(checkout, 'POST', { ...body, testMode: true, basePriceCents: 50, deliveryPriceCents: 0, totalPriceCents: 50 }); assert.equal(result.status, 400, 'Public test pricing cannot bypass real prices');

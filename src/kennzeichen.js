@@ -164,7 +164,6 @@ if (form) {
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (sending) return;
-    if (step < 2) { if (validate(step)) show(step + 1); return; }
     for (let i = 0; i < steps.length; i++) if (!validate(i)) return;
     const data = Object.fromEntries(new FormData(form));
     data.orderType = 'plate';
@@ -172,7 +171,6 @@ if (form) {
     ['season', 'carbon', 'environmentSticker'].forEach(name => { data[name] = field(name).checked; });
     data.testMode = isTestMode();
     Object.assign(data, orderPrices());
-    data.topic = 'Kennzeichen-Bestellanfrage';
     sending = true;
     submit.disabled = true;
 
@@ -209,6 +207,8 @@ if (form) {
         submit.textContent = submitLabel;
       };
     } catch (error) {
+      form.hidden = false;
+      document.querySelector('#payment-panel').hidden = true;
       status.className = 'form-status is-error';
       status.textContent = error.message || 'Bitte versuche es erneut oder nutze unseren WhatsApp-Support.';
       sending = false;

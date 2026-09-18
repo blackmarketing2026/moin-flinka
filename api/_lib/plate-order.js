@@ -1,5 +1,9 @@
 const prices = require("../../plate-prices.json");
 
+function isCompletedPayment(session) {
+  return session.payment_status === 'paid' || (session.payment_status === 'no_payment_required' && session.status === 'complete');
+}
+
 const PLATE_TYPE_LABELS = {
   normal: "Normales Kennzeichen",
   motorcycle: "Motorrad-Kennzeichen",
@@ -115,6 +119,7 @@ function metadataToPricing(metadata) {
 }
 
 module.exports = {
+  isCompletedPayment,
   prices,
   money,
   getSuffix,

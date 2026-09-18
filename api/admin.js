@@ -1,6 +1,6 @@
 const stripe = require('./_lib/stripe-client');
 const { authorized, login } = require('./_lib/admin-auth');
-const { getSuffix } = require('./_lib/plate-order');
+const { getSuffix, isCompletedPayment } = require('./_lib/plate-order');
 const statuses = ['Eingegangen', 'Gedruckt', 'Zum Ausliefern bereit'];
 const orderView = s => ({ id: s.id, created: s.created, amount: s.amount_total, currency: s.currency, status: s.metadata.fulfillmentStatus || statuses[0], plate: `${s.metadata.city} ${s.metadata.letters} ${s.metadata.digits}${getSuffix(s.metadata)}`, customer: { name: s.metadata.name, email: s.metadata.email, phone: s.metadata.phone, street: s.metadata.street, postcode: s.metadata.postcode, town: s.metadata.town }, details: s.metadata, paymentStatus: s.payment_status });
 module.exports = async (req, res) => {
@@ -32,11 +32,11 @@ module.exports = async (req, res) => {
       }
       if (req.query.id) {
         const session = await stripe.checkout.sessions.retrieve(req.query.id);
-        if (!session.metadata.plateType || session.payment_status !== 'paid') return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
+        if (!session.metadata.plateType || !isCompletedPayment(session)) return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
         return res.status(200).json({ ok: true, order: orderView(session) });
       }
       const result = await stripe.checkout.sessions.list({ limit: 100, ...(req.query.cursor ? { starting_after: req.query.cursor } : {}) });
-      return res.status(200).json({ ok: true, orders: result.data.filter(s => s.payment_status === 'paid' && s.metadata.plateType).map(orderView), nextCursor: result.has_more ? result.data.at(-1).id : null });
+      return res.status(200).json({ ok: true, orders: result.data.filter(s => isCompletedPayment(s) && s.metadata.plateType).map(orderView), nextCursor: result.has_more ? result.data.at(-1).id : null });
     }
     if (body.action === 'logout') {
       res.setHeader('Set-Cookie', 'mf_admin=; HttpOnly; Secure; SameSite=Strict; Path=/api/admin; Max-Age=0');
@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
     if (body.action === 'status') {
       if (!statuses.includes(body.status) || typeof body.id !== 'string') return res.status(400).json({ ok: false, error: 'Ungültiger Status.' });
       const session = await stripe.checkout.sessions.retrieve(body.id);
-      if (!session.metadata.plateType || session.payment_status !== 'paid') return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
+      if (!session.metadata.plateType || !isCompletedPayment(session)) return res.status(404).json({ ok: false, error: 'Bestellung nicht gefunden.' });
       await stripe.checkout.sessions.update(body.id, { metadata: { fulfillmentStatus: body.status } });
       return res.status(200).json({ ok: true });
     }

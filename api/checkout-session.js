@@ -1,5 +1,5 @@
 const stripe = require("./_lib/stripe-client");
-const { getSuffix, money } = require("./_lib/plate-order");
+const { getSuffix, money, isCompletedPayment } = require("./_lib/plate-order");
 
 module.exports = async (req, res) => {
   if (req.method !== "GET") {
@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ["invoice"] });
-    if (session.payment_status !== "paid") {
+    if (!isCompletedPayment(session)) {
       return res.status(404).json({ ok: false, error: "Zahlung nicht gefunden." });
     }
 

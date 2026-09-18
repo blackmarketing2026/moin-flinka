@@ -1,5 +1,5 @@
 const stripe = require("./_lib/stripe-client");
-const { metadataToOrder, metadataToPricing } = require("./_lib/plate-order");
+const { metadataToOrder, metadataToPricing, isCompletedPayment } = require("./_lib/plate-order");
 const { buildReceiptPdf } = require("./_lib/receipt-pdf");
 
 module.exports = async (req, res) => {
@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, { expand: ["invoice"] });
-    if (session.payment_status !== "paid") {
+    if (!isCompletedPayment(session)) {
       return res.status(404).json({ ok: false, error: "Zahlung nicht gefunden." });
     }
 
@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     }
 
     const order = metadataToOrder(session.metadata || {});
-    const pricing = metadataToPricing(session.metadata || {});
+    const pricing = { ...metadataToPricing(session.metadata || {}), totalPriceCents: session.amount_total };
     const pdfBuffer = await buildReceiptPdf({ session, order, pricing });
 
     res.setHeader("Content-Type", "application/pdf");
