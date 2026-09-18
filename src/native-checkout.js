@@ -22,7 +22,8 @@ export async function openNativeCheckout(result, order, form, onEdit) {
   const money = cents => (cents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
   const checkout = window.Stripe(result.publishableKey).initCheckoutElementsSdk({
     clientSecret: result.clientSecret,
-    defaultValues: { email: order.email, phoneNumber: order.phone, billingAddress: { name: order.name, address: { line1: order.street, postal_code: order.postcode, city: order.town, country: 'DE' } } },
+    // Email is already fixed by the server-created Stripe customer.
+    defaultValues: { phoneNumber: order.phone, billingAddress: { name: order.name, address: { line1: order.street, postal_code: order.postcode, city: order.town, country: 'DE' } } },
     elementsOptions: { appearance: { theme: 'stripe', variables: { colorPrimary: '#092954', colorText: '#092954', borderRadius: '7px', fontFamily: 'Inter, Arial, sans-serif' } } },
   });
   const elements = [];
@@ -57,7 +58,7 @@ export async function openNativeCheckout(result, order, form, onEdit) {
       busy = true; payButton.disabled = true; editButton.disabled = true;
       payButton.textContent = 'Zahlung wird geprüft …'; errorMessage.textContent = '';
       try {
-        const confirmed = await actions.confirm({ redirect: 'if_required', email: order.email, phoneNumber: order.phone, billingAddress: { name: order.name, address: { line1: order.street, postal_code: order.postcode, city: order.town, country: 'DE' } }, ...(event ? { expressCheckoutConfirmEvent: event } : {}) });
+        const confirmed = await actions.confirm({ redirect: 'if_required', phoneNumber: order.phone, billingAddress: { name: order.name, address: { line1: order.street, postal_code: order.postcode, city: order.town, country: 'DE' } }, ...(event ? { expressCheckoutConfirmEvent: event } : {}) });
         if (confirmed.type === 'error') throw new Error(confirmed.error.message);
         window.location.assign(`/dankesseite-stripe?session_id=${encodeURIComponent(result.sessionId)}`);
       } catch (error) {
