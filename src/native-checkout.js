@@ -70,7 +70,7 @@ export async function openNativeCheckout(result, order, form, onEdit) {
     if (amount > 0) {
       // Name and address come from our order form and are supplied at confirmation.
       const payment = checkout.createPaymentElement({ layout: 'accordion', fields: { billingDetails: { name: 'never', address: 'never' } } }); elements.push(payment); payment.mount('#payment-element');
-      const wallets = checkout.createExpressCheckoutElement(); elements.push(wallets);
+      const wallets = checkout.createExpressCheckoutElement({ paymentMethods: { link: 'never' } }); elements.push(wallets);
       wallets.on('ready', event => { walletContainer.hidden = !event.availablePaymentMethods || !Object.values(event.availablePaymentMethods).some(Boolean); });
       wallets.on('confirm', event => { void confirm(event); }); wallets.mount('#express-payment');
     }

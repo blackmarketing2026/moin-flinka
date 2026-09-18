@@ -33,7 +33,7 @@ async function call(handler, method, body, extra = {}) {
   assert.equal(isCompletedPayment({ payment_status: 'no_payment_required', status: 'complete' }), true);
   assert.equal(isCompletedPayment({ payment_status: 'no_payment_required', status: 'open' }), false);
   let result = await call(checkout, 'POST', body);
-  assert.equal(result.status, 200); assert.equal(created.ui_mode, 'elements'); assert.equal(created.success_url, undefined); assert.match(created.return_url, /^https:\/\/www.moin-flinka.de/); assert.equal(result.body.clientSecret, 'test_secret');
+  assert.equal(result.status, 200); assert.equal(created.ui_mode, 'elements'); assert.deepEqual(created.payment_method_types, ['card', 'amazon_pay']); assert.equal(created.success_url, undefined); assert.match(created.return_url, /^https:\/\/www.moin-flinka.de/); assert.equal(result.body.clientSecret, 'test_secret');
   result = await call(checkout, 'POST', { ...body, testMode: true, basePriceCents: 50, deliveryPriceCents: 0, totalPriceCents: 50 }); assert.equal(result.status, 400, 'Public test pricing cannot bypass real prices');
   result = await call(checkout, 'POST', { ...body, discountCode: 'INVALID' }); assert.equal(result.status, 400);
   result = await call(admin, 'GET'); assert.equal(result.status, 401); assert.equal(result.body.orders, undefined);
