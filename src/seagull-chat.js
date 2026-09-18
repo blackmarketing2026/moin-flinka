@@ -43,6 +43,7 @@ if (orderForm) {
   let timer;
   let started = false;
   const queue = [];
+  const randomDelay = (min, max) => Math.floor(min + Math.random() * (max - min + 1));
   function enableAudio() {
     if (!soundEnabled) return;
     try {
@@ -101,10 +102,10 @@ if (orderForm) {
       if (!started) {
         started = true;
         queue.push(
-          { text: 'Moin! Ich bin deine Hamburger Möwe. 👋', delay: 600 },
-          { text: 'Auto zulassen oder abmelden? Unser Team hilft dir dabei.', delay: 1100 },
-          { text: 'Auch bei deinen Kennzeichen helfe ich dir gern weiter.', delay: 1300 },
-          { text: 'Was steht bei dir an? Wähle unten dein Thema. ⚓', delay: 1100, after: () => { options.hidden = false; options.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } },
+          { text: 'Moin! Ich bin deine Hamburger Möwe. 👋', delay: randomDelay(600, 1100) },
+          { text: 'Auto zulassen oder abmelden? Unser Team hilft dir dabei.', delay: randomDelay(1400, 2600) },
+          { text: 'Auch bei deinen Kennzeichen helfe ich dir gern weiter.', delay: randomDelay(900, 1700) },
+          { text: 'Was steht bei dir an? Wähle unten dein Thema. ⚓', delay: randomDelay(1800, 3000), after: () => { options.hidden = false; options.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } },
         );
       }
       deliverNext();

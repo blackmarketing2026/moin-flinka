@@ -1710,7 +1710,7 @@ section {
 
 @media (max-width: 760px) {
   body {
-    padding-bottom: 78px;
+    padding-bottom: 0;
   }
 
   .plate-order-page {
@@ -2837,6 +2837,6 @@ body.discount-popup-open {
   .gull-chat-launcher { font-size: 13px; }
 }
 @media (max-width: 760px) {
-  .gull-chat { bottom: calc(82px + env(safe-area-inset-bottom)); }
-  .gull-chat-panel { max-height: calc(100dvh - 180px - env(safe-area-inset-bottom)); }
+  .gull-chat { bottom: max(12px, env(safe-area-inset-bottom)); }
+  .gull-chat-panel { max-height: calc(100dvh - 110px - env(safe-area-inset-bottom)); }
 }

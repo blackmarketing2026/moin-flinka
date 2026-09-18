@@ -30,7 +30,7 @@ const assert = require('node:assert/strict');
     }
     await page.setViewportSize({ width: 390, height: 844 });
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-    assert.equal(await page.evaluate(() => document.querySelector('.gull-chat-launcher').getBoundingClientRect().bottom < document.querySelector('.mobile-quickbar').getBoundingClientRect().top), true);
+    assert.equal(await page.locator('.mobile-quickbar').count(), 0);
     await page.screenshot({ path: '.qa/seagull-chat-mobile.png' });
     await page.getByRole('button', { name: 'Chat schließen', exact: true }).click();
     await page.setViewportSize({ width: 1280, height: 900 });
