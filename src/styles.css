@@ -2787,3 +2787,5 @@ body.discount-popup-open {
 #order-detail dt { font-weight: 700; }
 #order-detail dd { margin: 0; overflow-wrap: anywhere; }
 @media (max-width: 760px) { .order-section { padding: 32px 0; } .order-card { padding: 24px 16px; } .admin-header { flex-wrap: wrap; gap: 12px; } .admin-heading { flex-wrap: wrap; } .admin-codes li { align-items: start; flex-direction: column; } #order-detail dl { grid-template-columns: 1fr; gap: 6px; } #order-detail dd { margin-bottom: 12px; } }
+
+.checkout-payment-icons { margin: 24px 0 16px; gap: 12px; }

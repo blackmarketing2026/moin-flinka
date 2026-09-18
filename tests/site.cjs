@@ -7,7 +7,7 @@ const assert = require('node:assert/strict');
     page.on('pageerror', error => errors.push(error.message));
     await page.addInitScript(() => localStorage.setItem('moinflinka_cookie_consent', JSON.stringify({ necessary: true, analytics: false, marketing: false })));
     for (const name of ['index', 'kennzeichen', 'kennzeichen-deutschland', 'kennzeichen-hamburg']) {
-      await page.goto(`http://127.0.0.1:5173/${name}.html`); assert.equal(await page.locator('#kennzeichenForm').count(), 1); assert.equal(await page.locator('fieldset:visible').count(), 1); assert.equal(await page.locator('a[href="/bestellseite"]').count(), 0); assert.equal(await page.locator('.payment-method').count(), 4);
+      await page.goto(`http://127.0.0.1:5173/${name}.html`); assert.equal(await page.locator('#kennzeichenForm').count(), 1); assert.equal(await page.locator('fieldset:visible').count(), 1); assert.equal(await page.locator('a[href="/bestellseite"]').count(), 0); assert.equal(await page.locator('.payment-methods .payment-method').count(), 4);
       if (name === 'kennzeichen-hamburg') assert.equal(await page.locator('[name=delivery][value=courier]').isChecked(), true);
     }
     await page.goto('http://127.0.0.1:5173/kennzeichen.html');
@@ -32,11 +32,11 @@ const assert = require('node:assert/strict');
     await page.route('**/api/create-checkout-session', route => { payload = route.request().postDataJSON(); return route.fulfill({ json: { ok: true, clientSecret: 'fake', publishableKey: 'pk_test_fake', amountTotal: 2490, sessionId: 'cs_test_order' } }); });
     await page.evaluate(() => {
       let paymentOptions;
-      const element = selectorText => ({ mount: selector => { document.querySelector(selector).textContent = selectorText; }, destroy: () => {}, on: () => {} });
+      const element = selectorText => ({ mount: selector => { document.querySelector(selector).textContent = selectorText; }, destroy: () => {}, on: (event, callback) => { if (event === 'ready') queueMicrotask(() => callback({ availablePaymentMethods: null })); } });
       window.Stripe = () => ({ initCheckoutElementsSdk: options => { if ('email' in options.defaultValues || 'phoneNumber' in options.defaultValues) throw new Error('Customer contact details are already set'); return ({ loadActions: async () => ({ type: 'success', actions: { getSession: () => ({ currency: 'eur', minorUnitsAmountDivisor: 100, canConfirm: true, total: { total: { minorUnitsAmount: 2490 } } }), confirm: async options => { if ('email' in options || 'phoneNumber' in options) throw new Error('Customer contact details are already set'); for (const field of ['name', 'address']) { if (options.billingAddress?.[field] && paymentOptions?.fields?.billingDetails?.[field] !== 'never') throw new Error('Billing details collected twice: ' + field); } return { type: 'error', error: { message: 'Test: Zahlung abgelehnt' } }; } } }), on: () => {}, createPaymentElement: options => { paymentOptions = options; return element('Sichere Zahlungsfelder'); }, createExpressCheckoutElement: options => { if (options.paymentMethods.link !== 'never') throw new Error('Link must be disabled'); return element('Wallets'); } }); } });
     });
     await page.locator('#kennzeichenForm [type=submit]').click(); await page.locator('#payment-panel').waitFor({ state: 'visible' });
-    assert.equal(payload.orderType, 'plate'); assert.equal(payload.testMode, false); assert.equal(await page.locator('#kennzeichenForm').isVisible(), false);
+    assert.equal(await page.locator('.checkout-payment-icons .payment-method').count(), 7); assert.equal(await page.locator('#checkout-loading').isVisible(), false); assert.equal(payload.orderType, 'plate'); assert.equal(payload.testMode, false); assert.equal(await page.locator('#kennzeichenForm').isVisible(), false);
     assert.equal(new URL(page.url()).pathname, '/kennzeichen.html');
     assert.match(await page.locator('#checkout-total').textContent(), /24,90/);
     await page.locator('#pay-order').click();

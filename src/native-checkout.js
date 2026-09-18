@@ -18,6 +18,8 @@ export async function openNativeCheckout(result, order, form, onEdit) {
   const payButton = document.querySelector('#pay-order');
   const editButton = document.querySelector('#edit-order');
   const errorMessage = document.querySelector('#payment-error');
+  const loadingMessage = document.querySelector('#checkout-loading');
+  loadingMessage.hidden = false;
   const walletContainer = document.querySelector('#express-payment');
   const money = cents => (cents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
   const checkout = window.Stripe(result.publishableKey).initCheckoutElementsSdk({
@@ -31,7 +33,7 @@ export async function openNativeCheckout(result, order, form, onEdit) {
   let active = true;
   let amount = result.amountTotal;
   let totalLabel = money(amount);
-  const cleanup = () => { active = false; elements.forEach(element => element.destroy()); paymentForm.onsubmit = null; editButton.onclick = null; };
+  const cleanup = () => { active = false; loadingMessage.hidden = true; elements.forEach(element => element.destroy()); paymentForm.onsubmit = null; editButton.onclick = null; };
   try {
     const loaded = await checkout.loadActions();
     if (loaded.type !== 'success') throw new Error(loaded.error?.message || 'Zahlung konnte nicht gestartet werden.');
@@ -69,11 +71,12 @@ export async function openNativeCheckout(result, order, form, onEdit) {
     }
     if (amount > 0) {
       // Name and address come from our order form and are supplied at confirmation.
-      const payment = checkout.createPaymentElement({ layout: 'accordion', fields: { billingDetails: { name: 'never', address: 'never' } } }); elements.push(payment); payment.mount('#payment-element');
+      const payment = checkout.createPaymentElement({ layout: 'accordion', fields: { billingDetails: { name: 'never', address: 'never' } } }); elements.push(payment); payment.on('ready', () => { if (active) loadingMessage.hidden = true; }); payment.mount('#payment-element');
       const wallets = checkout.createExpressCheckoutElement({ paymentMethods: { link: 'never' } }); elements.push(wallets);
       wallets.on('ready', event => { walletContainer.hidden = !event.availablePaymentMethods || !Object.values(event.availablePaymentMethods).some(Boolean); });
       wallets.on('confirm', event => { void confirm(event); }); wallets.mount('#express-payment');
     }
+    if (amount === 0) loadingMessage.hidden = true;
     form.hidden = true; panel.hidden = false; editButton.disabled = false;
     renderTotal(actions.getSession());
     paymentForm.onsubmit = event => { event.preventDefault(); void confirm(); };

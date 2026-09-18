@@ -192,8 +192,9 @@ if (form) {
     submit.disabled = true;
     back.disabled = true;
 
-    submit.textContent = 'Wird gesendet …';
-    status.textContent = '';
+    submit.textContent = 'Checkout wird geladen …';
+    status.className = 'form-status';
+    status.textContent = 'Einen Moment, wir bauen eine sichere Verbindung auf für den Checkout.';
     try {
       const response = await fetch(form.dataset.formEndpoint, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
