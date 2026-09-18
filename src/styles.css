@@ -2817,6 +2817,20 @@ body.discount-popup-open {
 .gull-chat-whatsapp { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding: 14px 16px; border-radius: 12px; background: #146c43; color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; }
 .gull-chat-note { display: block; margin-top: 12px; text-align: center; }
 .gull-chat button:focus-visible, .gull-chat a:focus-visible { outline: 3px solid #f3aa2c; outline-offset: 3px; }
+.gull-chat-sound { flex-shrink: 0; width: 34px; height: 34px; margin-left: auto; border: 1px solid #dfedf4; border-radius: 50%; color: #092954; background: #fff; font-size: 19px; cursor: pointer; }
+.gull-chat-header { gap: 8px; }
+.gull-chat-history { display: grid; gap: 10px; }
+.gull-chat-history > p { margin-top: 0; margin-bottom: 0; }
+.gull-chat-incoming { animation: gull-message-arrive .25s ease-out; }
+.gull-chat-typing { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; font-size: 11px; color: #526b80; }
+.gull-chat-typing span { display: flex; gap: 4px; }
+.gull-chat-typing i { width: 5px; height: 5px; border-radius: 50%; background: #526b80; animation: gull-typing 1s ease-in-out infinite; }
+.gull-chat-typing i:nth-child(2) { animation-delay: .15s; }
+.gull-chat-typing i:nth-child(3) { animation-delay: .3s; }
+.gull-chat-options button:disabled { opacity: .65; cursor: wait; }
+@keyframes gull-message-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes gull-typing { 50% { opacity: .4; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .gull-chat-incoming, .gull-chat-typing i { animation: none; } }
 @media (max-width: 480px) {
   .gull-chat { right: 12px; }
   .gull-chat-panel { width: min(370px, calc(100vw - 24px)); bottom: 74px; }

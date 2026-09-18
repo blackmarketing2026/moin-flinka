@@ -13,9 +13,16 @@ const assert = require('node:assert/strict');
     await page.goto('http://127.0.0.1:5173/kennzeichen.html');
     await page.getByRole('button', { name: 'Chat mit der Hamburger Möwe öffnen', exact: true }).click();
     await page.getByRole('dialog', { name: 'Deine Möwe aus Hamburg' }).waitFor();
+    await page.getByText('Die Möwe schreibt …', { exact: false }).waitFor();
+    assert.equal(await page.locator('.gull-chat-history > p').count(), 0);
+    await page.locator('.gull-chat-options').waitFor({ state: 'visible' });
+    assert.equal(await page.locator('.gull-chat-history > p').count(), 4);
+    await page.getByRole('button', { name: 'Chat-Ton ausschalten', exact: true }).click();
+    assert.equal(await page.getByRole('button', { name: 'Chat-Ton einschalten', exact: true }).getAttribute('aria-pressed'), 'false');
     assert.equal(await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).isVisible(), false);
     for (const [topic, text] of [['Auto online zulassen', 'online zulassen'], ['Auto abmelden', 'abmelden'], ['Hilfe bei der Kennzeichen-Erstellung', 'Kennzeichen-Erstellung'], ['Mit einem Mitarbeiter schreiben', 'Mitarbeiter']]) {
       await page.getByRole('button', { name: topic, exact: true }).click();
+      await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).waitFor({ state: 'visible' });
       const url = new URL(await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).getAttribute('href'));
       assert.equal(url.hostname, 'wa.me'); assert.equal(url.pathname, '/4915906808767'); assert.ok(url.searchParams.get('text').includes(text));
     }
