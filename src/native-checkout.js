@@ -22,6 +22,7 @@ export async function openNativeCheckout(result, order, form, onEdit) {
   const money = cents => (cents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
   const checkout = window.Stripe(result.publishableKey).initCheckoutElementsSdk({
     clientSecret: result.clientSecret,
+    defaultValues: { email: order.email, phoneNumber: order.phone, billingAddress: { name: order.name, address: { line1: order.street, postal_code: order.postcode, city: order.town, country: 'DE' } } },
     elementsOptions: { appearance: { theme: 'stripe', variables: { colorPrimary: '#092954', colorText: '#092954', borderRadius: '7px', fontFamily: 'Inter, Arial, sans-serif' } } },
   });
   const elements = [];
