@@ -235,3 +235,4 @@ import "./kennzeichen.js";
 import "./order-confirmation.js";
 
 import "./payment-methods.js";
+import "./seagull-chat.js";

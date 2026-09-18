@@ -2794,3 +2794,35 @@ body.discount-popup-open {
 .admin-order-actions label { display: flex; align-items: center; gap: 8px; }
 .admin-order-actions input, .admin-table input[type="checkbox"] { width: 20px; height: 20px; }
 .admin-table td:last-child .btn { margin: 4px; }
+
+.gull-chat { position: fixed; right: 24px; bottom: max(24px, env(safe-area-inset-bottom)); z-index: 180; color: #092954; }
+.gull-chat-launcher { display: flex; align-items: center; gap: 10px; padding: 8px 20px 8px 8px; border: 1px solid #b7dce8; border-radius: 999px; background: #fff; color: #092954; font: inherit; font-weight: 700; box-shadow: 0 8px 28px rgb(9 41 84 / 20%); cursor: pointer; }
+.gull-chat-launcher img, .gull-chat-profile img { object-fit: contain; border-radius: 50%; background: #e5f5fb; }
+.gull-chat-panel { position: absolute; right: 0; bottom: 78px; width: 370px; max-height: calc(100dvh - 120px); display: flex; flex-direction: column; overflow: hidden; border: 1px solid #bfdbe9; border-radius: 22px; background: #f3f9fc; box-shadow: 0 18px 60px rgb(9 41 84 / 24%); }
+.gull-chat-panel[hidden], .gull-chat [hidden] { display: none !important; }
+.gull-chat-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; background: #fff; border-bottom: 1px solid #dfedf4; }
+.gull-chat-header > img { width: 150px; height: 50px; object-fit: contain; }
+.gull-chat-close { width: 40px; height: 40px; border: 0; border-radius: 50%; background: #eef6fa; color: #092954; font-size: 26px; cursor: pointer; }
+.gull-chat-body { overflow-y: auto; overscroll-behavior: contain; padding: 18px; }
+.gull-chat-profile { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.gull-chat-profile h2 { margin: 0 0 3px; font: 700 15px Inter, sans-serif; }
+.gull-chat-profile small, .gull-chat-note { font-size: 11px; color: #526b80; }
+.gull-chat-bubble { padding: 14px 16px; border-radius: 4px 18px 18px; background: #fff; font-size: 13px; line-height: 1.6; box-shadow: 0 2px 6px rgb(9 41 84 / 4%); }
+.gull-chat-bubble p { margin: 0; }
+.gull-chat-bubble p + p { margin-top: 8px; }
+.gull-chat-options { display: grid; gap: 8px; margin: 16px 0; }
+.gull-chat-options button { padding: 12px 14px; border: 1px solid #bad4e4; border-radius: 12px; background: #fff; color: #092954; text-align: left; font: 600 13px Inter, sans-serif; cursor: pointer; }
+.gull-chat-options button:hover, .gull-chat-options button[aria-pressed="true"] { background: #e0f2f8; border-color: #092954; }
+.gull-chat-user { margin: 0 0 12px 28px; padding: 12px 14px; border-radius: 18px 4px 18px 18px; background: #092954; color: #fff; font-size: 13px; }
+.gull-chat-whatsapp { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; padding: 14px 16px; border-radius: 12px; background: #146c43; color: #fff; text-decoration: none; font-size: 14px; font-weight: 700; }
+.gull-chat-note { display: block; margin-top: 12px; text-align: center; }
+.gull-chat button:focus-visible, .gull-chat a:focus-visible { outline: 3px solid #f3aa2c; outline-offset: 3px; }
+@media (max-width: 480px) {
+  .gull-chat { right: 12px; }
+  .gull-chat-panel { width: min(370px, calc(100vw - 24px)); bottom: 74px; }
+  .gull-chat-launcher { font-size: 13px; }
+}
+@media (max-width: 760px) {
+  .gull-chat { bottom: calc(82px + env(safe-area-inset-bottom)); }
+  .gull-chat-panel { max-height: calc(100dvh - 180px - env(safe-area-inset-bottom)); }
+}

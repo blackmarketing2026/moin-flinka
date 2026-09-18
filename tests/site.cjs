@@ -11,6 +11,20 @@ const assert = require('node:assert/strict');
       if (name === 'kennzeichen-hamburg') assert.equal(await page.locator('[name=delivery][value=courier]').isChecked(), true);
     }
     await page.goto('http://127.0.0.1:5173/kennzeichen.html');
+    await page.getByRole('button', { name: 'Chat mit der Hamburger Möwe öffnen', exact: true }).click();
+    await page.getByRole('dialog', { name: 'Deine Möwe aus Hamburg' }).waitFor();
+    assert.equal(await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).isVisible(), false);
+    for (const [topic, text] of [['Auto online zulassen', 'online zulassen'], ['Auto abmelden', 'abmelden'], ['Hilfe bei der Kennzeichen-Erstellung', 'Kennzeichen-Erstellung'], ['Mit einem Mitarbeiter schreiben', 'Mitarbeiter']]) {
+      await page.getByRole('button', { name: topic, exact: true }).click();
+      const url = new URL(await page.getByRole('link', { name: 'WhatsApp-Chat öffnen' }).getAttribute('href'));
+      assert.equal(url.hostname, 'wa.me'); assert.equal(url.pathname, '/4915906808767'); assert.ok(url.searchParams.get('text').includes(text));
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+    assert.equal(await page.evaluate(() => document.querySelector('.gull-chat-launcher').getBoundingClientRect().bottom < document.querySelector('.mobile-quickbar').getBoundingClientRect().top), true);
+    await page.screenshot({ path: '.qa/seagull-chat-mobile.png' });
+    await page.getByRole('button', { name: 'Chat schließen', exact: true }).click();
+    await page.setViewportSize({ width: 1280, height: 900 });
     assert.equal(await page.locator('fieldset:visible').count(), 1);
     await page.locator('[data-next]').click();
     assert.equal(await page.locator('[data-step="0"]').isVisible(), true);
