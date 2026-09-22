@@ -8,7 +8,7 @@ if (form) {
   const submitLabel = submit.textContent;
   const next = form.querySelector('[data-next]');
   const back = form.querySelector('[data-back]');
-  const deferDeliveryPrice = form.hasAttribute('data-defer-delivery-price');
+  const priceBox = form.querySelector('[data-price-box]');
   let step = 0;
   let sending = false;
   const field = name => form.elements.namedItem(name);
@@ -44,12 +44,10 @@ if (form) {
     previewSuffix.textContent = suffix();
     previewSuffix.hidden = !suffix();
     const totals = orderPrices();
-    const showDeliveryPrice = !deferDeliveryPrice || step > 0;
-    const baseDisplayedTotalCents = showDeliveryPrice ? totals.totalPriceCents : totals.basePriceCents + totals.extrasPriceCents;
     const hasDiscount = Boolean(appliedDiscount) && !isTestMode();
     const displayedTotalCents = hasDiscount
-      ? Math.round(baseDisplayedTotalCents * (1 - appliedDiscount.percentOff / 100))
-      : baseDisplayedTotalCents;
+      ? Math.round(totals.totalPriceCents * (1 - appliedDiscount.percentOff / 100))
+      : totals.totalPriceCents;
     const options = [...new Set([typeLabels[field('plateType').value], variantLabels[field('plateVariant').value]])];
     if (field('season').checked) options.push(`Saison ${field('seasonStart').value}–${field('seasonEnd').value}`);
     if (field('carbon').checked) options.push('Carbon-Optik');
@@ -59,8 +57,8 @@ if (form) {
     if (!isTestMode()) {
       if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
       if (field('environmentSticker').checked) lines.push(`Grüne Umweltplakette: ${money(prices.environmentSticker)}`);
-      if (showDeliveryPrice) lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
-      if (hasDiscount) lines.push(`Rabattcode ${appliedDiscount.code} (-${appliedDiscount.percentOff} %): -${money(baseDisplayedTotalCents - displayedTotalCents)}`);
+      lines.push(`${delivery()}: ${money(totals.deliveryPriceCents)}`);
+      if (hasDiscount) lines.push(`Rabattcode ${appliedDiscount.code} (-${appliedDiscount.percentOff} %): -${money(totals.totalPriceCents - displayedTotalCents)}`);
     }
     const discountStatus = form.querySelector('[data-discount-status]');
     if (discountStatus) {
@@ -77,12 +75,11 @@ if (form) {
         discountStatus.hidden = true;
       }
     }
-    const heading = form.querySelector('[data-price-heading]');
-    if (heading) heading.textContent = showDeliveryPrice ? 'Dein Gesamtpreis' : 'Aktueller Preis';
     const details = form.querySelector('[data-price-details]');
     details.textContent = lines.join(' · ');
-    details.hidden = lines.length === 0 || (deferDeliveryPrice && step === 0);
+    details.hidden = lines.length === 0;
     form.querySelector('[data-total]').textContent = money(displayedTotalCents);
+    if (priceBox) priceBox.hidden = step !== 2;
   }
   const discountApplyButton = form.querySelector('[data-discount-apply]');
   const discountCodeField = field('discountCode');

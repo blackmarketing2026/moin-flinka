@@ -53,6 +53,13 @@
         f.parentNode.insertBefore(j, f);
       })(window, document, "script", "dataLayer", "GTM-WS9QDJ3C");
     </script>
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "ym5z9y1v81");
+    </script>
   </head>
   <body class="plate-order-page">
     <!-- Google Tag Manager (noscript) -->
@@ -166,7 +173,6 @@
                   <label class="delivery-option"><input type="checkbox" name="carbon"><span>Carbon-Optik · +9,99 €</span></label>
                   <label class="delivery-option"><input type="checkbox" name="environmentSticker"><span>Grüne Umweltplakette · +9,99 €</span></label>
                 </div>
-                <div class="plate-note"><strong>Deine Kennzeichen-Kombination</strong><p>Bitte verwende deine bereits zugeteilte oder reservierte Kombination. Diese Bestellung reserviert kein Wunschkennzeichen.</p></div>
               </fieldset>
               <fieldset data-step="1" hidden>
                 <legend tabindex="-1">Versand auswählen</legend>
@@ -190,7 +196,7 @@
                 <div class="plate-summary"><strong>Deine Zusammenfassung</strong><p data-summary></p><small>Prüfe deine Angaben. Im Anschluss schließt du die Bestellung mit der Zahlung direkt hier ab.</small></div>
                 <label class="privacy"><input name="privacy" type="checkbox" required><span>Hiermit stimme ich der Kennzeichenerstellung gemäß den <a href="/agb" target="_blank" rel="noopener">AGB</a> zu.</span></label>
               </fieldset>
-              <div class="plate-summary" aria-live="polite" aria-atomic="true"><strong data-price-heading>Aktueller Preis</strong><p data-price-details hidden></p><output data-total></output></div>
+              <div class="plate-summary" data-price-box aria-live="polite" aria-atomic="true" hidden><strong>Dein Gesamtpreis</strong><p data-price-details hidden></p><output data-total></output></div>
               <p class="form-status" role="status" aria-live="polite"></p>
               <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zurück</button><button class="btn btn-primary" type="button" data-next>Weiter: Versand auswählen →</button><button class="btn btn-primary submit" type="submit" hidden>Weiter zur Zahlung</button></div>
               <p class="stripe-payment-note">
