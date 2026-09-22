@@ -53,6 +53,15 @@ if (form) {
     if (field('carbon').checked) options.push('Carbon-Optik');
     if (field('environmentSticker').checked) options.push('Grüne Umweltplakette');
     form.querySelector('[data-summary]').textContent = `${plate()} · ${quantityLabel()} · ${options.join(' · ')} · ${delivery()} · Gesamtpreis: ${money(totals.totalPriceCents)}`;
+    const addonFeedback = form.querySelector('[data-addon-feedback]');
+    if (addonFeedback) {
+      const activeAddons = [];
+      if (field('carbon').checked) activeAddons.push('Carbon-Optik');
+      if (field('environmentSticker').checked) activeAddons.push('Grüne Umweltplakette');
+      addonFeedback.textContent = activeAddons.length
+        ? `✓ ${activeAddons.join(' + ')} ausgewählt (+${money(totals.extrasPriceCents)}) · Zwischensumme: ${money(totals.basePriceCents + totals.extrasPriceCents)}`
+        : '';
+    }
     const lines = isTestMode() ? [] : [`${quantityLabel()}: ${money(totals.basePriceCents)}`];
     if (!isTestMode()) {
       if (field('carbon').checked) lines.push(`Carbon-Optik: ${money(prices.carbon)}`);
