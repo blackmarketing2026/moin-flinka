@@ -74,6 +74,7 @@ module.exports = async (req, res) => {
   const origin = process.env.SITE_URL || "https://www.moin-flinka.de";
   if (!process.env.STRIPE_PUBLISHABLE_KEY) return res.status(503).json({ ok: false, error: "Die Online-Zahlung wird gerade eingerichtet. Bitte nutze unseren WhatsApp-Support." });
   const metadata = {
+    ...(body.orderVersion === "kennzeichen-v1" ? { orderVersion: "kennzeichen-v1" } : {}),
     plateType: body.plateType,
     plateVariant: body.plateVariant,
     city: body.city,

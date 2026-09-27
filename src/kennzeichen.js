@@ -3,6 +3,7 @@ import prices from '../plate-prices.json';
 const form = document.querySelector('#kennzeichenForm');
 if (form) {
   const steps = [...form.querySelectorAll('[data-step]')];
+  const finalStep = steps.length - 1;
   const status = form.querySelector('.form-status');
   const submit = form.querySelector('[type="submit"]');
   const submitLabel = submit.textContent;
@@ -30,9 +31,9 @@ if (form) {
   let discountError = null;
   function orderPrices() {
     if (isTestMode()) return { basePriceCents: 50, extrasPriceCents: 0, deliveryPriceCents: 0, totalPriceCents: 50 };
-    const basePriceCents = quantity() === 1 ? prices.single : prices.pair;
+    const basePriceCents = form.dataset.orderVersion === 'kennzeichen-v1' ? 1990 : quantity() === 1 ? prices.single : prices.pair;
     const extrasPriceCents = (field('carbon').checked ? prices.carbon : 0) + (field('environmentSticker').checked ? prices.environmentSticker : 0);
-    const deliveryPriceCents = prices[field('delivery').value];
+    const deliveryPriceCents = form.dataset.orderVersion === 'kennzeichen-v1' && field('delivery').value === 'standard' ? 0 : prices[field('delivery').value];
     return { basePriceCents, extrasPriceCents, deliveryPriceCents, totalPriceCents: basePriceCents + extrasPriceCents + deliveryPriceCents };
   }
   function updateSummary() {
@@ -88,7 +89,7 @@ if (form) {
     details.textContent = lines.join(' · ');
     details.hidden = lines.length === 0;
     form.querySelector('[data-total]').textContent = money(displayedTotalCents);
-    if (priceBox) priceBox.hidden = step !== 2;
+    if (priceBox) priceBox.hidden = step !== finalStep;
   }
   const discountApplyButton = form.querySelector('[data-discount-apply]');
   const discountCodeField = field('discountCode');
@@ -153,8 +154,8 @@ if (form) {
       item.classList.toggle('is-done', i < step);
     });
     back.hidden = step === 0;
-    next.hidden = step === 2;
-    submit.hidden = step !== 2;
+    next.hidden = step === finalStep;
+    submit.hidden = step !== finalStep;
     next.textContent = step === 0 ? 'Weiter: Versand auswählen →' : 'Weiter zum Checkout →';
     status.textContent = '';
     updateSummary();
@@ -186,10 +187,11 @@ if (form) {
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (sending) return;
-    if (step < 2) { if (validate(step)) show(step + 1); return; }
+    if (step < finalStep) { if (validate(step)) show(step + 1); return; }
     for (let i = 0; i < steps.length; i++) if (!validate(i)) return;
     const data = Object.fromEntries(new FormData(form));
     data.orderType = 'plate';
+    if (form.dataset.orderVersion) data.orderVersion = form.dataset.orderVersion;
     data.quantity = quantity();
     ['season', 'carbon', 'environmentSticker'].forEach(name => { data[name] = field(name).checked; });
     data.testMode = isTestMode();

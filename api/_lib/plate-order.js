@@ -60,9 +60,10 @@ function validatePlateOrder(body) {
 }
 
 function computePricing(body) {
-  const basePriceCents = body.quantity === 1 ? prices.single : prices.pair;
+  const isV1 = body.orderVersion === "kennzeichen-v1";
+  const basePriceCents = isV1 ? 1990 : body.quantity === 1 ? prices.single : prices.pair;
   const extrasPriceCents = (body.carbon ? prices.carbon : 0) + (body.environmentSticker ? prices.environmentSticker : 0);
-  const deliveryPriceCents = prices[body.delivery];
+  const deliveryPriceCents = isV1 && body.delivery === "standard" ? 0 : prices[body.delivery];
   return {
     basePriceCents,
     extrasPriceCents,

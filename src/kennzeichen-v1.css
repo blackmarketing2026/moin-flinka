@@ -1,0 +1,46 @@
+﻿.v1-page { --v1-ink:#092954; --v1-blue:#42a4c8; --v1-red:#f1070e; }
+.v1-page .v1-hero { background:linear-gradient(125deg,#f2faff 0%,#fff 62%); padding:50px 0 66px; overflow:hidden; }
+.v1-hero-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(440px,.92fr); gap:46px; align-items:center; }
+.v1-hero-copy { position:relative; padding:10px 0 24px; }
+.v1-page .eyebrow { color:#1680a2; font-weight:800; letter-spacing:.12em; text-transform:uppercase; font-size:12px; }
+.v1-page h1,.v1-faq h2 { font-family:var(--font-display); font-size:clamp(44px,6vw,76px); line-height:.98; letter-spacing:-.025em; margin:12px 0 20px; color:#092954; }
+.v1-page h1 span { color:#f1070e; }
+.v1-lead { max-width:540px; font-size:18px; line-height:1.65; color:#405978; }
+.v1-trust { display:flex; flex-wrap:wrap; gap:10px 18px; margin-top:24px; font-size:13px; font-weight:700; }
+.v1-trust span::first-letter { color:#258b4a; }
+.v1-hero-plate { display:flex; align-items:center; gap:14px; margin-top:42px; width:max-content; max-width:100%; padding:12px 23px 12px 18px; border:6px solid #17202b; border-radius:11px; box-shadow:0 14px 28px #09295420; background:linear-gradient(#fff,#f7f7f4); color:#131923; font-family:var(--font-display); font-size:clamp(28px,4vw,42px); letter-spacing:.08em; }
+.v1-hero-plate b { font-size:1em; border-right:2px solid #ddd; padding-right:13px; }
+.v1-hero-plate i { color:#2256a3; font-style:normal; font-size:.7em; }
+.v1-order-wrap { position:relative; padding-top:27px; }
+.v1-price-pill { position:absolute; z-index:2; top:0; right:22px; display:grid; gap:0; padding:10px 18px 12px; border-radius:13px 13px 0 0; color:#fff; background:#092954; text-align:center; box-shadow:0 8px 20px #09295422; }
+.v1-price-pill span { font-size:11px; text-transform:uppercase; letter-spacing:.08em; }
+.v1-price-pill strong { font-family:var(--font-display); font-size:32px; line-height:1.1; }
+.v1-price-pill small { font-size:11px; color:#d5edf7; }
+.v1-order-wrap .order-card { position:relative; z-index:1; padding:28px; border:1px solid #d6e5ee; border-radius:18px; background:#fff; box-shadow:0 22px 60px #09295418; }
+.v1-order-wrap .plate-progress { margin-bottom:22px; }
+.v1-order-wrap .plate-progress li { flex:1; }
+.v1-order-wrap .kennzeichen-form>fieldset>legend { font-size:22px; }
+.v1-delivery { margin-top:22px; padding-top:19px; border-top:1px solid #e3edf3; }
+.v1-delivery h3 { font-size:16px; margin:0 0 12px; }
+.v1-delivery .delivery-option { padding:13px 14px; margin:9px 0; border-radius:12px; }
+.v1-delivery .delivery-option strong { font-size:14px; }
+.v1-delivery .delivery-option small { font-size:12px; }
+.v1-delivery .plate-note { display:none; }
+.v1-order-wrap .german-plate { margin:14px 0 9px; }
+.v1-order-wrap .plate-types { gap:8px; }
+.v1-order-wrap .plate-type { min-height:78px; border-radius:12px; }
+.v1-order-wrap .plate-navigation .btn { width:100%; }
+.v1-benefits { display:grid; grid-template-columns:repeat(3,1fr); gap:26px; padding-top:52px; padding-bottom:56px; }
+.v1-benefits article { padding:4px 20px 4px 0; border-right:1px solid #d9e8ef; }
+.v1-benefits article:last-child { border:0; }
+.v1-benefits article>span { color:#f1070e; font-family:var(--font-display); font-size:30px; font-weight:800; }
+.v1-benefits h2 { font-size:18px; margin:7px 0; }
+.v1-benefits p,.v1-faq p { color:#586d84; font-size:14px; line-height:1.7; margin:0; }
+.v1-faq { background:#f3f9fc; padding:58px 0 70px; }
+.v1-faq h2 { font-size:clamp(34px,4vw,48px); margin:6px 0 26px; }
+.v1-faq-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+.v1-faq-grid article { padding:22px; border:1px solid #dce9f0; border-radius:14px; background:white; }
+.v1-faq-grid h3 { font-size:16px; margin:0 0 8px; }
+@media(max-width:900px) { .v1-hero-grid { grid-template-columns:1fr; max-width:700px; } .v1-hero-copy { text-align:center; } .v1-lead { margin-left:auto; margin-right:auto; } .v1-trust { justify-content:center; } .v1-hero-plate { margin:28px auto 0; } }
+@media(max-width:620px) { .v1-page .v1-hero { padding:34px 0 38px; } .v1-hero-grid { gap:22px; } .v1-page h1 { font-size:47px; } .v1-lead { font-size:16px; } .v1-order-wrap { padding-top:25px; } .v1-order-wrap .order-card { padding:20px 15px; border-radius:14px; } .v1-price-pill { right:14px; } .v1-benefits { grid-template-columns:1fr; gap:18px; padding-top:34px; padding-bottom:38px; } .v1-benefits article { border-right:0; border-bottom:1px solid #d9e8ef; padding:0 0 16px; } .v1-faq { padding:40px 0; } .v1-faq-grid { grid-template-columns:1fr; } }
+
