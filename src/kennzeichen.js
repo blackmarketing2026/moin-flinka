@@ -157,8 +157,8 @@ if (form) {
     next.hidden = step === finalStep;
     submit.hidden = step !== finalStep;
     next.textContent = form.dataset.orderVersion === 'kennzeichen-v1'
-      ? (step === 0 ? 'Weiter zur Adresse' : 'Weiter zum Checkout')
-      : (step === 0 ? 'Weiter: Versand ausw?hlen' : 'Weiter zum Checkout');
+      ? (step === 0 ? 'Weiter zur Versandauswahl' : 'Weiter zum Checkout')
+      : (step === 0 ? 'Weiter: Versand ausw\u00e4hlen' : 'Weiter zum Checkout');
     status.textContent = '';
     updateSummary();
     if (focus) steps[step].querySelector('legend').focus();

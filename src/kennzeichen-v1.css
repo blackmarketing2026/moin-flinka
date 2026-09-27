@@ -17,11 +17,7 @@ body:has(.v1-page) .site-header { box-shadow:0 1px 0 #e5ebf0; }
 .v1-trust span:before { content:""; display:block; width:7px; height:7px; border-radius:50%; background:#42a4c8; }
 .v1-hero-plate { display:none; }
 .v1-order-wrap { position:relative; padding-top:0; }
-.v1-price-pill { position:static; display:grid; grid-template-columns:1fr auto; align-items:center; gap:1px 16px; padding:16px 21px; border:1px solid #dce5eb; border-bottom:0; border-radius:8px 8px 0 0; color:#092954; background:#fff; text-align:left; box-shadow:none; }
-.v1-price-pill span { grid-column:1; font-size:13px; text-transform:none; letter-spacing:0; font-weight:600; }
-.v1-price-pill strong { grid-column:2; grid-row:1/3; font-family:var(--font-body); font-size:25px; font-weight:700; }
-.v1-price-pill small { grid-column:1; font-size:12px; color:#60758a; }
-.v1-order-wrap .order-card { padding:22px; border:1px solid #dce5eb; border-radius:0 0 8px 8px; background:#fff; box-shadow:0 12px 32px rgba(9,41,84,.06); }
+.v1-order-wrap .order-card { padding:22px; border:1px solid #dce5eb; border-radius:8px; background:#fff; box-shadow:0 12px 32px rgba(9,41,84,.06); }
 .v1-order-wrap .plate-progress { margin:0 0 23px; }
 .v1-order-wrap .plate-progress li { flex:1; font-size:12px; }
 .v1-order-wrap .kennzeichen-form>fieldset>legend { font-size:19px; font-weight:650; }

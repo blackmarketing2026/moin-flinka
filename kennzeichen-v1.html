@@ -81,13 +81,6 @@
     <div class="topbar">
       <div class="container topbar-inner">
         <p>Kennzeichen aus Hamburg &middot; Kostenloser Versand ab 19,90 &euro; &middot; Hamburger Kurier 20 &euro;</p>
-        <a class="topbar-call" href="https://wa.me/4915906808767" aria-label="WhatsApp-Support Ã¶ffnen">
-          <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-            <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
-            <path d="M21 11l9 10M43 34l10 10" />
-          </svg>
-          <span>WhatsApp-Support</span>
-        </a>
       </div>
     </div>
 
@@ -106,10 +99,10 @@
           <a href="/kennzeichen-v1">Kennzeichen</a>
           <a href="/#ablauf">Ablauf</a>
           <a href="#faq">FAQ</a>
-          <a href="https://wa.me/4915906808767">Kontakt</a>
+          <a href="mailto:info@moin-flinka.de">Kontakt</a>
         </nav>
         <div class="header-actions">
-          <a class="header-phone" href="https://wa.me/4915906808767">
+          <a class="header-phone" href="tel:+4915906808767">
             <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
               <path d="M20 9c7 21 14 28 35 35l-8 11C25 49 15 39 9 17l11-8Z" />
               <path d="M21 11l9 10M43 34l10 10" />
@@ -133,7 +126,7 @@
     <main class="v1-page">
       <section class="v1-hero" aria-labelledby="hero-title">
         <div class="container v1-hero-grid">
-          <div class="v1-hero-copy"><p class="eyebrow">Kennzeichen aus Hamburg</p><h1 id="hero-title">Kennzeichen online bestellen.</h1><p class="v1-lead">Dein Kennzeichensatz f&uuml;r Auto, Motorrad, E-Kennzeichen oder Oldtimer. <strong>19,90 &euro; inklusive kostenlosem Versand.</strong></p><div class="v1-trust"><span>In Hamburg gepr&auml;gt</span><span>Sichere Onlinezahlung</span><span>Rechnung per E-Mail</span></div></div><div class="v1-order-wrap"><div class="v1-price-pill"><span>Komplettpreis</span><strong>19,90 &euro;</strong><small>inklusive kostenlosem Versand</small></div><div class="order-card" id="formular"><form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/create-checkout-session" data-order-version="kennzeichen-v1">
+          <div class="v1-hero-copy"><p class="eyebrow">Kennzeichen aus Hamburg</p><h1 id="hero-title">Kennzeichen online bestellen.</h1><p class="v1-lead">Dein Kennzeichensatz f&uuml;r Auto, Motorrad, E-Kennzeichen oder Oldtimer. <strong>19,90 &euro; inklusive kostenlosem Versand.</strong></p><div class="v1-trust"><span>In Hamburg gepr&auml;gt</span><span>Sichere Onlinezahlung</span><span>Rechnung per E-Mail</span></div></div><div class="v1-order-wrap"><div class="order-card" id="formular"><form class="kennzeichen-form" id="kennzeichenForm" novalidate data-form-endpoint="/api/create-checkout-session" data-order-version="kennzeichen-v1">
               <ol class="plate-progress" aria-label="Bestellschritte"><li aria-current="step">1 <span>Auswahl</span></li><li>2 <span>Bestellung</span></li></ol>
               <fieldset data-step="0">
                 <legend id="form-title" tabindex="-1">1. Kennzeichen gestalten</legend>
@@ -151,7 +144,7 @@
                   <label class="plate-letters"><span>Buchstaben</span><input name="letters" aria-label="Buchstaben" placeholder="MF" maxlength="2" pattern="[A-Z]{1,2}" required autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
                   <label class="plate-digits"><span>Ziffern</span><span class="plate-number"><input name="digits" aria-label="Ziffern" placeholder="1234" maxlength="4" pattern="[1-9][0-9]{0,3}" required inputmode="numeric" autocomplete="off"><span class="plate-suffix" data-plate-suffix hidden></span></span></label>
                 </div>
-                <p class="plate-hint">1 bis 3 Zeichen f&uuml;r die Stadt &middot; 1 bis 2 Buchstaben &middot; 1 bis 4 Ziffern<br>H&ouml;chstens 8 Zeichen einschliesslich E oder H. Keine fuehrende Null.</p>
+                <p class="plate-hint">1 bis 3 Zeichen f&uuml;r die Stadt &middot; 1 bis 2 Buchstaben &middot; 1 bis 4 Ziffern<br>H&ouml;chstens 8 Zeichen einschlie&szlig;lich E oder H. Keine f&uuml;hrende Null.</p>
                 <input type="hidden" name="plateVariant" value="standard">
                 <label class="delivery-option"><input type="checkbox" name="season"><span>Saisonkennzeichen</span></label>
                 <div class="form-row" data-season hidden>
@@ -164,7 +157,7 @@
                   <p class="addon-feedback" data-addon-feedback aria-live="polite"></p>
                 </div>
               <div class="v1-delivery"><h3>Wie soll dein Kennzeichen ankommen?</h3>
-                <label class="delivery-option"><input type="radio" name="delivery" value="standard" checked required><span><strong>Kostenloser Versand &middot; inklusive</strong><small>Bei Bestellung vor 14:00 Uhr noch am selben Werktag versandfertig, sonst am n&auml;chsten Werktag.</small></span></label>
+                <label class="delivery-option"><input type="radio" name="delivery" value="standard" checked required><span><strong>Standardversand: gratis</strong><small>Bei Bestellung vor 14 Uhr noch am selben Tag versandfertig.</small></span></label>
                 
                 <label class="delivery-option"><input type="radio" name="delivery" value="courier" required><span><strong>Kurier innerhalb Hamburgs &middot; 20,00 &euro;</strong><small>Bei Bestellung bis 12:00 Uhr meist noch am selben Tag.</small></span></label>
               </div></fieldset>
@@ -186,10 +179,10 @@
               </fieldset>
               <div class="plate-summary" data-price-box aria-live="polite" aria-atomic="true" hidden><strong>Dein Gesamtpreis</strong><p data-price-details hidden></p><output data-total></output></div>
               <p class="form-status" role="status" aria-live="polite"></p>
-              <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zur&uuml;ck</button><button class="btn btn-primary" type="button" data-next>Weiter zur Adresse</button><button class="btn btn-primary submit" type="submit" hidden>Weiter zur Zahlung</button></div>
+              <div class="plate-navigation"><button class="btn btn-light" type="button" data-back hidden>Zur&uuml;ck</button><button class="btn btn-primary" type="button" data-next>Weiter zur Versandauswahl</button><button class="btn btn-primary submit" type="submit" hidden>Weiter zum Checkout</button></div>
               <p class="stripe-payment-note">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                <span>Sicher direkt bei Moin Flinka bezahlen</span>
+                <span>Sicher bezahlen mit Stripe</span>
               </p>
               <noscript>Bitte aktiviere JavaScript f&uuml;r die Bestellung oder nutze unseren WhatsApp-Support.</noscript>
             </form></div></div>
