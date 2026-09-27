@@ -1,4 +1,4 @@
-import { openNativeCheckout } from './native-checkout.js';
+import { openNativeCheckout, preloadStripe } from './native-checkout.js';
 import prices from '../plate-prices.json';
 const form = document.querySelector('#kennzeichenForm');
 if (form) {
@@ -147,6 +147,7 @@ if (form) {
   form.addEventListener('input', updateSummary);
   function show(index, focus = true) {
     step = index;
+    if (step === finalStep) preloadStripe();
     steps.forEach((panel, i) => { panel.hidden = i !== step; });
     form.querySelectorAll('.plate-progress li').forEach((item, i) => {
       if (i === step) item.setAttribute('aria-current', 'step');

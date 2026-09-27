@@ -11,15 +11,38 @@ async function loadStripe() {
   });
   await stripeScript;
 }
+export function preloadStripe() {
+  // Begin downloading Stripe.js once the customer reaches the address step.
+  // This keeps the payment script out of the initial page load while removing
+  // its network latency from the final checkout button click.
+  void loadStripe().catch(() => {});
+}
 export async function openNativeCheckout(result, order, form, onEdit) {
-  await loadStripe();
   const panel = document.querySelector('#payment-panel');
   const paymentForm = document.querySelector('#payment-form');
   const payButton = document.querySelector('#pay-order');
   const editButton = document.querySelector('#edit-order');
   const errorMessage = document.querySelector('#payment-error');
   const loadingMessage = document.querySelector('#checkout-loading');
+  const orderNavigation = form.querySelector('.plate-navigation');
+  const inlineCheckout = form.dataset.orderVersion === 'kennzeichen-v1';
   loadingMessage.hidden = false;
+  panel.hidden = false;
+  if (inlineCheckout) {
+    form.hidden = false;
+    if (orderNavigation) orderNavigation.hidden = true;
+  } else {
+    form.hidden = true;
+  }
+  const formStatus = form.querySelector('.form-status');
+  if (formStatus) formStatus.textContent = '';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelector('#payment-title').focus({ preventScroll: true });
+  const elements = [];
+  let active = true;
+  const cleanup = () => { active = false; loadingMessage.hidden = true; if (orderNavigation) orderNavigation.hidden = false; elements.forEach(element => element.destroy()); paymentForm.onsubmit = null; editButton.onclick = null; };
+  try {
+  await loadStripe();
   const walletContainer = document.querySelector('#express-payment');
   const money = cents => (cents / 100).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' });
   const checkout = window.Stripe(result.publishableKey).initCheckoutElementsSdk({
@@ -28,13 +51,9 @@ export async function openNativeCheckout(result, order, form, onEdit) {
     defaultValues: { billingAddress: { name: order.name, address: { line1: order.street, postal_code: order.postcode, city: order.town, country: 'DE' } } },
     elementsOptions: { appearance: { theme: 'stripe', variables: { colorPrimary: '#092954', colorText: '#092954', borderRadius: '7px', fontFamily: 'Inter, Arial, sans-serif' } } },
   });
-  const elements = [];
   let busy = false;
-  let active = true;
   let amount = result.amountTotal;
   let totalLabel = money(amount);
-  const cleanup = () => { active = false; loadingMessage.hidden = true; elements.forEach(element => element.destroy()); paymentForm.onsubmit = null; editButton.onclick = null; };
-  try {
     const loaded = await checkout.loadActions();
     if (loaded.type !== 'success') throw new Error(loaded.error?.message || 'Zahlung konnte nicht gestartet werden.');
     const { actions } = loaded;
@@ -77,10 +96,9 @@ export async function openNativeCheckout(result, order, form, onEdit) {
       wallets.on('confirm', event => { void confirm(event); }); wallets.mount('#express-payment');
     }
     if (amount === 0) loadingMessage.hidden = true;
-    form.hidden = true; panel.hidden = false; editButton.disabled = false;
+    editButton.disabled = false;
     renderTotal(actions.getSession());
     paymentForm.onsubmit = event => { event.preventDefault(); void confirm(); };
     editButton.onclick = () => { if (busy) return; cleanup(); panel.hidden = true; form.hidden = false; onEdit(); };
-    panel.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.querySelector('#payment-title').focus({ preventScroll: true });
   } catch (error) { cleanup(); throw error; }
 }

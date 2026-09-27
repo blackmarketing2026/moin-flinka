@@ -31,6 +31,9 @@ body:has(.v1-page) .site-header { box-shadow:0 1px 0 #e5ebf0; }
 .v1-order-wrap .plate-types { gap:8px; }
 .v1-order-wrap .plate-type { min-height:72px; border-radius:6px; }
 .v1-order-wrap .plate-navigation .btn { width:100%; box-shadow:none; }
+.v1-order-wrap .native-checkout { margin-top:26px; padding:24px 0 0; border-top:1px solid #dce5eb; }
+.v1-order-wrap .checkout-review { margin:18px 0; padding:16px; border-radius:6px; }
+.v1-order-wrap #payment-form { margin-top:22px; }
 .v1-benefits { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; padding-top:38px; padding-bottom:42px; }
 .v1-benefits article { padding:3px 22px 3px 0; border-right:1px solid #e1e8ed; }
 .v1-benefits article:last-child { border:0; }

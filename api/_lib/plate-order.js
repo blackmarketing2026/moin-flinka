@@ -44,7 +44,7 @@ function validatePlateOrder(body) {
     !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email) ||
     !["express", "standard", "courier"].includes(body.delivery) ||
     body.quantity !== (body.plateType === "motorcycle" ? 1 : 2) ||
-    body.privacy !== "on" ||
+    (body.orderVersion !== "kennzeichen-v1" && body.privacy !== "on") ||
     !["normal", "motorcycle", "electric", "historic"].includes(body.plateType) ||
     !["standard", "electric", "historic"].includes(body.plateVariant) ||
     (body.plateType === "electric" && body.plateVariant !== "electric") ||

@@ -110,7 +110,23 @@ module.exports = async (req, res) => {
       promotionCodeId = found.data[0].id;
     }
 
-    const vatTaxRateId = await getGermanVatTaxRateId();
+    // These Stripe calls do not depend on each other; overlap them to reduce
+    // checkout startup time, especially on a cold serverless invocation.
+    const customerPromise = stripe.customers.create({
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
+      address: {
+        line1: body.street,
+        postal_code: body.postcode,
+        city: body.town,
+        country: "DE",
+      },
+    });
+    const [vatTaxRateId, customer] = await Promise.all([
+      getGermanVatTaxRateId(),
+      customerPromise,
+    ]);
     const lineItem = (name, unit_amount) => ({
       price_data: { currency: "eur", product_data: { name }, unit_amount },
       quantity: 1,
@@ -125,18 +141,6 @@ module.exports = async (req, res) => {
       if (body.environmentSticker) line_items.push(lineItem("Grüne Umweltplakette", prices.environmentSticker));
       line_items.push(lineItem(deliveryLabel, pricing.deliveryPriceCents));
     }
-
-    const customer = await stripe.customers.create({
-      name: body.name,
-      email: body.email,
-      phone: body.phone,
-      address: {
-        line1: body.street,
-        postal_code: body.postcode,
-        city: body.town,
-        country: "DE",
-      },
-    });
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

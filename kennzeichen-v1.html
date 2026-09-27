@@ -12,6 +12,8 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://www.moin-flinka.de/kennzeichen-v1" />
     <meta name="theme-color" content="#092954" />
+    <link rel="preconnect" href="https://js.stripe.com" crossorigin />
+    <link rel="preconnect" href="https://api.stripe.com" crossorigin />
     <link rel="preload" as="image" href="./assets/img/moin-flinka-logo.png" />
     <link rel="stylesheet" href="/src/kennzeichen-v1.css">
 
@@ -175,7 +177,7 @@
                 <button type="button" class="btn btn-light" data-discount-apply>Rabattcode anwenden</button>
                 <small data-discount-status hidden></small>
                 <div class="plate-summary"><strong>Deine Zusammenfassung</strong><p data-summary></p><small>Pr&uuml;fe deine Angaben. Anschliessend schliesst du die Bestellung mit der Zahlung ab.</small></div>
-                <label class="privacy"><input name="privacy" type="checkbox" required><span>Ich stimme der Kennzeichenerstellung gemaess den <a href="/agb" target="_blank" rel="noopener">AGB</a> zu.</span></label>
+                <p class="terms-note">Mit der Bestellung gelten die <a href="/agb" target="_blank" rel="noopener">AGB</a>.</p>
               </fieldset>
               <div class="plate-summary" data-price-box aria-live="polite" aria-atomic="true" hidden><strong>Dein Gesamtpreis</strong><p data-price-details hidden></p><output data-total></output></div>
               <p class="form-status" role="status" aria-live="polite"></p>
@@ -185,7 +187,18 @@
                 <span>Sicher bezahlen mit Stripe</span>
               </p>
               <noscript>Bitte aktiviere JavaScript f&uuml;r die Bestellung oder nutze unseren WhatsApp-Support.</noscript>
-            </form></div></div>
+            </form>
+              <section id="payment-panel" class="native-checkout" hidden aria-labelledby="payment-title">
+                <p class="eyebrow">Deine Bestellung bei Moin Flinka</p>
+                <h2 id="payment-title" tabindex="-1">Bestellung abschlie&szlig;en</h2>
+                <div class="checkout-review"><h3>Deine Bestell&uuml;bersicht</h3><p id="checkout-summary"></p><p id="checkout-address"></p><strong>Gesamt inkl. MwSt. und Lieferung: <span id="checkout-total"></span></strong></div>
+                <button type="button" class="btn btn-light" id="edit-order">Bestellung &auml;ndern</button>
+                <div class="checkout-payment-icons" aria-label="Sicher bezahlen mit"></div>
+                <p id="checkout-loading" class="form-status" role="status" aria-live="polite" hidden>Zahlungsoptionen werden vorbereitet&hellip;</p>
+                <div id="express-payment" hidden></div>
+                <form id="payment-form"><h3>Zahlungsmethode ausw&auml;hlen</h3><div id="payment-element"></div><p id="payment-error" class="form-status is-error" role="status" aria-live="polite"></p><button type="submit" class="btn btn-primary" id="pay-order" disabled>Jetzt zahlungspflichtig bestellen</button></form>
+                <p class="checkout-security">Deine Zahlungsdaten werden verschl&uuml;sselt verarbeitet. Deine Bestellung schlie&szlig;t du hier direkt ab.</p>
+              </section></div></div>
         </div>
       </section>
       <section class="v1-benefits container"><article><span>01</span><h2>Online gestalten</h2><p>Typ und Kombination w&auml;hlen. Du siehst sofort, wie dein Schild aussieht.</p></article><article><span>02</span><h2>Lieferung w&auml;hlen</h2><p>Kostenloser Versand inklusive oder Kurier innerhalb Hamburgs für 20 &euro;.</p></article><article><span>03</span><h2>Sicher bestellen</h2><p>Adresse erg&auml;nzen, sicher bezahlen und deine Rechnung per E-Mail erhalten.</p></article></section>
